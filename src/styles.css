@@ -1,0 +1,24 @@
+@import "~materialize-css/dist/css/materialize.min.css";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+html {
+    font-family: 'Roboto', sans-serif;
+    background: #2B2A29;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+nav {
+    background: none;
+}
+
+li {
+    color: black;
+}

@@ -1,0 +1,28 @@
+<div class="aur-wrap">
+    <div class="aut-bg">
+        <div class="head">
+            <div class="logo">
+                <img src="https://smsl-nk.ru/assets/img/logo_smsl_header_2.png" alt="logo_smsl">
+            </div>
+            <div class="title">{{title}}</div>
+        </div>
+        <div class="form">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+                <input type="email" formControlName="UserName" id="UserName" placeholder="Имя пользователя">
+
+
+                <input type="Password" formControlName='Password' id="Password" placeholder="Пароль">
+                <div class="ckeck-wrap">
+                    <label>
+                        <input type="checkbox" />
+                        <span>Запомнить пароль</span>
+                    </label>
+                </div>
+                <button type="submit">Войти</button>
+            </form>
+
+            <p class="desc">© 2007-{{year}}, ООО «СМСЛ»</p>
+        </div>
+    </div>
+</div>
