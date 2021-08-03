@@ -1,5 +1,5 @@
-declare var M
-declare var D
+declare var M;
+declare var D;
 
 export class MaterialService {
     static toast(message: string){

@@ -1,30 +1,51 @@
 <div class="wrap-bg">
 
     <header>
-        <ul id="dropdown1" class="dropdown-content">
-            <li><a href="#!">one</a></li>
-            <li><a href="#!">two</a></li>
-            <li class="divider"></li>
-            <li><a href="#!">three</a></li>
-        </ul>
+      <span class="openbtn" (click)="openNav()" >
+        <span class="burger"> </span><span class="burger"> </span><span class="burger"></span>
+      </span>
+      <div class="container">
         <nav>
-            <div class="container">
+
+              <div class="dropdown-wrap">
+                <ul id="dropdown1" class="dropdown-content li-box" [style.display]="toggle ? 'block' : 'none'" (click)="ngOnInit()">
+                  <li><a routerLink="/site">"имя профиля"</a></li>
+                  <li><a routerLink="/site">Редактировать</a></li>
+                  <li><a routerLink="/site">Выйти</a></li>
+                </ul>
+              </div>
                 <div class="nav-wrapper">
+
                     <a href="#!" class="brand-logo"><img src="https://smsl-nk.ru/assets/img/logo_smsl_header_2.png" alt="logo_smsl" class="logo"></a>
-                    <ul class="right hide-on-med-and-down">
-                        <li><a href="">Sass</a></li>
-                        <li><a href="">Components</a></li>
+                    <ul class="nav-elem li-box">
+                        <li><a routerLink="/site">Новости</a></li>
+                        <li><a routerLink="/site">Задачи</a></li>
                         <!-- Dropdown Trigger -->
-                        <li><a class="dropdown-trigger" href="#!" data-target="dropdown1" (click)="Dropdown()">Dropdown<i class="material-icons right">arrow_drop_down</i></a></li>
+                        <li><a routerLink="/site" class="dropdown-trigger"  data-target="dropdown1" (click)="ngOnInit()">Профиль<i class="material-icons right">arrow_drop_down</i></a></li>
+
                     </ul>
+
                 </div>
-            </div>
+
+
 
         </nav>
-        <div class="git-test">git test</div>
-        <div class="git-test">git test new device</div>
-        <div class="git-test">git test new device 2</div>
+        <div id="mySidenav" class="sidenav" [style.width]="slideNav ? '0' : '250px'" [style.transition]="'0.3s'">
+          <a  class="closebtn" (click)="openNav()">&times;</a>
+          <a href="#">Отчёты</a>
+          <a href="#">Оборудование</a>
+          <a href="#">Сотрудники</a>
+          <a href="#">Прочее</a>
+        </div>
 
+        <!-- Используйте любой элемент, чтобы открыть sidenav -->
+
+      </div>
+<!--      <div class="container">-->
+<!--        <div class="git-test">git test</div>-->
+<!--        <div class="git-test">git test new device</div>-->
+<!--        <div class="git-test">git test new device 2</div>-->
+<!--      </div>-->
         <!-- <nav class="nav-color">
                 <div class="nav-wrap">
                     <a routerLink="/site"><img src="https://smsl-nk.ru/assets/img/logo_smsl_header_2.png" alt="logo_smsl" class="logo"></a>
