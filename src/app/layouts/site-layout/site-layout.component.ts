@@ -8,12 +8,14 @@ import {MaterialService} from 'src/app/layouts/classes/material.service'
 })
 export class SiteLayoutComponent implements OnInit {
 
-   Dropdown(){
-     MaterialService.dropdown()
-   }
+  
+
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    // let D =
+    // document.querySelector('.dropdown-trigger').css.opacity = 1;
+    // MaterialService.dropdown();
     // $(".dropdown-trigger").dropdown();
   }
 
