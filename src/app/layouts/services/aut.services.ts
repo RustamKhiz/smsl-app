@@ -12,13 +12,14 @@ import{environment} from "src/environments/environment"
 export class AutServices {
 
     private JWT = null
-
+    private UserName = null
     constructor(private http: HttpClient){
 
     }
 
-    login(user: User): Observable<{JWT: string}>{
-        return this.http.post<{JWT: string}>(`${environment.apiUrl}/api/auth`, user)
+    login(user: User): Observable<{JWT: string, UserName: string}>{
+
+        return this.http.post<{JWT: string,UserName: string }>(`${environment.apiUrl}/api/auth`, user)
         .pipe(
             tap(
                 ({JWT}) => {
@@ -27,6 +28,29 @@ export class AutServices {
                 }
             )
         )
+          .pipe(
+            tap(
+              ({UserName})=>{
+                localStorage.setItem('UserName', UserName)
+                this.setUsername(UserName)
+              }
+            )
+          )
+
+    }
+    // saveUser(user: User): Observable<{ userName: string }>{
+    //   return this.http.post<{userName: string}>(`${environment.apiUrl}/api/auth`, user)
+    //     .pipe(
+    //       tap(
+    //         ({userName})=>{
+    //           localStorage.setItem('UserName', userName)
+    //           this.setUsername(userName)
+    //         }
+    //       )
+    //     )
+    // }
+    setUsername(UserName: string){
+      this.UserName = UserName
     }
 
     setToken(JWT: string){

@@ -22,3 +22,16 @@ nav {
 li {
     color: black;
 }
+.toast{
+  /*margin-left: 600px;*/
+  position: absolute;
+  left: 70%;
+  top: 45% !important;
+  border: red solid 2px;
+  border-radius: 10px;
+  background: white;
+  width: 300px;
+  height: 66px;
+  text-align: center;
+  font-size: 24px;
+}

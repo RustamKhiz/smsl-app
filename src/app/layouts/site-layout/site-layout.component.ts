@@ -1,16 +1,25 @@
 import { Component, OnInit } from '@angular/core';
-import {MaterialService} from 'src/app/layouts/classes/material.service'
+import {User} from "../services/interfaces";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-site-layout',
   templateUrl: './site-layout.component.html',
   styleUrls: ['./site-layout.component.css']
 })
+
 export class SiteLayoutComponent implements OnInit {
   toggle = true;
   slideNav = true;
 
-  constructor() { }
+  public UserName: string
+
+
+
+
+  constructor() {
+    this.UserName = localStorage.getItem('UserName');
+  }
 
   openNav(){
     this.slideNav = !this.slideNav;

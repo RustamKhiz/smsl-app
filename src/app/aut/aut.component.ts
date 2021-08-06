@@ -16,7 +16,8 @@ export class AutComponent implements OnInit, OnDestroy {
   title = 'Войти в личный кабинет';
   year: number = new Date().getFullYear();
 
-  form: FormGroup 
+  //Объявление для считывания формы авторизации
+  form: FormGroup
   aSub: Subscription
 
 

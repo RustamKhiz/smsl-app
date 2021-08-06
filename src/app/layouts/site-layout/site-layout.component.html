@@ -6,28 +6,25 @@
       </span>
       <div class="container">
         <nav>
+          <div class="nav-wrapper">
 
-              <div class="dropdown-wrap">
-                <ul id="dropdown1" class="dropdown-content li-box" [style.display]="toggle ? 'block' : 'none'" (click)="ngOnInit()">
-                  <li><a routerLink="/site">"имя профиля"</a></li>
-                  <li><a routerLink="/site">Редактировать</a></li>
-                  <li><a routerLink="/site">Выйти</a></li>
+            <a href="#!" class="brand-logo"><img src="https://smsl-nk.ru/assets/img/logo_smsl_header_2.png" alt="logo_smsl" class="logo"></a>
+            <ul class="nav-elem li-box">
+              <li routerLink="/site"><a >Новости</a></li>
+              <li routerLink="/site"><a >Задачи</a></li>
+              <!-- Dropdown Trigger -->
+              <li (click)="ngOnInit()"><a class="dropdown-trigger"  data-target="dropdown1" >Профиль<i class="material-icons right">arrow_drop_down</i></a></li>
+
+            </ul>
+
+          </div>
+              <div class="dropdown-wrap" (click)="ngOnInit()">
+                <ul id="dropdown1" class="dropdown-content li-box" [style.transform]="toggle ? 'scaleY(1)' : 'scaleY(0)'" [style.transition]="'0.3s'" (click)="ngOnInit()">
+                  <li routerLink="/site" class="profile-name" >{{UserName}}</li>
+                  <li routerLink="/site" class="dropdown-cursor">Редактировать</li>
+                  <li routerLink="/site" class="dropdown-cursor">Выйти</li>
                 </ul>
               </div>
-                <div class="nav-wrapper">
-
-                    <a href="#!" class="brand-logo"><img src="https://smsl-nk.ru/assets/img/logo_smsl_header_2.png" alt="logo_smsl" class="logo"></a>
-                    <ul class="nav-elem li-box">
-                        <li><a routerLink="/site">Новости</a></li>
-                        <li><a routerLink="/site">Задачи</a></li>
-                        <!-- Dropdown Trigger -->
-                        <li><a routerLink="/site" class="dropdown-trigger"  data-target="dropdown1" (click)="ngOnInit()">Профиль<i class="material-icons right">arrow_drop_down</i></a></li>
-
-                    </ul>
-
-                </div>
-
-
 
         </nav>
         <div id="mySidenav" class="sidenav" [style.width]="slideNav ? '0' : '250px'" [style.transition]="'0.3s'">
@@ -37,6 +34,14 @@
           <a href="#">Сотрудники</a>
           <a href="#">Прочее</a>
         </div>
+
+<!--        Главная -->
+<!--        Сотрудники-->
+<!--        Оборудование-->
+<!--        Отчеты-->
+<!--        Диалоги-->
+<!--        Облако-->
+<!--        Поддержка-->
 
         <!-- Используйте любой элемент, чтобы открыть sidenav -->
 
