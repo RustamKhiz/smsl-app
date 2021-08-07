@@ -27,12 +27,15 @@
               </div>
 
         </nav>
-        <div id="mySidenav" class="sidenav" [style.width]="slideNav ? '0' : '250px'" [style.transition]="'0.3s'">
-          <a  class="closebtn" (click)="openNav()">&times;</a>
-          <a href="#">Отчёты</a>
-          <a href="#">Оборудование</a>
-          <a href="#">Сотрудники</a>
-          <a href="#">Прочее</a>
+        <div id="mySidenav" class="sidenav" [style.width]="slideNav ? '75px' : '320px'" [style.transition]="'0.3s'">
+          <img src="assets/home.svg"> <a  class="closebtn" (click)="openNav()">&times;</a>
+          <a routerLink="">Главная</a>
+          <a routerLink="">Сотрудники</a>
+          <a routerLink="">Оборудование</a>
+          <a routerLink="">Отчеты</a>
+          <a routerLink="">Диалоги</a>
+          <a routerLink="">Отчеты</a>
+          <a routerLink="">Поддержка</a>
         </div>
 
 <!--        Главная -->

@@ -9,30 +9,27 @@ import {Observable} from "rxjs";
 })
 
 export class SiteLayoutComponent implements OnInit {
+  //переменные для настройки css стилей
   toggle = true;
   slideNav = true;
 
+  //переменная для сохранения имени пользователя
   public UserName: string
 
 
-
-
   constructor() {
+    //сохроняем имя пользователя из localSt
     this.UserName = localStorage.getItem('UserName');
   }
 
+  //метод для вызова меню-бургера
   openNav(){
     this.slideNav = !this.slideNav;
   }
 
-
+  //метод для вызова настроек профиля
   ngOnInit() {
     this.toggle = !this.toggle;
-    // document.getElementsByClassName('dropdown-content')[0]['style'].display = 'block';
-    // let D =
-    // document.querySelector('.dropdown-trigger').css.opacity = 1;
-    // MaterialService.dropdown();
-    // $(".dropdown-trigger").dropdown();
   }
 
 }
