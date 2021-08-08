@@ -1,9 +1,7 @@
 <div class="wrap-bg">
 
     <header>
-      <span class="openbtn" (click)="openNav()" >
-        <span class="burger"> </span><span class="burger"> </span><span class="burger"></span>
-      </span>
+
       <div class="container">
         <nav>
           <div class="nav-wrapper">
@@ -19,7 +17,7 @@
 
           </div>
               <div class="dropdown-wrap" (click)="ngOnInit()">
-                <ul id="dropdown1" class="dropdown-content li-box" [style.transform]="toggle ? 'scaleY(1)' : 'scaleY(0)'" [style.transition]="'0.3s'" (click)="ngOnInit()">
+                <ul id="dropdown1" class="dropdown-content li-box" [style.transform]="toggle ? 'scaleX(1)' : 'scaleX(0)'" [style.transition]="'0.3s'" (click)="ngOnInit()">
                   <li routerLink="/site" class="profile-name" >{{UserName}}</li>
                   <li routerLink="/site" class="dropdown-cursor">Редактировать</li>
                   <li routerLink="/site" class="dropdown-cursor">Выйти</li>
@@ -27,15 +25,19 @@
               </div>
 
         </nav>
-        <div id="mySidenav" class="sidenav" [style.width]="slideNav ? '75px' : '320px'" [style.transition]="'0.3s'">
-          <img src="assets/home.svg"> <a  class="closebtn" (click)="openNav()">&times;</a>
-          <a routerLink="">Главная</a>
-          <a routerLink="">Сотрудники</a>
-          <a routerLink="">Оборудование</a>
-          <a routerLink="">Отчеты</a>
-          <a routerLink="">Диалоги</a>
-          <a routerLink="">Отчеты</a>
-          <a routerLink="">Поддержка</a>
+        <div id="mySidenav" class="sidenav" [style.width]="slideNav ? '83px' : '320px'" [style.transition]="'0.3s'">
+          <span class="openbtn" (click)="openNav()" [style.display]="visibleNav ? 'block':'none'">
+            <span class="burger"> </span><span class="burger"> </span><span class="burger"></span>
+          </span>
+           <div  class="closebtn" (click)="openNav()" [style.display]="visibleNav ? 'none':'block'">&times;</div>
+
+          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Главная</a></div>
+          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/staff.png" class="navicon-left"></div><a >Сотрудники</a></div>
+          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/equipment.png" class="navicon-left"></div><a >Оборудование</a></div>
+          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/reports.png" class="navicon-left"></div><a >Отчеты</a></div>
+          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/chat.png" class="navicon-left"></div><a >Диалоги</a></div>
+          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/cloud.png" class="navicon-left"></div><a >Облако</a></div>
+          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
         </div>
 
 <!--        Главная -->

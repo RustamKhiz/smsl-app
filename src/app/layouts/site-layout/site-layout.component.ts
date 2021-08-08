@@ -12,7 +12,7 @@ export class SiteLayoutComponent implements OnInit {
   //переменные для настройки css стилей
   toggle = true;
   slideNav = true;
-
+  visibleNav = true
   //переменная для сохранения имени пользователя
   public UserName: string
 
@@ -25,11 +25,15 @@ export class SiteLayoutComponent implements OnInit {
   //метод для вызова меню-бургера
   openNav(){
     this.slideNav = !this.slideNav;
+    this.visibleNav = !this.visibleNav;
   }
 
   //метод для вызова настроек профиля
   ngOnInit() {
     this.toggle = !this.toggle;
+  }
+  visNavElem(){
+
   }
 
 }

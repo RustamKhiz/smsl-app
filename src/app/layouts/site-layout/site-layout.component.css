@@ -87,13 +87,13 @@ li{
   left: 0;
   background-color: #111; /* Фон черный*/
   overflow-x: hidden; /* Отключить горизонтальную прокрутку */
-  padding-top: 60px; /* Поместите контент в 60px сверху */
+  padding-top: 106px; /* Поместите контент в 60px сверху */
   transition: 0.5s; /* 0.5 второй эффект перехода слайда в боковой навигации */
 }
 
 /* Ссылки меню навигации */
 .sidenav a {
-  padding: 8px 8px 41px 74px;
+  padding: 8px 8px 53px 95px;
   text-decoration: none;
   font-size: 28px;
   color: #818181;
@@ -105,19 +105,39 @@ li{
 .sidenav a:hover {
   color: #FCC300;
 }
-
+/*стилизация полосы прокрутки*/
+.sidenav::-webkit-scrollbar{
+  width: 5px;
+  background-color: #111;
+}
+.sidenav::-webkit-scrollbar-thumb {
+  border-radius: 1000px;
+  background-color: #FCC300;
+}
+.sidenav::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.2);
+  border-radius: 10px;
+  background-color: #111;
+}
+.closebtn{
+  color: #818181;
+  transition: 0.3s;
+}
+.closebtn:hover{
+  color: #FCC300;
+}
 /* Положение и стиль кнопки закрытия (верхний правый угол) */
 .sidenav .closebtn {
   position: absolute;
-  top: 0;
-  right: 25px;
+  top: 10px;
+  right: 28px;
   font-size: 36px;
   margin-left: 50px;
   cursor: pointer;
 }
 .openbtn{
   position: absolute;
-  left: 40px;
+  left: 26px;
   top: 20px;
   cursor: pointer;
 }
@@ -132,12 +152,42 @@ li{
 .openbtn:hover .burger{
   background: #FCC300;
 }
-
+.nav-elem-wrap{
+  cursor: pointer;
+}
 .profile-name{
   background: #111;
   color: white;
 }
+.navicon-left{
+  width: 40px;
+  /*max-width: 12%;*/
 
+  position: relative;
+  top: -54px;
+  left: 18px;
+}
+.icon-border{
+ width: 0;
+  height: 0;
+}
+.icon-border:before{
+  content: "";
+  display: block;
+  position: relative;
+  width: 60px;
+  height: 60px;
+  top: 0px;
+  left: 6px;
+  z-index: -1;
+  border-radius: 100px;
+  /* border: none; */
+  transition: 0.3s;
+}
+.nav-elem-wrap:hover .icon-border:before{
+  border: 2px solid #FCC300;
+  transition: 0.3s;
+}
 /* .wrap-bg {
     background: #fff;
     height: 100px;
