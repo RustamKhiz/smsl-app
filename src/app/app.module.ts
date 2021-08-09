@@ -10,6 +10,10 @@ import {AppRoutingModule} from './app-routing.module';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { SiteLayoutComponent } from './layouts/site-layout/site-layout.component'
 import { TokenInterseptor } from './layouts/classes/token.interseptor';
+import { StaffComponent } from './layouts/site-layout/staff/staff.component';
+import { MajorComponent } from './layouts/site-layout/major/major.component';
+
+
 
 @NgModule({
   declarations: [
@@ -17,7 +21,9 @@ import { TokenInterseptor } from './layouts/classes/token.interseptor';
     AutComponent,
     CardComponent,
     AuthLayoutComponent,
-    SiteLayoutComponent
+    SiteLayoutComponent,
+    StaffComponent,
+    MajorComponent
   ],
   imports: [
     BrowserModule,

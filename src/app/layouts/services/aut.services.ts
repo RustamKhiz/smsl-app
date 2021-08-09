@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { User } from "./interfaces";
 import {HttpClient} from '@angular/common/http'
-import { Observable } from "rxjs";
+import {from, Observable} from "rxjs";
 import {tap} from "rxjs/operators"
 import{environment} from "src/environments/environment"
 
@@ -10,16 +10,19 @@ import{environment} from "src/environments/environment"
 })
 
 export class AutServices {
-
+    //Объявление переменных для
     private JWT = null
     private UserName = null
+    private Name = null
+    private LastName = null
+    private MidName = null
     constructor(private http: HttpClient){
 
     }
 
-    login(user: User): Observable<{JWT: string, UserName: string}>{
+    login(user: User): Observable<{JWT: string, UserName: string, Name: string, LastName: string, MidName: string}>{
 
-        return this.http.post<{JWT: string,UserName: string }>(`${environment.apiUrl}/api/auth`, user)
+        return this.http.post<{JWT: string, UserName: string, Name: string, LastName: string, MidName: string }>(`${environment.apiUrl}/api/auth`, user)
         .pipe(
             tap(
                 ({JWT}) => {
@@ -36,23 +39,43 @@ export class AutServices {
               }
             )
           )
-
+          .pipe(
+            tap(
+              ({Name})=>{
+                localStorage.setItem('Name', Name)
+                this.setName(Name)
+              }
+            )
+          )
+          .pipe(
+            tap(
+              ({LastName})=>{
+                localStorage.setItem('LastName', LastName)
+                this.setLastName(LastName)
+              }
+            )
+          )
+          .pipe(
+            tap(
+              ({MidName})=>{
+                localStorage.setItem('MidName', MidName)
+                this.setMidName(MidName)
+              }
+            )
+          )
     }
-    // saveUser(user: User): Observable<{ userName: string }>{
-    //   return this.http.post<{userName: string}>(`${environment.apiUrl}/api/auth`, user)
-    //     .pipe(
-    //       tap(
-    //         ({userName})=>{
-    //           localStorage.setItem('UserName', userName)
-    //           this.setUsername(userName)
-    //         }
-    //       )
-    //     )
-    // }
     setUsername(UserName: string){
       this.UserName = UserName
     }
-
+    setName(Name: string){
+      this.Name = Name
+    }
+    setLastName(LastName: string){
+      this.LastName = LastName
+    }
+    setMidName(MidName: string){
+      this.MidName = MidName
+    }
     setToken(JWT: string){
         this.JWT = JWT
     }
