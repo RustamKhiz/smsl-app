@@ -6,6 +6,7 @@ import { AutGuard } from './layouts/classes/aut.guard';
 import { SiteLayoutComponent } from './layouts/site-layout/site-layout.component';
 import {StaffComponent} from "./layouts/site-layout/staff/staff.component";
 import {MajorComponent} from "./layouts/site-layout/major/major.component";
+import {ProfileRedComponent} from "./layouts/site-layout/profile-red/profile-red.component";
 
 const routes: Routes = [
   {
@@ -25,6 +26,9 @@ const routes: Routes = [
       },
       {
         path: 'staff', component: StaffComponent
+      },
+      {
+        path: 'profile', component: ProfileRedComponent
       }
     ]
   }

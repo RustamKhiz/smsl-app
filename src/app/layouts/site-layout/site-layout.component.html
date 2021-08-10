@@ -12,17 +12,17 @@
               <li routerLink="/site"><a >Задачи</a></li>
               <!-- Dropdown Trigger -->
               <li (click)="ngOnInit()"><a class="dropdown-trigger"  data-target="dropdown1" >Профиль<i class="material-icons right">arrow_drop_down</i></a></li>
-
-            </ul>
-
-          </div>
-              <div class="dropdown-wrap" (click)="closeNav()">
+              <div class="dropdown-wrap" >
                 <ul id="dropdown1" class="dropdown-content li-box" [style.transform]="toggle ? 'scaleX(1)' : 'scaleX(0)'" [style.transition]="'0.3s'" >
-                  <li routerLink="/site" class="profile-name" >{{UserName}}</li>
+                  <li routerLink="/profile" class="profile-name" ><span class="profile-name-color">{{UserName}}</span></li>
                   <li routerLink="/site" class="dropdown-cursor">Редактировать</li>
                   <li routerLink="/site" class="dropdown-cursor" (click)="lout()">Выйти</li>
                 </ul>
               </div>
+            </ul>
+
+          </div>
+
 
         </nav>
         <div id="mySidenav" class="sidenav" [style.width]="slideNav ? '83px' : '320px'" [style.transition]="'0.3s'">

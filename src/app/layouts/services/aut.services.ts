@@ -13,16 +13,23 @@ export class AutServices {
     //Объявление переменных для
     private JWT = null
     private UserName = null
-    private Name = null
-    private LastName = null
-    private MidName = null
+    // private Name = null
+    // private LastName = null
+    // private MidName = null
+    private MyPerson: {
+      Personal:{
+        Name: null
+        LastName: null
+        MidName: null
+      }
+    }
     constructor(private http: HttpClient){
 
     }
 
-    login(user: User): Observable<{JWT: string, UserName: string, Name: string, LastName: string, MidName: string}>{
+    login(user: User): Observable<{JWT: string, UserName: string, MyPerson: {Personal:{ Name: string, LastName: string, MidName: string}}}>{
 
-        return this.http.post<{JWT: string, UserName: string, Name: string, LastName: string, MidName: string }>(`${environment.apiUrl}/api/auth`, user)
+        return this.http.post<{JWT: string, UserName: string, MyPerson: {Personal:{ Name: string, LastName: string, MidName: string}} }>(`${environment.apiUrl}/api/auth`, user)
         .pipe(
             tap(
                 ({JWT}) => {
@@ -41,25 +48,25 @@ export class AutServices {
           )
           .pipe(
             tap(
-              ({Name})=>{
+              ({MyPerson: {Personal:{Name}}})=>{
                 localStorage.setItem('Name', Name)
-                this.setName(Name)
+                this.setName({MyPerson: {Personal:{Name}}})
               }
             )
-          )
+           )
           .pipe(
             tap(
-              ({LastName})=>{
+              ({MyPerson: {Personal:{LastName}}})=>{
                 localStorage.setItem('LastName', LastName)
-                this.setLastName(LastName)
+                this.setLastName({MyPerson: {Personal:{LastName}}})
               }
             )
           )
           .pipe(
             tap(
-              ({MidName})=>{
+              ({MyPerson: {Personal:{MidName}}})=>{
                 localStorage.setItem('MidName', MidName)
-                this.setMidName(MidName)
+                this.setMidName({MyPerson: {Personal:{MidName}}})
               }
             )
           )
@@ -67,14 +74,14 @@ export class AutServices {
     setUsername(UserName: string){
       this.UserName = UserName
     }
-    setName(Name: string){
-      this.Name = Name
+    setName({MyPerson: {Personal:{Name}}}){
+      this.MyPerson = Name
     }
-    setLastName(LastName: string){
-      this.LastName = LastName
+    setLastName({MyPerson: {Personal:{LastName}}}){
+      this.MyPerson = LastName
     }
-    setMidName(MidName: string){
-      this.MidName = MidName
+    setMidName({MyPerson: {Personal:{MidName}}}){
+      this.MyPerson = MidName
     }
     setToken(JWT: string){
         this.JWT = JWT

@@ -57,10 +57,10 @@ ul{
   background: white;
   border: 2px solid #FCC300;
   border-bottom: none;
-  margin-left: 1099px;
   padding: 0;
-  /*display: none;*/
-
+  position: relative;
+  top: 69px;
+  left: 250px;
 }
 .dropdown-cursor{
   cursor: pointer;
@@ -75,8 +75,12 @@ li{
 }
 .nav-elem li:hover{
   background: rgba(252, 195, 0, 0.14);
-
+  transition: 0.3s;
 }
+.nav-elem li:hover .profile-name-color{
+  color: Black;
+}
+
 /* Боковое навигационное меню */
 .sidenav {
   height: 100%; /* 100% Full-height */

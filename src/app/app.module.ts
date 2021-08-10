@@ -12,6 +12,7 @@ import { SiteLayoutComponent } from './layouts/site-layout/site-layout.component
 import { TokenInterseptor } from './layouts/classes/token.interseptor';
 import { StaffComponent } from './layouts/site-layout/staff/staff.component';
 import { MajorComponent } from './layouts/site-layout/major/major.component';
+import { ProfileRedComponent } from './layouts/site-layout/profile-red/profile-red.component';
 
 
 
@@ -23,7 +24,8 @@ import { MajorComponent } from './layouts/site-layout/major/major.component';
     AuthLayoutComponent,
     SiteLayoutComponent,
     StaffComponent,
-    MajorComponent
+    MajorComponent,
+    ProfileRedComponent
   ],
   imports: [
     BrowserModule,
