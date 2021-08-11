@@ -26,11 +26,13 @@
 
         </nav>
         <div id="mySidenav" class="sidenav" [style.width]="slideNav ? '83px' : '320px'" [style.transition]="'0.3s'">
-          <span class="openbtn" (click)="openNav()" [style.display]="visibleNav ? 'block':'none'">
-            <span class="burger"> </span><span class="burger"> </span><span class="burger"></span>
-          </span>
+          <div class="openbtn-wrap" [style.width]="slideNav ? '78px' : '300px'" [style.transition]="'0.3s'">
+            <span class="openbtn" (click)="openNav()" [style.display]="visibleNav ? 'block':'none'">
+              <span class="burger"> </span><span class="burger"> </span><span class="burger"></span>
+            </span>
+          </div>
            <div  class="closebtn" (click)="openNav()" [style.display]="visibleNav ? 'none':'block'">&times;</div>
-
+          <div class="navleft-elem">
           <div class="nav-elem-wrap" routerLink="/site"><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Главная</a></div>
           <div class="nav-elem-wrap" routerLink="/staff"><div class="icon-border"><img src="assets/staff.png" class="navicon-left"></div><a >Сотрудники</a></div>
           <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/equipment.png" class="navicon-left"></div><a >Оборудование</a></div>
@@ -55,33 +57,7 @@
           <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
           <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
           <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
+          </div>
         </div>
 <!--        Главная -->
 <!--        Сотрудники-->
@@ -95,41 +71,7 @@
     <div class="content-wrap" (click)="closeNav()">
       <div class="container">
         <router-outlet></router-outlet>
-        <p class="test">123</p>
-        <p class="test">123</p>
-        <p class="test">123</p>
-        <p class="test">123</p>
-        <p class="test">123</p>
-        <p class="test">123</p>
-        <p class="test">123</p>
-        <p class="test">123</p>
-        <p class="test">123</p>
-        <p class="test">123</p>
-        <p class="test">123</p>
-        <p class="test">123</p>
-        <p class="test">123</p>
-        <p class="test">123</p>
-        <p class="test">123</p>
-        <p class="test">123</p>
-        <p class="test">123</p>
-        <p class="test">123</p>
-        <p class="test">123</p>
-        <p class="test">123</p>
-        <p class="test">123</p>
-        <p class="test">123</p>
-        <p class="test">123</p>
-        <p class="test">123</p>
-        <p class="test">123</p>
-        <p class="test">123</p>
-        <p class="test">123</p>
-        <p class="test">123</p>
-        <p class="test">123</p>
-        <p class="test">123</p>
-        <p class="test">123</p>
-        <p class="test">123</p>
-        <p class="test">123</p>
-        <p class="test">123</p>
-        <p class="test">123</p>
+
       </div>
     </div>
 
