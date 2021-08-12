@@ -21,15 +21,18 @@ export class AutServices {
         Name: null
         LastName: null
         MidName: null
+        Telephone: null
+        Position: null
       }
     }
     constructor(private http: HttpClient){
 
     }
 
-    login(user: User): Observable<{JWT: string, UserName: string, MyPerson: {Personal:{ Name: string, LastName: string, MidName: string}}}>{
+    login(user: User): Observable<{JWT: string, UserName: string, MyPerson: {Personal:{ Name: string, LastName: string, MidName: string, Telephone: string, Position: string}}}>{
 
-        return this.http.post<{JWT: string, UserName: string, MyPerson: {Personal:{ Name: string, LastName: string, MidName: string}} }>(`${environment.apiUrl}/api/auth`, user)
+        return this.http.post<{JWT: string, UserName: string, MyPerson: {Personal:{ Name: string, LastName: string, MidName: string, Telephone: string, Position: string}} }>
+        (`${environment.apiUrl}/api/auth`, user)
         .pipe(
             tap(
                 ({JWT}) => {
@@ -70,6 +73,22 @@ export class AutServices {
               }
             )
           )
+          .pipe(
+            tap(
+              ({MyPerson: {Personal:{Telephone}}})=>{
+                localStorage.setItem('Telephone', Telephone)
+                this.setTelephone({MyPerson: {Personal:{Telephone}}})
+              }
+            )
+          )
+          .pipe(
+            tap(
+              ({MyPerson: {Personal:{Position}}})=>{
+                localStorage.setItem('Position', Position)
+                this.setPosition({MyPerson: {Personal:{Position}}})
+              }
+            )
+          )
     }
     setUsername(UserName: string){
       this.UserName = UserName
@@ -82,6 +101,12 @@ export class AutServices {
     }
     setMidName({MyPerson: {Personal:{MidName}}}){
       this.MyPerson = MidName
+    }
+    setTelephone({MyPerson: {Personal:{Telephone}}}){
+      this.MyPerson = Telephone
+    }
+    setPosition({MyPerson: {Personal:{Position}}}){
+      this.MyPerson = Position
     }
     setToken(JWT: string){
         this.JWT = JWT
