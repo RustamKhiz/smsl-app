@@ -1,11 +1,9 @@
 <div class="wrap-bg" >
-
+  <div class="header-fix">
     <header>
-
-      <div class="container" >
+      <div class="container">
         <nav>
           <div class="nav-wrapper" >
-
             <a href="#!" class="brand-logo"><img src="https://smsl-nk.ru/assets/img/logo_smsl_header_2.png" alt="logo_smsl" class="logo"></a>
             <ul class="nav-elem li-box">
               <li routerLink="/site"><a >Новости</a></li>
@@ -20,10 +18,7 @@
                 </ul>
               </div>
             </ul>
-
           </div>
-
-
         </nav>
         <div id="mySidenav" class="sidenav" [style.width]="slideNav ? '83px' : '320px'" [style.transition]="'0.3s'">
           <div class="openbtn-wrap" [style.width]="slideNav ? '78px' : '300px'" [style.transition]="'0.3s'">
@@ -34,9 +29,8 @@
            <div  class="closebtn" (click)="openNav()" [style.display]="visibleNav ? 'none':'block'">&times;</div>
           <div class="navleft-elem">
           <div class="nav-elem-wrap" routerLink="/site"><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Главная</a></div>
-          <div class="nav-elem-wrap" routerLink="/staff"><div class="icon-border"><img style="width: 45px; left: 15px; top: -51px;" src="assets/staff.png" class="navicon-left"></div><a >Сотрудники</a></div>
+          <div class="nav-elem-wrap" routerLink="/staff"><div class="icon-border"><img style="width: 45px; left: 15px; top: -51px;" src="assets/staff.png" class="navicon-left"></div><a >Сотрудники</a></div><div class="nav-elem-wrap" routerLink="/reports"><div class="icon-border"><img style="width: 37px; left: 19px;" src="assets/reports.png" class="navicon-left"></div><a >Отчеты</a></div>
           <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/equipment.png" class="navicon-left"></div><a >Оборудование</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img style="width: 37px; left: 19px;" src="assets/reports.png" class="navicon-left"></div><a >Отчеты</a></div>
           <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img style="top: -49px;" src="assets/chat.png" class="navicon-left"></div><a >Диалоги</a></div>
           <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img style="top: -50px; left: 13px; width: 50px;" src="assets/cloud.png" class="navicon-left"></div><a >Облако</a></div>
           <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
@@ -59,15 +53,9 @@
           <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
           </div>
         </div>
-<!--        Главная -->
-<!--        Сотрудники-->
-<!--        Оборудование-->
-<!--        Отчеты-->
-<!--        Диалоги-->
-<!--        Облако-->
-<!--        Поддержка-->
       </div>
     </header>
+  </div>
     <div class="content-wrap" (click)="closeNav()">
       <div class="container">
         <router-outlet></router-outlet>

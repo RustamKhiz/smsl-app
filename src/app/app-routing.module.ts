@@ -7,6 +7,7 @@ import { SiteLayoutComponent } from './layouts/site-layout/site-layout.component
 import {StaffComponent} from "./layouts/site-layout/staff/staff.component";
 import {MajorComponent} from "./layouts/site-layout/major/major.component";
 import {ProfileRedComponent} from "./layouts/site-layout/profile-red/profile-red.component";
+import {ReportsComponent} from "./layouts/site-layout/reports/reports.component";
 
 const routes: Routes = [
   {
@@ -29,6 +30,9 @@ const routes: Routes = [
       },
       {
         path: 'profile', component: ProfileRedComponent
+      },
+      {
+        path: 'reports', component: ReportsComponent
       }
     ]
   }

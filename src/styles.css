@@ -4,7 +4,9 @@ html {
     font-family: 'Roboto', sans-serif;
     background: #2B2A29;
 }
-
+p{
+  margin: 0;
+}
 body {
     margin: 0;
     padding: 0;

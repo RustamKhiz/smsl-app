@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -13,6 +13,10 @@ import { TokenInterseptor } from './layouts/classes/token.interseptor';
 import { StaffComponent } from './layouts/site-layout/staff/staff.component';
 import { MajorComponent } from './layouts/site-layout/major/major.component';
 import { ProfileRedComponent } from './layouts/site-layout/profile-red/profile-red.component';
+import { ChartComponent } from './chart/chart.component';
+ import {NgxChartsModule} from "@swimlane/ngx-charts";
+ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { ReportsComponent } from './layouts/site-layout/reports/reports.component';
 
 
 
@@ -25,14 +29,18 @@ import { ProfileRedComponent } from './layouts/site-layout/profile-red/profile-r
     SiteLayoutComponent,
     StaffComponent,
     MajorComponent,
-    ProfileRedComponent
+    ProfileRedComponent,
+    ChartComponent,
+    ReportsComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxChartsModule,
+    BrowserAnimationsModule
   ],
   providers: [
     {
