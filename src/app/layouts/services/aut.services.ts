@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http'
 import {from, Observable} from "rxjs";
 import {tap} from "rxjs/operators"
 import{environment} from "src/environments/environment"
+import {SignalService} from "../services/signalR.services"
 
 @Injectable({
     providedIn: 'root'
@@ -13,6 +14,7 @@ export class AutServices {
     //Объявление переменных для
     private JWT = null
     private UserName = null
+    private ConnectionHash = null
     // private Name = null
     // private LastName = null
     // private MidName = null
@@ -23,21 +25,26 @@ export class AutServices {
         MidName: null
         Telephone: null
         Position: null
+        Id: null
       }
     }
-    constructor(private http: HttpClient){
+    constructor(private http: HttpClient, private signal: SignalService){
 
     }
 
-    login(user: User): Observable<{JWT: string, UserName: string, MyPerson: {Personal:{ Name: string, LastName: string, MidName: string, Telephone: string, Position: string}}}>{
+    login(user: User): Observable<{JWT: string, UserName: string, ConnectionHash:string, MyPerson: {Personal:{ Name: string, LastName: string, MidName: string, Telephone: string, Position: string, Id: string}}}>{
 
-        return this.http.post<{JWT: string, UserName: string, MyPerson: {Personal:{ Name: string, LastName: string, MidName: string, Telephone: string, Position: string}} }>
+        return this.http.post<{JWT: string, UserName: string, ConnectionHash:string, MyPerson: {Personal:{ Name: string, LastName: string, MidName: string, Telephone: string, Position: string, Id: string}} }>
         (`${environment.apiUrl}/api/auth`, user)
         .pipe(
             tap(
                 ({JWT}) => {
                     localStorage.setItem('aut-token', JWT)
-                    this.setToken(JWT)
+                    this.setToken(JWT);
+                    this.signal.connect();
+                    this.signal.onConnect.subscribe((c, n) =>
+                      console.log(`${c} hach ${n} times.`)
+                    );
                 }
             )
         )
@@ -89,6 +96,28 @@ export class AutServices {
               }
             )
           )
+          .pipe(
+            tap(
+              ({MyPerson: {Personal:{Id}}})=>{
+                localStorage.setItem('Id', Id)
+                this.setId({MyPerson: {Personal:{Id}}})
+              }
+            )
+          )
+          .pipe(
+            tap(
+              ({ConnectionHash})=>{
+                localStorage.setItem('ConnectionHash', ConnectionHash)
+                this.setConnectionHash(ConnectionHash)
+              }
+            )
+          )
+    }
+    setConnectionHash(ConnectionHash:string){
+      this.ConnectionHash = ConnectionHash
+    }
+    setId({MyPerson: {Personal:{Id}}}){
+      this.MyPerson = Id
     }
     setUsername(UserName: string){
       this.UserName = UserName
@@ -111,10 +140,14 @@ export class AutServices {
     setToken(JWT: string){
         this.JWT = JWT
     }
+
+
     getToken(): string {
         return this.JWT
     }
-
+    getId(): string {
+      return this.MyPerson.Personal.Id
+    }
     isAuthenticated(): boolean {
         return !!this.JWT
     }
