@@ -11,12 +11,14 @@ export class ProfileRedComponent implements OnInit {
   public MidName: string
   public Telephone: string
   public Position: string
+  public Id: string
   constructor() {
     this.Name = localStorage.getItem('Name');
     this.LastName = localStorage.getItem('LastName');
     this.MidName = localStorage.getItem('MidName');
     this.Telephone = localStorage.getItem('Telephone');
     this.Position = localStorage.getItem('Position');
+    this.Id = localStorage.getItem('Id');
   }
 
   ngOnInit(): void {

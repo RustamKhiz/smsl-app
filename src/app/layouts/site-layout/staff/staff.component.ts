@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import { PersonalComponent } from '../personal/personal.component';
+import {SiteLayoutComponent} from '../site-layout.component'
 @Component({
   selector: 'app-staff',
   templateUrl: './staff.component.html',
@@ -7,8 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StaffComponent implements OnInit {
 
-  constructor() { }
-
+  constructor(public personal: SiteLayoutComponent) { }
+  staff = JSON.parse(localStorage.getItem('Personal'))
   ngOnInit(): void {
   }
 

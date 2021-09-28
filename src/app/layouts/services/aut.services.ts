@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { User } from "./interfaces";
+import {User} from "./interfaces";
 import {HttpClient} from '@angular/common/http'
 import {from, Observable} from "rxjs";
 import {tap} from "rxjs/operators"
@@ -28,23 +28,21 @@ export class AutServices {
         Id: null
       }
     }
+ 
+
     constructor(private http: HttpClient, private signal: SignalService){
 
     }
 
-    login(user: User): Observable<{JWT: string, UserName: string, ConnectionHash:string, MyPerson: {Personal:{ Name: string, LastName: string, MidName: string, Telephone: string, Position: string, Id: string}}}>{
+    login(user: User): Observable<{JWT: string,alluser:string, UserName: string, ConnectionHash:string, MyPerson: {Personal:{ Name: string, LastName: string, MidName: string, Telephone: string, Position: string, Id: string}}}>{
 
-        return this.http.post<{JWT: string, UserName: string, ConnectionHash:string, MyPerson: {Personal:{ Name: string, LastName: string, MidName: string, Telephone: string, Position: string, Id: string}} }>
+        return this.http.post<{JWT: string,alluser:string, UserName: string, ConnectionHash:string, MyPerson: {Personal:{ Name: string, LastName: string, MidName: string, Telephone: string, Position: string, Id: string}} }>
         (`${environment.apiUrl}/api/auth`, user)
         .pipe(
             tap(
                 ({JWT}) => {
                     localStorage.setItem('aut-token', JWT)
                     this.setToken(JWT);
-                    this.signal.connect();
-                    this.signal.onConnect.subscribe((c, n) =>
-                      console.log(`${c} hach ${n} times.`)
-                    );
                 }
             )
         )
@@ -101,6 +99,7 @@ export class AutServices {
               ({MyPerson: {Personal:{Id}}})=>{
                 localStorage.setItem('Id', Id)
                 this.setId({MyPerson: {Personal:{Id}}})
+                console.log(localStorage.getItem('Id'))
               }
             )
           )
@@ -112,7 +111,22 @@ export class AutServices {
               }
             )
           )
+          .pipe(
+            tap(
+              () => {
+                this.signal.connect();
+                this.signal.onConnect.subscribe((c, n) => {
+                    console.log(`AutServices ${c} hash ${n} `)
+                  }
+                );
+
+              }
+            )
+          )
+          .pipe()
+
     }
+
     setConnectionHash(ConnectionHash:string){
       this.ConnectionHash = ConnectionHash
     }
@@ -138,18 +152,17 @@ export class AutServices {
       this.MyPerson = Position
     }
     setToken(JWT: string){
-        this.JWT = JWT
+      this.JWT = JWT
     }
 
-
     getToken(): string {
-        return this.JWT
+      return this.JWT
     }
     getId(): string {
       return this.MyPerson.Personal.Id
     }
     isAuthenticated(): boolean {
-        return !!this.JWT
+      return !!this.JWT
     }
 
     logout(){

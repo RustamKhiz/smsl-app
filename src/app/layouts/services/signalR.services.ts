@@ -1,15 +1,12 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 // import { Session } from '../services/session';
-
-import { environment } from 'src/environments/environment';
+import {environment} from 'src/environments/environment';
 import * as signalR from '@microsoft/signalr';
-import { IHttpConnectionOptions } from '@microsoft/signalr';
-import { User } from '../services/interfaces';
-import { AutServices } from '../services/aut.services';
-import { SignalDispatcher, SimpleEventDispatcher, EventDispatcher } from "strongly-typed-events";
+import {HttpTransportType} from '@microsoft/signalr';
+import {EventDispatcher} from "strongly-typed-events";
+import {afterlogServices} from "./afterlog.services";
+
 @Injectable({
   providedIn: 'root'
 })
@@ -20,15 +17,15 @@ export class SignalService {
   private connection!: signalR.HubConnection;
   OneMinuteReconnectPolicy: any;
   reconnectPolicy:any ;
-  private Id : string
   private JWT : string
+  public Id: string
 
   private _onConnect = new EventDispatcher<string, number>();
   private SignalHash : string
   private _onUserConnect = new EventDispatcher<string, number>();
+  testName: null
+  constructor(private http: HttpClient, private afteraut: afterlogServices ) {
 
-  constructor(private http: HttpClient ) {
-    this.Id = localStorage.getItem('Id');
 
 
     this.OneMinuteReconnectPolicy = (function () {
@@ -49,6 +46,7 @@ export class SignalService {
 
   connect(){
     //console.log(cl)
+    this.Id = localStorage.getItem('Id');
     this.JWT = localStorage.getItem('aut-token');
     var options = {
       transport: signalR.HttpTransportType.WebSockets,
@@ -56,14 +54,23 @@ export class SignalService {
       accessToken: this.JWT
     };
     console.log(this.JWT)
+    console.log(localStorage.getItem('Id'))
+    console.log(this.Id)
     this.connection = new signalR.HubConnectionBuilder()//?user=${this.Id}
-      .withUrl( `${environment.apiUrl}/chat?access_token=${this.JWT}`, { accessTokenFactory: () => this.JWT}
+      .withUrl( `${environment.apiUrl}/chat?access_token=${this.JWT}&userid=${this.Id}`, { accessTokenFactory: () => this.JWT
+      , transport: HttpTransportType.LongPolling | HttpTransportType.WebSockets
+      }
 
       ).withAutomaticReconnect(this.reconnectPolicy).build();
     //console.log(this.connection);
     this.connection.serverTimeoutInMilliseconds = 120 * 1000;
 
+    this.connection.onreconnected(()=>{
+      this.SignalHash = this.connection.connectionId ? this.connection.connectionId :"";
+      console.log("reconnected " + this.SignalHash);
+      this._onConnect.dispatch(this.SignalHash, 0);
 
+    });
 
     this.connection
       .start()
@@ -71,8 +78,14 @@ export class SignalService {
           this.SignalHash = this.connection.connectionId ? this.connection.connectionId :"";
           console.log(this.SignalHash);
           this._onConnect.dispatch(this.SignalHash, 0);
-          this.addTransferChartDataListener();
+         // this.addTransferChartDataListener();
 
+        // this.afteraut.afterLog(this.testName).subscribe(
+        //   ()=> console.log("afterlog working!"),
+        //   error => {
+        //     console.log("afterlog dont work")
+        //   }
+        // )
         }
       )
       .catch(err => console.log('Error while starting connection: ' + err))
@@ -90,7 +103,9 @@ export class SignalService {
   public disconnect(){
     this.connection.stop();
   }
-
+  public onHash(){
+    return this.SignalHash;
+  }
 
 
   public addTransferChartDataListener = () => {
@@ -102,9 +117,17 @@ export class SignalService {
       }
       console.log(data);
     });
-    this.connection.on('MessagePage',  (action,userId, hash) => { //"MessagePage", "connect", cl.UserId, cl.ConnectionHash
-      // console.log(action);
-      this._onUserConnect.dispatch(action, userId);
+
+    this.connection.on('Keep-Alive',  () => {
+       console.log('Keep-Alive');
+       this.connection.invoke('ResponseKeepAlive');
+
+
+    });
+
+    this.connection.on('Debug',  (title:string, dis: string) => {
+      console.log('Debug ' + title + " " + dis);
+
     });
     this.connection.onclose =() =>{
 

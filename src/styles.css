@@ -1,12 +1,15 @@
 /*@import "~materialize-css/dist/css/materialize.min.css";*/
+
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
 html {
     font-family: 'Roboto', sans-serif;
     background: #2B2A29;
 }
-p{
-  margin: 0;
+
+p {
+    margin: 0;
 }
+
 body {
     margin: 0;
     padding: 0;
@@ -24,16 +27,55 @@ nav {
 li {
     color: black;
 }
-.toast{
-  /*margin-left: 600px;*/
-  position: absolute;
-  left: 70%;
-  top: 45% !important;
-  border: red solid 2px;
-  border-radius: 10px;
-  background: white;
-  width: 300px;
-  height: 66px;
-  text-align: center;
-  font-size: 24px;
+
+.toast {
+    /*margin-left: 600px;*/
+    position: absolute;
+    left: 70%;
+    top: 45% !important;
+    border: red solid 2px;
+    border-radius: 10px;
+    background: white;
+    width: 300px;
+    height: 66px;
+    text-align: center;
+    font-size: 24px;
+}
+
+.multiselect-dropdown {
+    width: 250px !important;
+}
+
+
+/* .dropdown-multiselect__caret {
+    width: 10px !important;
+    right: -8px;
+}
+
+.multiselect-dropdown .dropdown-btn .dropdown-multiselect__caret {
+    padding: none !important;
+} */
+
+.multiselect-dropdown .dropdown-btn {
+    border: 1px solid #FCC300 !important;
+    padding: 2px 15px !important;
+    width: 224px !important;
+    border-radius: 6px;
+}
+
+.multiselect-dropdown .dropdown-btn .selected-item {
+    background: #FCC300 !important;
+    color: #2B2A29 !important;
+    border: none !important;
+    max-width: 50px !important;
+    max-height: 24px !important;
+}
+
+.multiselect-item-checkbox input[type=checkbox]+div:before {
+    color: #FCC300 !important;
+    border: 2px solid #FCC300 !important;
+}
+
+.multiselect-item-checkbox input[type=checkbox]:checked+div:before {
+    background: #FCC300 !important;
 }

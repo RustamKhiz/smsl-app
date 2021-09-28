@@ -1,103 +1,449 @@
-.reports{
-  padding-top: 100px;
-}
-.reports-title{
-  font-size: 40px;
-}
-.reports-tabs-wrap{
-  height: 174px;
-  width: 255px;
-  border: 1px solid #FCC300;
-  box-sizing: border-box;
-  border-radius: 5px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  cursor: pointer;
-}
-.tab-text{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 58px;
-}
-.reports-tab{
-  background: transparent;
-  color: #2B2A29;
-  transition: .8s cubic-bezier(.165, .84, .44, 1);
-}
-.reports-tab:hover{
-  background: #2B2A29;
-  color: white;
-  border-radius: 5px;
-  transition: .8s cubic-bezier(.165, .84, .44, 1);
-}
-.reportClick{
-  background: #2B2A29;
-  color: white;
-  border-radius: 5px;
-  transition: .8s cubic-bezier(.165, .84, .44, 1);
-}
-.tab-border{
-  border-bottom: 1px solid #FCC300;
-
+input {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    border: none;
 }
 
-.reports-wrap{
-  display: flex;
-  justify-content: space-between;
-  margin-top: 40px;
+.reports {
+    padding-top: 100px;
 }
 
-.reports-content{
-  max-width: 1000px;
-  height: 496px;
-  border: 1px solid #FCC300;
-  box-sizing: border-box;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 13px;
+.reports-title {
+    font-size: 40px;
 }
-.report-content{
-  width: 934px;
-  height: 71px;
-  border: 1px solid #FCC300;
-  box-sizing: border-box;
-  border-radius: 5px;
-  margin: 16px;
+
+.reports-tabs-wrap {
+    height: 174px;
+    width: 255px;
+    border: 1px solid #FCC300;
+    box-sizing: border-box;
+    border-radius: 5px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    cursor: pointer;
 }
-.report-content-add{
-  width: 934px;
-  height: 71px;
-  border: 1px dashed rgba(196, 196, 196, 0.5);
-  box-sizing: border-box;
-  border-radius: 5px;
-  margin: 16px;
+
+.tab-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 58px;
 }
-.img_red{
-  margin-right: 6px;
-  object-fit: contain;
-  cursor: pointer;
+
+.reports-tab {
+    background: transparent;
+    color: #2B2A29;
+    transition: .8s cubic-bezier(.165, .84, .44, 1);
 }
-.img-add{
-  width: 50px;
-  height: 50px;
-  border: 2px dashed rgba(196, 196, 196, 0.5);
-  box-sizing: border-box;
-  border-radius: 5px;
-  object-fit: none;
-  cursor: pointer;
-  margin-right: 6px;
+
+.reports-tab:hover {
+    background: #2B2A29;
+    color: white;
+    border-radius: 5px;
+    transition: .8s cubic-bezier(.165, .84, .44, 1);
 }
-.report-content{
-  display: flex;
-  justify-content: flex-end;
+
+.reportActive {
+    background: #2B2A29;
+    color: white;
+    border-radius: 5px;
+    transition: .8s cubic-bezier(.165, .84, .44, 1);
 }
-.report-content-add{
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
+
+.cardActive {
+    display: flex !important;
+}
+
+.tab-border {
+    border-bottom: 1px solid #FCC300;
+}
+
+.reports-wrap {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+.reports-content {
+    max-width: 1000px;
+    min-height: 496px;
+    border: 1px solid #FCC300;
+    box-sizing: border-box;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 13px;
+    display: none;
+}
+
+.report-content {
+    width: 934px;
+    height: 71px;
+    border: 1px solid #FCC300;
+    box-sizing: border-box;
+    border-radius: 5px;
+    margin: 16px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.report-content-text {
+    padding: 5px 0 5px 10px;
+    width: 800px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.report-content-text p {
+    padding: 0 5px;
+    font-size: 15px;
+}
+
+.report-content-add {
+    width: 934px;
+    height: 71px;
+    border: 1px dashed rgba(196, 196, 196, 0.5);
+    box-sizing: border-box;
+    border-radius: 5px;
+    margin: 16px;
+}
+
+.img_red {
+    margin-right: 6px;
+    object-fit: contain;
+    cursor: pointer;
+}
+
+.img-add {
+    width: 50px;
+    height: 50px;
+    border: 2px dashed rgba(196, 196, 196, 0.5);
+    box-sizing: border-box;
+    border-radius: 5px;
+    object-fit: none;
+    cursor: pointer;
+    margin-right: 6px;
+}
+
+.report-content-add {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.reports-popup {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    top: 0;
+    left: 0;
+    opacity: 0;
+    visibility: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
+    transition: all 0.3s ease 0s;
+}
+
+.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.popup-body {
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 10px;
+}
+
+.popup-area {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.popup-content {
+    background-color: #fff;
+    color: #000;
+    width: 779px;
+    height: 689px;
+    padding: 30px;
+    position: relative;
+}
+
+.popup-title {
+    font-size: 40px;
+    margin-bottom: 30px;
+}
+
+.select-card-wrap {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.select-wrap {
+    width: 310px;
+    height: 90px;
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding-left: 10px;
+    padding-top: 5px;
+    margin: 20px;
+}
+
+.select-title {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.select-content {
+    width: 200px;
+}
+
+.popup-close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-size: 20px;
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.add-button {
+    text-decoration: none;
+    color: #2B2A29;
+    display: inline-block;
+    position: relative;
+    padding: 15px 30px;
+    border: 1px solid #FCC300;
+    width: 200px;
+    height: 50px;
+    border-radius: 5px;
+    margin: 10px 20px;
+    /*text-transform: uppercase;*/
+    overflow: hidden;
+    letter-spacing: 2px;
+    transition: .8s cubic-bezier(.165, .84, .44, 1);
+    background: none;
+    cursor: pointer;
+    font-size: 20px;
+    margin-top: 0;
+}
+
+.add-button:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 0;
+    width: 100%;
+    z-index: 1;
+    color: white;
+    background: linear-gradient(180deg, #FCC300, #FCC300, #FFD33D, #FFDE6C);
+    transition: .8s cubic-bezier(.165, .84, .44, 1);
+}
+
+.add-button:hover {
+    background: rgba(255, 255, 255, 0);
+    color: white;
+}
+
+.add-button:hover:before {
+    bottom: 0%;
+    top: auto;
+    height: 100%;
+}
+
+.button-text {
+    color: #2B2A29;
+    position: relative;
+    z-index: 1;
+}
+
+.button-wrap {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.select-content {
+    width: 250px;
+    /* Убираем браузерную стрелку */
+    /* -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none; */
+    /* Задаем свой фон и рамку */
+    border: 1px solid #FCC300;
+    border-radius: 6px;
+    background-color: #fff;
+    /* Отступы от рамки к тексту */
+    padding: 5px 35px 5px 15px;
+    /* Убираем баузерную обводку*/
+    outline: none;
+    cursor: pointer;
+}
+
+.input-content {
+    width: 218px;
+    border: 1px solid #FCC300;
+    border-radius: 6px;
+    background-color: #fff;
+    padding: 5px 15px 5px 15px;
+    outline: none;
+}
+
+.input-area {
+    width: 568px;
+    border: 1px solid #FCC300;
+    border-radius: 6px;
+    background-color: #fff;
+    padding: 5px 15px 5px 15px;
+    outline: none;
+}
+
+.area-wrap {
+    width: 660px;
+    height: 130px;
+}
+
+.select {
+    width: 100%;
+    /* Убираем браузерную стрелку */
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    /* Задаем свой фон и рамку */
+    border: 1px solid #FCC300;
+    border-radius: 6px;
+    background-color: #fff;
+    /* Отступы от рамки к тексту */
+    padding: 10px 35px 10px 15px;
+    /* Убираем баузерную обводку*/
+    outline: none;
+    cursor: pointer;
+}
+
+
+/* Убираем стрелочку в IE 10 и 11 */
+
+.select::-ms-expand {
+    display: none;
+}
+
+
+/* По клику - убираем обводку и добавляем свою*/
+
+
+/* .select:focus {
+    outline: none;
+    box-shadow: 0px 0px 0px 1px #38577a, 0px 0px 10px #FCC300;
+} */
+
+
+/* Делаем .reports-name родительским элементом для позиционирования "стрелочки" */
+
+.reports-name {
+    position: relative;
+    margin-bottom: 20px;
+    width: 320px;
+}
+
+.reports-name-noarrow {
+    margin-bottom: 20px;
+    width: 320px;
+}
+
+
+/* Рисуем стрелочку */
+
+.reports-name::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    display: block;
+    /* Рисуем треугольник */
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 10.4px 6px 0 6px;
+    border-color: #2B2A29 transparent transparent transparent;
+    /* Снимаем клик с треугольника */
+    pointer-events: none;
+}
+
+.reports-name-wrap {
+    display: flex;
+    justify-content: space-between;
+    width: 1000px;
+}
+
+.date {
+    padding: 5px 15px 10px 15px;
+    width: 288px;
+}
+
+.reports-submit {
+    display: flex;
+    justify-content: end;
+    margin-top: 20px;
+}
+
+.send-button {
+    text-decoration: none;
+    color: #2B2A29;
+    display: inline-block;
+    position: relative;
+    padding: 15px 30px;
+    border: 1px solid #FCC300;
+    width: 200px;
+    height: 50px;
+    border-radius: 5px;
+    margin: 10px 20px;
+    /*text-transform: uppercase;*/
+    overflow: hidden;
+    letter-spacing: 2px;
+    transition: .8s cubic-bezier(.165, .84, .44, 1);
+    background: none;
+    cursor: pointer;
+    font-size: 20px;
+    margin-top: 0;
+}
+
+.send-button:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 0;
+    width: 100%;
+    z-index: 1;
+    color: white;
+    background: linear-gradient(180deg, #FCC300, #FCC300, #FFD33D, #FFDE6C);
+    transition: .8s cubic-bezier(.165, .84, .44, 1);
+}
+
+.send-button:hover {
+    background: rgba(255, 255, 255, 0);
+    color: white;
+}
+
+.send-button:hover:before {
+    bottom: 0%;
+    top: auto;
+    height: 100%;
 }

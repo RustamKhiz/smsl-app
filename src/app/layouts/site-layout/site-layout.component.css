@@ -1,216 +1,276 @@
-.container{
-  width: 1280px;
-  margin: 0 auto;
+.container {
+    width: 1280px;
+    margin: 0 auto;
 }
-.header-fix{
-  /*!*position: fixed;*!*/
-  /*background-color: white;*/
+
+.header-fix {
+    /*!*position: fixed;*!*/
+    /*background-color: white;*/
 }
-.nav-wrapper{
-  display: flex;
-  justify-content: space-between;
+
+.nav-wrapper {
+    display: flex;
+    justify-content: space-between;
 }
+
 .logo {
     margin-top: 12px;
     margin-left: 40px;
     height: 40px;
 }
+
 .wrap-bg {
     background-color: white;
     height: 100%;
 }
-header{
-  box-shadow: 0px 5px 11px -2px rgba(0,0,0,0.75);
-  -webkit-box-shadow: 0px 5px 11px -2px rgba(0,0,0,0.75);
-  -moz-box-shadow: 0px 5px 11px -2px rgba(0,0,0,0.75);
-  height: 70px;
-  background-color: white;
-  top: 0px;
-  position: fixed;
-  width: 100%;
+
+header {
+    box-shadow: 0px 5px 11px -2px rgba(0, 0, 0, 0.75);
+    -webkit-box-shadow: 0px 5px 11px -2px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 5px 11px -2px rgba(0, 0, 0, 0.75);
+    height: 70px;
+    background-color: white;
+    top: 0px;
+    position: fixed;
+    width: 100%;
+    z-index: 9999999;
 }
+
 .material-icons {
-  font-size: 15px;
+    font-size: 15px;
 }
+
 nav ul a {
     color: black;
 }
- .nav-elem li{
-  list-style-type: none;
-  text-decoration: none;
-   padding: 20px 20px;
-   height: 30px;
-}
-ul{
-   margin: 0;
- }
- .nav-elem{
-   display: flex;
-   cursor: pointer;
- }
- .dropdown-wrap{
-   display: flex;
-   flex-direction: column;
-   align-items: flex-end;
-   position: fixed;
-   z-index: 9999;
- }
-.dropdown-wrap ul li{
-  padding: 8px 0;
-  border-bottom: 1px solid #FCC300;
 
+.nav-elem li {
+    list-style-type: none;
+    text-decoration: none;
+    padding: 20px 20px;
+    height: 30px;
 }
-.dropdown-content{
-  list-style-type: none;
-  text-decoration: none;
-  background: white;
-  border: 2px solid #FCC300;
-  border-bottom: none;
-  padding: 0;
-  position: relative;
-  top: 69px;
-  left: 250px;
+
+ul {
+    margin: 0;
 }
-.dropdown-cursor{
-  cursor: pointer;
+
+.nav-elem {
+    display: flex;
+    cursor: pointer;
 }
-li{
-  width: 100px;
+
+.dropdown-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    position: fixed;
+    z-index: 999999;
+}
+
+.dropdown-wrap ul li {
+    padding: 8px 0;
+    border-bottom: 1px solid #FCC300;
+}
+
+.dropdown-wrap li:hover {
+    background: rgba(252, 195, 0, 0.14);
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.profile-name:hover {
+    color: #2B2A29;
+}
+
+.dropdown-content {
+    list-style-type: none;
+    text-decoration: none;
+    background: white;
+    border: 2px solid #FCC300;
+    border-bottom: none;
+    padding: 0;
+    position: relative;
+    top: 11px;
+    left: 1259px;
+    z-index: 999999;
+}
+
+.dropdown-cursor {
+    cursor: pointer;
+}
+
+li {
+    width: 100px;
     text-align: center;
-  transition: 0.3s;
+    transition: 0.3s;
 }
-.dropdown-content li{
-  width: 200px;
+
+.dropdown-content li {
+    width: 200px;
 }
-.nav-elem li:hover{
-  background: rgba(252, 195, 0, 0.14);
-  transition: 0.3s;
+
+.nav-elem li:hover {
+    background: rgba(252, 195, 0, 0.14);
+    transition: 0.3s;
 }
-.nav-elem li:hover .profile-name-color{
-  color: Black;
+
+.nav-elem li:hover .profile-name-color {
+    color: Black;
 }
+
 
 /* Боковое навигационное меню */
+
 .sidenav {
-  height: 100%; /* 100% Full-height */
-  width: 0; /* 0 ширина - изменить это с помощью JavaScript */
-  position: fixed; /* Оставайтесь на месте */
-  z-index: 1; /* Оставайтесь сверху */
-  top: 0; /* Оставайтесь наверху */
-  left: 0;
-  background-color: #2B2A29; /* Фон черный*/
-  overflow-x: hidden; /* Отключить горизонтальную прокрутку */
-  padding-top: 106px; /* Поместите контент в 60px сверху */
-  transition: 0.5s; /* 0.5 второй эффект перехода слайда в боковой навигации */
+    height: 100%;
+    /* 100% Full-height */
+    width: 0;
+    /* 0 ширина - изменить это с помощью JavaScript */
+    position: fixed;
+    /* Оставайтесь на месте */
+    z-index: 1;
+    /* Оставайтесь сверху */
+    top: 0;
+    /* Оставайтесь наверху */
+    left: 0;
+    background-color: #2B2A29;
+    /* Фон черный*/
+    overflow-x: hidden;
+    /* Отключить горизонтальную прокрутку */
+    padding-top: 106px;
+    /* Поместите контент в 60px сверху */
+    transition: 0.5s;
+    /* 0.5 второй эффект перехода слайда в боковой навигации */
 }
+
 
 /* Ссылки меню навигации */
+
 .sidenav a {
-  padding: 8px 8px 53px 95px;
-  text-decoration: none;
-  font-size: 28px;
-  color: #818181;
-  display: block;
-  transition: 0.3s;
+    padding: 8px 8px 53px 95px;
+    text-decoration: none;
+    font-size: 28px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
 }
+
 
 /* Когда вы наводите курсор мыши на навигационные ссылки, изменяется их цвет */
+
 .sidenav a:hover {
-  color: #FCC300;
+    color: #FCC300;
 }
+
+
 /*стилизация полосы прокрутки*/
-.sidenav::-webkit-scrollbar{
-  width: 5px;
-  background-color: #111;
 
+.sidenav::-webkit-scrollbar {
+    width: 5px;
+    background-color: #111;
 }
+
 .sidenav::-webkit-scrollbar-thumb {
-  border-radius: 1000px;
-  background-color: #FCC300;
+    border-radius: 1000px;
+    background-color: #FCC300;
 }
+
 .sidenav::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.2);
-  border-radius: 10px;
-  background-color: #2B2A29;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    background-color: #2B2A29;
 }
-.closebtn{
-  color: white;
-  transition: 0.3s;
+
+.closebtn {
+    color: white;
+    transition: 0.3s;
 }
-.closebtn:hover{
-  color: #FCC300;
+
+.closebtn:hover {
+    color: #FCC300;
 }
+
+
 /* Положение и стиль кнопки закрытия (верхний правый угол) */
+
 .sidenav .closebtn {
-  position: fixed;
-  top: 11px;
-  left: 220px;
-  font-size: 36px;
-  margin-left: 50px;
-  cursor: pointer;
-  z-index: 3;
+    position: fixed;
+    top: 11px;
+    left: 220px;
+    font-size: 36px;
+    margin-left: 50px;
+    cursor: pointer;
+    z-index: 3;
+}
 
+.openbtn {
+    position: fixed;
+    left: 26px;
+    top: 20px;
+    cursor: pointer;
 }
-.openbtn{
-  position: fixed;
-  left: 26px;
-  top: 20px;
-  cursor: pointer;
 
+.openbtn-wrap {
+    position: fixed;
+    background: #2B2A29;
+    width: 78px;
+    height: 78px;
+    left: 0;
+    top: 0;
+    z-index: 2;
 }
-.openbtn-wrap{
-  position: fixed;
-  background: #2B2A29;
-  width: 78px;
-  height: 78px;
-  left: 0;
-  top: 0;
-  z-index: 2;
-}
-.burger{
-  display: block;
-  width: 25px;
-  height: 3px;
-  background: gainsboro ;
-  margin: 5px 0 0 0;
-  transition: 0.3s;
-}
-.openbtn:hover .burger{
-  background: #FCC300;
-}
-.nav-elem-wrap{
-  cursor: pointer;
-}
-.profile-name{
-  background: #111;
-  color: white;
-}
-.navicon-left{
-  width: 40px;
-  /*max-width: 12%;*/
 
-  position: relative;
-  top: -54px;
-  left: 18px;
+.burger {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background: gainsboro;
+    margin: 5px 0 0 0;
+    transition: 0.3s;
 }
-.icon-border{
- width: 0;
-  height: 0;
+
+.openbtn:hover .burger {
+    background: #FCC300;
 }
-.icon-border:before{
-  content: "";
-  display: block;
-  position: relative;
-  width: 60px;
-  height: 60px;
-  top: 0px;
-  left: 6px;
-  z-index: -1;
-  border-radius: 100px;
-  /* border: none; */
-  transition: 0.3s;
+
+.nav-elem-wrap {
+    cursor: pointer;
 }
-.nav-elem-wrap:hover .icon-border:before{
-  border: 2px solid #FCC300;
-  transition: 0.3s;
+
+.profile-name {
+    background: #111;
+    color: white;
+}
+
+.navicon-left {
+    width: 40px;
+    /*max-width: 12%;*/
+    position: relative;
+    top: -54px;
+    left: 18px;
+}
+
+.icon-border {
+    width: 0;
+    height: 0;
+}
+
+.icon-border:before {
+    content: "";
+    display: block;
+    position: relative;
+    width: 60px;
+    height: 60px;
+    top: 0px;
+    left: 6px;
+    z-index: -1;
+    border-radius: 100px;
+    /* border: none; */
+    transition: 0.3s;
+}
+
+.nav-elem-wrap:hover .icon-border:before {
+    border: 2px solid #FCC300;
+    transition: 0.3s;
 }

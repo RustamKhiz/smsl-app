@@ -1,0 +1,34 @@
+<div class="equipment-title">Оборудование</div>
+<div class="equipment-nav">
+    <p class="equipment-nav-elem active">Оборудование</p>
+    <p class="equipment-nav-elem">Статистика ремонтов</p>
+    <p class="equipment-nav-elem">Табель</p>
+    <p class="equipment-nav-elem">Вспомогательное</p>
+    <p class="equipment-nav-elem"></p>
+</div>
+<div class="content-flex">
+
+    <div class="equipment-filter">
+        <p>Фильтры</p>
+    </div>
+    <div class="equipment">
+
+        <div class="equipment-card" *ngFor="let Equipment of equipment; index as i">
+            <div class="equipment-online online"></div>
+            <div class="equipment-img-wrap">
+                <div class="equipment-img"></div>
+            </div>
+            <div class="equipment-desc">
+                <p class="equipment-name">{{Equipment.Name}}</p>
+                <p class="equipment-email">{{Equipment.PeronalFio}}</p>
+                <p class="equipment-position">{{Equipment.Status}}</p>
+            </div>
+            <div class="button-wrap">
+                <button class="equipment-button"><p class="button-text">Подробнее</p></button>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<!-- <div class="equipment-wrap" *ngFor="let Equipment of equipment; index as i"></div> -->

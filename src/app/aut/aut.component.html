@@ -9,16 +9,16 @@
         <div class="form">
             <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
-                <input type="email" formControlName="UserName" id="UserName" placeholder="Имя пользователя">
+                <input type="email" formControlName="UserName" id="UserName" placeholder="Имя пользователя" value="r.khizriev@smsl-nk.ru">
 
 
-                <input type="Password" formControlName='Password' id="Password" placeholder="Пароль">
-<!--                <div class="ckeck-wrap">-->
-<!--                    <label>-->
-<!--                        <input type="checkbox" />-->
-<!--                        <span>Запомнить пароль</span>-->
-<!--                    </label>-->
-<!--                </div>-->
+                <input type="Password" formControlName='Password' id="Password" placeholder="Пароль" value="EAD22705">
+                <!--                <div class="ckeck-wrap">-->
+                <!--                    <label>-->
+                <!--                        <input type="checkbox" />-->
+                <!--                        <span>Запомнить пароль</span>-->
+                <!--                    </label>-->
+                <!--                </div>-->
                 <button type="submit">Войти</button>
             </form>
 

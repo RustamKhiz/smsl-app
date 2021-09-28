@@ -2,6 +2,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 import { AppComponent } from './app.component';
 import {AutComponent} from './aut/aut.component';
@@ -17,8 +18,9 @@ import { ChartComponent } from './chart/chart.component';
  import {NgxChartsModule} from "@swimlane/ngx-charts";
  import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { ReportsComponent } from './layouts/site-layout/reports/reports.component';
-
-
+import {ErrorInterseptor} from '../app/layouts/classes/error.interseptor';
+import { PersonalComponent } from './layouts/site-layout/personal/personal.component';
+import { EquipmentComponent } from './layouts/site-layout/equipment/equipment.component'
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { ReportsComponent } from './layouts/site-layout/reports/reports.componen
     MajorComponent,
     ProfileRedComponent,
     ChartComponent,
-    ReportsComponent
+    ReportsComponent,
+    PersonalComponent,
+    EquipmentComponent
   ],
   imports: [
     BrowserModule,
@@ -40,13 +44,17 @@ import { ReportsComponent } from './layouts/site-layout/reports/reports.componen
     AppRoutingModule,
     HttpClientModule,
     NgxChartsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgMultiSelectDropDownModule.forRoot()
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       multi: true,
       useClass: TokenInterseptor
+    },
+    {
+      provide: HTTP_INTERCEPTORS, useClass: ErrorInterseptor, multi: true
     }
   ],
   bootstrap: [AppComponent]

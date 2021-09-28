@@ -1,66 +1,111 @@
-<div class="wrap-bg" >
-  <div class="header-fix">
-    <header>
-      <div class="container">
-        <nav>
-          <div class="nav-wrapper" >
-            <a href="#!" class="brand-logo"><img src="https://smsl-nk.ru/assets/img/logo_smsl_header_2.png" alt="logo_smsl" class="logo"></a>
-            <ul class="nav-elem li-box">
-              <li routerLink="/site"><a >Новости</a></li>
-              <li routerLink="/site"><a >Задачи</a></li>
-              <!-- Dropdown Trigger -->
-              <li (click)="ngOnInit()"><a class="dropdown-trigger"  data-target="dropdown1" >Профиль<i class="material-icons right">arrow_drop_down</i></a></li>
-              <div class="dropdown-wrap" >
-                <ul id="dropdown1" class="dropdown-content li-box" [style.transform]="toggle ? 'scaleX(1)' : 'scaleX(0)'" [style.transition]="'0.3s'" >
-                  <li routerLink="/profile" class="profile-name" ><span class="profile-name-color">{{UserName}}</span></li>
-                  <li routerLink="/site" class="dropdown-cursor">Редактировать</li>
-                  <li routerLink="/site" class="dropdown-cursor" (click)="lout()">Выйти</li>
-                </ul>
-              </div>
-            </ul>
-          </div>
-        </nav>
-        <div id="mySidenav" class="sidenav" [style.width]="slideNav ? '83px' : '320px'" [style.transition]="'0.3s'">
-          <div class="openbtn-wrap" [style.width]="slideNav ? '78px' : '300px'" [style.transition]="'0.3s'">
-            <span class="openbtn" (click)="openNav()" [style.display]="visibleNav ? 'block':'none'">
-              <span class="burger"> </span><span class="burger"> </span><span class="burger"></span>
-            </span>
-          </div>
-           <div  class="closebtn" (click)="openNav()" [style.display]="visibleNav ? 'none':'block'">&times;</div>
-          <div class="navleft-elem">
-          <div class="nav-elem-wrap" routerLink="/site"><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Главная</a></div>
-          <div class="nav-elem-wrap" routerLink="/staff"><div class="icon-border"><img style="width: 45px; left: 15px; top: -51px;" src="assets/staff.png" class="navicon-left"></div><a >Сотрудники</a></div><div class="nav-elem-wrap" routerLink="/reports"><div class="icon-border"><img style="width: 37px; left: 19px;" src="assets/reports.png" class="navicon-left"></div><a >Отчеты</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/equipment.png" class="navicon-left"></div><a >Оборудование</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img style="top: -49px;" src="assets/chat.png" class="navicon-left"></div><a >Диалоги</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img style="top: -50px; left: 13px; width: 50px;" src="assets/cloud.png" class="navicon-left"></div><a >Облако</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          <div class="nav-elem-wrap" routerLink=""><div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a >Поддержка</a></div>
-          </div>
-        </div>
-      </div>
-    </header>
-  </div>
-    <div class="content-wrap" (click)="closeNav()">
-      <div class="container">
-        <router-outlet></router-outlet>
+<div class="wrap-bg">
+    <div class="header-fix">
+        <header>
+            <div class="container">
+                <nav>
+                    <div class="nav-wrapper">
+                        <a href="#!" class="brand-logo"><img src="https://smsl-nk.ru/assets/img/logo_smsl_header_2.png" alt="logo_smsl" class="logo"></a>
+                        <ul class="nav-elem li-box">
+                            <li routerLink="/site"><a>Новости</a></li>
+                            <li routerLink="/site"><a>Задачи</a></li>
+                            <!-- Dropdown Trigger -->
+                            <li (click)="ngOnInit()"><a class="dropdown-trigger" data-target="dropdown1">Профиль<i class="material-icons right">arrow_drop_down</i></a></li>
 
-      </div>
+                        </ul>
+                        <div class="dropdown-wrap">
+                            <ul id="dropdown1" class="dropdown-content li-box" [style.transform]="toggle ? 'scaleX(1)' : 'scaleX(0)'" [style.transition]="'0.3s'">
+                                <li routerLink="/profile" class="profile-name"><span class="profile-name-color">{{UserName}}</span></li>
+                                <li routerLink="/site" class="dropdown-cursor">Редактировать</li>
+                                <li routerLink="/site" class="dropdown-cursor" (click)="lout()">Выйти</li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </nav>
+                <div id="mySidenav" class="sidenav" [style.width]="slideNav ? '83px' : '320px'" [style.transition]="'0.3s'">
+                    <div class="openbtn-wrap" [style.width]="slideNav ? '78px' : '300px'" [style.transition]="'0.3s'">
+                        <span class="openbtn" (click)="openNav()" [style.display]="visibleNav ? 'block':'none'">
+              <span class="burger"> </span><span class="burger"> </span><span class="burger"></span>
+                        </span>
+                    </div>
+                    <div class="closebtn" (click)="openNav()" [style.display]="visibleNav ? 'none':'block'">&times;</div>
+                    <div class="navleft-elem">
+                        <div class="nav-elem-wrap" routerLink="/site">
+                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Главная</a></div>
+                        <div class="nav-elem-wrap" routerLink="/staff">
+                            <div class="icon-border"><img style="width: 45px; left: 15px; top: -51px;" src="assets/staff.png" class="navicon-left"></div><a>Сотрудники</a></div>
+                        <div class="nav-elem-wrap" routerLink="/reports">
+                            <div class="icon-border"><img style="width: 37px; left: 19px;" src="assets/reports.png" class="navicon-left"></div><a>Отчеты</a></div>
+                        <div class="nav-elem-wrap" routerLink="/equipment">
+                            <div class="icon-border"><img src="assets/equipment.png" class="navicon-left"></div><a>Оборудование</a></div>
+                        <div class="nav-elem-wrap" routerLink="">
+                            <div class="icon-border"><img style="top: -49px;" src="assets/chat.png" class="navicon-left"></div><a>Диалоги</a></div>
+                        <div class="nav-elem-wrap" routerLink="">
+                            <div class="icon-border"><img style="top: -50px; left: 13px; width: 50px;" src="assets/cloud.png" class="navicon-left"></div><a>Облако</a></div>
+                        <div class="nav-elem-wrap" routerLink="">
+                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div>
+                        <div class="nav-elem-wrap" routerLink="">
+                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div>
+                        <div class="nav-elem-wrap" routerLink="">
+                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div>
+                        <div class="nav-elem-wrap" routerLink="">
+                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div>
+                        <div class="nav-elem-wrap" routerLink="">
+                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div>
+                        <div class="nav-elem-wrap" routerLink="">
+                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div>
+                        <div class="nav-elem-wrap" routerLink="">
+                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div>
+                        <div class="nav-elem-wrap" routerLink="">
+                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div>
+                        <div class="nav-elem-wrap" routerLink="">
+                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div>
+                        <div class="nav-elem-wrap" routerLink="">
+                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div>
+                        <div class="nav-elem-wrap" routerLink="">
+                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div>
+                        <div class="nav-elem-wrap" routerLink="">
+                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div>
+                        <div class="nav-elem-wrap" routerLink="">
+                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div>
+                        <div class="nav-elem-wrap" routerLink="">
+                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div>
+                        <div class="nav-elem-wrap" routerLink="">
+                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div>
+                        <div class="nav-elem-wrap" routerLink="">
+                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div>
+                        <div class="nav-elem-wrap" routerLink="">
+                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div>
+                        <div class="nav-elem-wrap" routerLink="">
+                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+    <div class="content-wrap" (click)="closeNav()">
+        <div class="container">
+            <router-outlet></router-outlet>
+            <!-- <div class="json-test">
+                <div class="table-wrap">
+                    <table class="table_col">
+                        <colgroup>
+                            <col>
+                        </colgroup>
+                        <tr *ngFor="let Personal of pers; index as i">
+                            <th>{{i+1}}</th>
+                            <td>{{Personal.Id}}</td>
+                            <td>{{Personal.Name}}</td>
+                            <td>{{Personal.Bithday}}</td>
+                            <td>{{Personal.EMail}}</td>
+                            <td>{{Personal.Telephone}}</td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div> -->
+
+        </div>
     </div>
 
 </div>
