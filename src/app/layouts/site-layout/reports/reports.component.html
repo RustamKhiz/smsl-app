@@ -1,254 +1,43 @@
-<div class="reports">
-    <p class="reports-title">Создание отчёта</p>
-    <div class="reports-wrap">
-        <div class="reports-tabs-wrap">
-            <div class="reports-tab" (click)="tabsClick()" [ngClass]="{reportActive:tabsBg}">
-                <p class="tab-text tab-border">Наименование выполняемых работ</p>
-            </div>
-            <div class="reports-tab" (click)="tabsClick2()" [ngClass]="{reportActive:tabsBg2}">
-                <p class="tab-text tab-border">Персонал</p>
-            </div>
-            <div class="reports-tab" (click)="tabsClick3()" [ngClass]="{reportActive:tabsBg3}">
-                <p class="tab-text">Оборудование</p>
-            </div>
-        </div>
-        <div class="reports-content-wrap">
-            <div class="reports-name-wrap">
-                <div class="reports-name">
-                    <select name="" id="" class="select">
-                        <option value="" disabled selected style='display:none;'>Наименование участка</option>
-                    <option value="">Амурский ГПЗ, г. Свободный</option>
-                    <option value="">СМСЛ, г. Екатеринбург</option>
-                    <option value="">АО "КНПЗ", г. Новокуйбышевск</option>
-                    <option value="">ООО "Силур", г. Арамиль</option>
-                    <option value="">Реновация сетей газораспределения г.Норильск</option>
-                    <option value="">ООО «РН-Туапсинский НПЗ». г. Туапсе</option>
-                    <option value="">Компрессорная станция КС-2 "Олекминская"</option>
-                    <option value="">Алданское ЛПУМГ, г. Алдан</option>
-                    <option value="">ООО «СК РусВелдинг»,  Семаковское МР</option>
-                    <option value="">Система МГП Ухта - Торжок II нитка (Ямал), участок Микунь, Урдома</option>
-                </select>
-                </div>
-                <div class="reports-name">
-                    <select name="" id="" class="select">
-                        <option value="" disabled selected style='display:none;'>ФИО отвестственного</option>
-                    <option value="" *ngFor="let Personal of pers; index as i">{{Personal.Fio}}</option>
-                </select>
-                </div>
-                <div class="reports-name-noarrow">
-                    <input type="date" class="select date" placeholder="Дата проведения работ">
-                </div>
-            </div>
-            <div class="reports-content" [ngClass]="{cardActive:cardAct}">
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
-                <div class="report-content" *ngFor="let card of reportsCards">
-                    <div class="report-content-text">
-                        <p>
-                            Метод НК:{{card.Method}}
-                        </p>
-                        <p>
-                            Заказчик:{{card.Customer}}
-                        </p>
-                        <p>
-                            Сотрудники:{{card.Staff}}
-                        </p>
-                        <p>
-                            Оборудование:{{card.Equipment}}
-                        </p>
-                        <p>
-                            Предъявлено:{{card.Shown}}
-                        </p>
-                        <p>
-                            Сделано:{{card.Made}}
-                        </p>
-                        <!-- <p>
-                            Комментарий: тестовый текст тестовый текст
-                        </p> -->
-                    </div>
-                    <img src="assets/reports-red.png" class="img_red" alt="">
-                </div>
-                <div class="report-content-add" (click)="popupOpen()"><img src="assets/reports-add.png" class="img-add" alt=""> </div>
-            </div>
-            <div class="reports-content" [ngClass]="{cardActive:cardAct2}">
+<!-- <button routerLink="/reports/add-report"></button>
+<button routerLink="/reports/list"></button> -->
 
-                <div class="report-content" *ngFor="let card of reportPers">
-                    <div class="report-content-text">
-                        <p>
-                            Сотрудники:{{card.Staff2}}
-                        </p>
-                        <p>
-                            Оборудование:{{card.Func}}
-                        </p>
-                        <!-- <p>
-                                Комментарий: тестовый текст тестовый текст
-                            </p> -->
-                    </div>
-                    <img src="assets/reports-red.png" class="img_red" alt=""></div>
-                <div class="report-content-add" (click)="popupOpen2()"><img src="assets/reports-add.png" class="img-add" alt=""> </div>
-            </div>
-            <div class="reports-content" [ngClass]="{cardActive:cardAct3}">
-                <div class="report-content" *ngFor="let card of reportEquip">
-                    <div class="report-content-text">
-                        <p>
-                            Оборудование:{{card.Equipment2}}
-                        </p>
-                        <p>
-                            Статус:{{card.Working}}
-                        </p>
-                        <!-- <p>
-                                Комментарий: тестовый текст тестовый текст
-                            </p> -->
-                    </div>
-                    <img src="assets/reports-red.png" class="img_red" alt="">
-                </div>
-                <div class="report-content-add" (click)="popupOpen3()"><img src="assets/reports-add.png" class="img-add" alt=""> </div>
-            </div>
-
-
-            <div class="reports-submit"><button type="submit" class="send-button"><p class="button-text">Отправить</p> </button></div>
-        </div>
-    </div>
-
-    <div class="reports-popup" [ngClass]="{open:popOpen}">
-        <div class="popup-area" (click)="popupOpen()"></div>
-        <div class="popup-body">
-            <div class="popup-content">
-                <a class="popup-close" (click)="popupOpen()">X</a>
-                <div class="popup-title">Наименование выполняемых работ</div>
-                <div class="form">
-                    <form [formGroup]="form1" (ngSubmit)='addOnPopup()'>
-                        <div class="select-card-wrap">
-                            <div class="select-wrap">
-                                <p class="select-title">Метод НК</p>
-                                <select class="select-content" name="Method" formControlName="Method" [(ngModel)]="Method">
-                                    <option value="РК" class="option-item">РК</option>
-                                    <option value="ВИК" class="option-item">ВИК</option>
-                                    <option value="УЗК" class="option-item">УЗК</option>
-                                    <option value="ПВК" class="option-item">ПВК</option>
-                                </select>
-                            </div>
-                            <div class="select-wrap">
-                                <p class="select-title">Заказчик</p>
-                                <select class="select-content" name="Customer" formControlName="Customer" [(ngModel)]="Customer">
-                                    <option value="Вариант" class="option-item">Вариант</option>
-                                    <option value="Вариант 2" class="option-item">Вариант 2</option>
-                                    <option value="Вариант 3" class="option-item">Вариант 3</option>
-                                    <option value="Вариант 4" class="option-item">Вариант 4</option>
-                                </select>
-                            </div>
-                            <div class="select-wrap">
-                                <p class="select-title">Сотрудники</p>
-                                <ng-multiselect-dropdown [placeholder]="'Выберите сотрудников'" formControlName="Staff" [settings]="dropdownSettingsPers" [data]="dropdownListPers" name="Staff.Fio" [(ngModel)]="Staff" (onSelect)="onItemSelect($event)">
-                                </ng-multiselect-dropdown>
-                            </div>
-                            <div class="select-wrap">
-                                <p class="select-title">Оборудование</p>
-                                <ng-multiselect-dropdown [placeholder]="'Выберите оборудование'" formControlName="Equipment" [settings]="dropdownSettingsEquip" [data]="dropdownListEquip" name="Equipment" [(ngModel)]="Equipment">
-                                </ng-multiselect-dropdown>
-
-                            </div>
-                            <div class="select-wrap">
-                                <p class="select-title">Предъявлено</p>
-                                <input type="text" class="input-content" name="Shown" formControlName="Shown" [(ngModel)]="Shown">
-                            </div>
-                            <div class="select-wrap">
-                                <p class="select-title">Сделано</p>
-                                <input type="text" class="input-content" name="Made" formControlName="Made" [(ngModel)]="Made">
-                            </div>
-                            <div class="select-wrap area-wrap">
-                                <p class="select-title">Комментарий</p>
-                                <textarea rows="4" class="input-area" name="Comment" formControlName="Comment" [(ngModel)]="Comment"></textarea>
-                            </div>
-                        </div>
-                        <div class="button-wrap">
-                            <button type="submit" class="add-button"><p class="button-text">Добавить</p> </button>
-                        </div>
-                    </form>
-                    <!-- <ul *ngFor="let card of reportsCards">
-                        <li>{{card.Method}} ({{card.Staff}}) - {{card.Shown}}</li>
-                    </ul> -->
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="reports-popup" [ngClass]="{open:popOpen2}">
-        <div class="popup-area" (click)="popupOpen2()"></div>
-        <div class="popup-body">
-            <div class="popup-content">
-                <a class="popup-close" (click)="popupOpen2()">X</a>
-                <div class="popup-title">Персонал</div>
-                <div class="form">
-                    <form [formGroup]="form2" (ngSubmit)='addOnPopup2()'>
-                        <div class="select-card-wrap">
-                            <div class="select-wrap">
-                                <p class="select-title">Сотрудник ФИО </p>
-                                <select id="" class="select-content" name="Staff2" formControlName="Staff2" [(ngModel)]="Staff2">
-                                    <!-- <option value="" disabled selected style='display:none;'>ФИО отвестственного</option> -->
-                                    <option value="{{Personal.Fio}}" *ngFor="let Personal of pers; index as i">{{Personal.Fio}}</option>
-                            </select>
-                            </div>
-                            <div class="select-wrap">
-                                <p class="select-title">Функции</p>
-                                <select class="select-content" name="Func" formControlName="Func" [(ngModel)]="Func">
-                                    <option value="Функции 1" class="option-item">Функции 1</option>
-                                    <option value="Функции 2" class="option-item">Функции 2</option>
-                                    <option value="Функции 3" class="option-item">Функции 3</option>
-                                    <option value="Функции 4" class="option-item">Функции 4</option>
-                                    </select>
-                            </div>
-                            <div class="select-wrap area-wrap">
-                                <p class="select-title">Комментарий</p>
-                                <textarea rows="4" class="input-area" name="Comment" formControlName="Comment" [(ngModel)]="Comment"></textarea>
-                            </div>
-
-                        </div>
-                        <div class="button-wrap">
-                            <button type="submit" class="add-button"><p class="button-text">Добавить</p> </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="reports-popup" [ngClass]="{open:popOpen3}">
-        <div class="popup-area" (click)="popupOpen3()"></div>
-        <div class="popup-body">
-            <div class="popup-content">
-                <a class="popup-close" (click)="popupOpen3()">X</a>
-                <div class="popup-title">Оборудование</div>
-                <div class="form">
-                    <form [formGroup]="form3" (ngSubmit)='addOnPopup3()'>
-                        <div class="select-card-wrap">
-                            <div class="select-wrap">
-                                <p class="select-title">Оборудование</p>
-                                <ng-multiselect-dropdown [placeholder]="'Выберите оборудование'" formControlName="Equipment2" [settings]="dropdownSettingsEquip" [data]="dropdownListEquip" name="Equipment2" [(ngModel)]="Equipment2">
-                                </ng-multiselect-dropdown>
-                            </div>
-                            <div class="select-wrap">
-                                <p class="select-title">Статус</p>
-                                <select class="select-content" name="Working" formControlName="Working" [(ngModel)]="Working">
-                                    <option value="Исправен" class="option-item">Исправен</option>
-                                    <option value="Не исправен" class="option-item">Не исправен</option>
-                                    <option value="Отсутствует" class="option-item">Отсутствует</option>
-                                </select>
-                            </div>
-                            <div class="select-wrap area-wrap">
-                                <p class="select-title">Комментарий</p>
-                                <textarea rows="4" class="input-area" name="Comment" formControlName="Comment" [(ngModel)]="Comment"></textarea>
-                            </div>
-
-                        </div>
-                        <div class="button-wrap">
-                            <button type="submit" class="add-button"><p class="button-text">Добавить</p> </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="reports-title">Все отчеты</div>
+<div class="reports-nav">
+    <p class="reports-nav-elem active" routerLink="/reports/list">Все отчеты</p>
+    <p class="reports-nav-elem"></p>
+    <p class="reports-nav-elem"></p>
+    <p class="reports-nav-elem"></p>
+    <p class="reports-nav-elem" routerLink="/reports/add-report">Добавить +</p>
 </div>
+<router-outlet></router-outlet>
 
-
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 <br>
 <br>
 <br>

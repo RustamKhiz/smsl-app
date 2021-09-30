@@ -19,7 +19,7 @@ import {afterlogServices} from "../layouts/services/afterlog.services";
 export class AutComponent implements OnInit, OnDestroy {
   title = 'Войти в личный кабинет';
   year: number = new Date().getFullYear();
-
+ 
   //Объявление для считывания формы авторизации
   form: FormGroup
   aSub: Subscription

@@ -57,6 +57,97 @@ export interface NameComplWorks{
   Made: string
   Comment: string
 }
-export interface Staff{
-
+export interface Report{
+  Id: number
+  DataCreate: string
+  UserId: number
+  СhiefUserId: number
+  GeneralLocationId: number
+  SubLocationId: number
+  DataReport: string
+  Comment: string
+  IsActual: boolean
+  GeneralLocation: {
+      Id: number
+      DisplayName: string
+  }
+  CwrWorks: [
+      {
+          Id: number
+          MethodControl: string
+          CustomerId: number
+          Customer: {
+              Id: number
+              NameRu: string
+              NameEn: string
+              Inn: number
+              MapOffice: string
+          }
+          Shown: number
+          Made: number                                                                                                                                                                                                                                                         
+          Comment: string
+          CwrId: string
+          CwrWorkPersonals: [
+              {
+                  Id: number
+                  PersonalId: number
+                  CwrWorkId: number
+                  Personal: {
+                      Id: number
+                      Fio: string
+                  }
+              }
+          ]
+          CwrWorkEquipments: [
+              {
+                  Id: number
+                  EquipmentId: number
+                  CwrWorkId: number
+                  Equipment: {
+                      Id: number
+                      Name: string
+                      }
+                }
+          ]
+      }
+  ],
+  CwrPersonals: [
+      {
+          Id: number
+          PersonalId: number
+          Comment: string
+          CwrId: number
+          Personal: {
+              Id: number
+              Fio: string
+          },
+          CwrStatusFromPersonals: [
+              {
+                  Id: number
+                  CwrStatusId: number
+                  CwrPesonalStatus: {
+                      Id: number
+                      DisplayName: string
+                      Description: string
+                      IsWork: boolean
+                  },
+                  CwrPersonalId: number
+              }
+          ]
+      }
+  ],
+  CwrEquipments: [
+      {
+          Id: number
+          EquipmentId: number
+          Status: string
+          Equipment: {
+              Id: number
+              Name: string
+          },
+          CwrId: number
+      }
+  ],
+  CwrActions: [],
+  CwrFiles: []
 }

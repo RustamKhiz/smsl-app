@@ -54,7 +54,6 @@ export class SiteLayoutComponent implements OnInit, OnDestroy {
     // this.afteraut.afterLog()
 
      setTimeout(s =>{
-      
       this.aSub = this.afteraut.afterLog().subscribe(
         (res)=> {
           console.log("afterlog working!")

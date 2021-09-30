@@ -29,7 +29,7 @@ export class AutServices {
       }
     }
  
-
+ 
     constructor(private http: HttpClient, private signal: SignalService){
 
     }
@@ -126,7 +126,7 @@ export class AutServices {
           .pipe()
 
     }
-
+  
     setConnectionHash(ConnectionHash:string){
       this.ConnectionHash = ConnectionHash
     }

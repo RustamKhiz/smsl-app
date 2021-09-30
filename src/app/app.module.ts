@@ -20,7 +20,9 @@ import { ChartComponent } from './chart/chart.component';
 import { ReportsComponent } from './layouts/site-layout/reports/reports.component';
 import {ErrorInterseptor} from '../app/layouts/classes/error.interseptor';
 import { PersonalComponent } from './layouts/site-layout/personal/personal.component';
-import { EquipmentComponent } from './layouts/site-layout/equipment/equipment.component'
+import { EquipmentComponent } from './layouts/site-layout/equipment/equipment.component';
+import { ReportsAddComponent } from './layouts/site-layout/reports/reportsAdd/reports-add/reports-add.component';
+import { ReportsListComponent } from './layouts/site-layout/reports/reports-list/reports-list/reports-list.component'
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import { EquipmentComponent } from './layouts/site-layout/equipment/equipment.co
     ChartComponent,
     ReportsComponent,
     PersonalComponent,
-    EquipmentComponent
+    EquipmentComponent,
+    ReportsAddComponent,
+    ReportsListComponent
   ],
   imports: [
     BrowserModule,

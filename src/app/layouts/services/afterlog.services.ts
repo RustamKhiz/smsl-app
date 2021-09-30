@@ -6,7 +6,7 @@ import {map, tap} from "rxjs/operators"
 import{environment} from "src/environments/environment"
 @Injectable({
   providedIn: 'root' 
-})
+}) 
 export class afterlogServices{
   public newPersonals: any;
   public newMashines: any;
