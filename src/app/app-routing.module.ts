@@ -11,6 +11,7 @@ import {ReportsComponent} from "./layouts/site-layout/reports/reports.component"
 import {ReportsListComponent} from "./layouts/site-layout/reports/reports-list/reports-list/reports-list.component";
 import {ReportsAddComponent} from "./layouts/site-layout/reports/reportsAdd/reports-add/reports-add.component";
 import {EquipmentComponent} from "./layouts/site-layout/equipment/equipment.component";
+import { PersonalComponent } from './layouts/site-layout/personal/personal.component';
 
 
 const routes: Routes = [
@@ -22,7 +23,7 @@ const routes: Routes = [
 
   },
   {
-    path: '', component: SiteLayoutComponent, canActivate:[AutGuard], children: [
+    path: '', component: SiteLayoutComponent,  children: [
       {
         path: 'site', component: MajorComponent
       },
@@ -47,6 +48,9 @@ const routes: Routes = [
       },
       {
         path: 'equipment', component: EquipmentComponent
+      },
+      {
+        path: 'personal', component: PersonalComponent
       }
     ]
   }

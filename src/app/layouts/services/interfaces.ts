@@ -43,7 +43,7 @@ export interface Mashines{
   Location: string
   PeronalFio: string
   Группа: string
-  Comments: string  
+  Comments: string
   ПолноеНаименование: string
   Производитель: string
   СтранаПроизводства: string
@@ -57,97 +57,61 @@ export interface NameComplWorks{
   Made: string
   Comment: string
 }
-export interface Report{
-  Id: number
-  DataCreate: string
-  UserId: number
-  СhiefUserId: number
-  GeneralLocationId: number
-  SubLocationId: number
-  DataReport: string
-  Comment: string
-  IsActual: boolean
+export interface Report {
+  DataReport: string,
+  Comment?: string,
   GeneralLocation: {
-      Id: number
       DisplayName: string
-  }
-  CwrWorks: [
+  },
+  CwrWorks:
       {
-          Id: number
           MethodControl: string
-          CustomerId: number
           Customer: {
-              Id: number
               NameRu: string
-              NameEn: string
-              Inn: number
-              MapOffice: string
           }
           Shown: number
-          Made: number                                                                                                                                                                                                                                                         
-          Comment: string
-          CwrId: string
-          CwrWorkPersonals: [
+          Made: number
+          Comment?: string
+          CwrWorkPersonals:
               {
-                  Id: number
-                  PersonalId: number
-                  CwrWorkId: number
                   Personal: {
                       Id: number
                       Fio: string
                   }
               }
-          ]
-          CwrWorkEquipments: [
-              {
-                  Id: number
-                  EquipmentId: number
-                  CwrWorkId: number
+          CwrWorkEquipments:
+                {
                   Equipment: {
                       Id: number
                       Name: string
                       }
                 }
-          ]
-      }
-  ],
-  CwrPersonals: [
+      },
+  CwrPersonals:
       {
-          Id: number
-          PersonalId: number
-          Comment: string
-          CwrId: number
+          Comment?: string
           Personal: {
               Id: number
               Fio: string
           },
-          CwrStatusFromPersonals: [
+          CwrStatusFromPersonals:
               {
-                  Id: number
-                  CwrStatusId: number
                   CwrPesonalStatus: {
-                      Id: number
                       DisplayName: string
-                      Description: string
-                      IsWork: boolean
-                  },
-                  CwrPersonalId: number
+                      Description?: string
+                      IsWork?: boolean
+                  }
               }
-          ]
-      }
-  ],
-  CwrEquipments: [
+      },
+  CwrEquipments:
       {
-          Id: number
-          EquipmentId: number
           Status: string
           Equipment: {
               Id: number
               Name: string
-          },
-          CwrId: number
-      }
-  ],
-  CwrActions: [],
-  CwrFiles: []
+          }
+      },
+  CwrActions?: [],
+  CwrFiles?: [],
+
 }

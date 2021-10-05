@@ -1,19 +1,65 @@
-<div class="json-test">
-    <div class="table-wrap">
-        <table class="table_col">
-            <colgroup>
-                <col>
-            </colgroup>
-            <!-- <tr *ngFor="let Personal of Personals; index as i" >
-
-                <th>{{i+1}}</th>
-                <td>{{Personal.Id}}</td>
-                <td>{{Personal.Name}}</td>
-                <td>{{Personal.Bithday}}</td>
-                <td>{{Personal.EMail}}</td>
-                <td>{{Personal.Telephone}}</td>
-            </tr> -->
-
-        </table>
-    </div>
+<div class="wrap" style="margin-top: 100px;">
+    <form [formGroup]="formSub" (ngSubmit)="reportSubmit()">
+        <select name="" id="" class="select" formControlName="GeneralLocation">
+        <option value="" disabled selected style='display:none;' >Наименование участка</option>
+        <option value="">Амурский ГПЗ, г. Свободный</option>
+        <option value="">СМСЛ, г. Екатеринбург</option>
+      </select>
+        <select name="" id="" class="select" formControlName="Person">
+        <option value="" disabled selected style='display:none;'>ФИО отвестственного</option>
+        <option value="" *ngFor="let Personal of pers; index as i">{{Personal.Fio}}</option>
+      </select>
+        <select class="select-content" name="Method" formControlName="Method">
+        <option value="РК" class="option-item">РК</option>
+        <option value="ВИК" class="option-item">ВИК</option>
+      </select>
+        <p class="select-title">Предъявлено</p>
+        <input type="text" class="input-content" name="Shown" formControlName="Shown">
+        <button type="submit"></button>
+    </form>
 </div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>

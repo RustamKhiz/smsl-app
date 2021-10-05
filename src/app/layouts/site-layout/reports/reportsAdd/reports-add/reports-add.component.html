@@ -16,18 +16,18 @@
             <div class="reports-content-wrap">
                 <div class="reports-name-wrap">
                     <div class="reports-name">
-                        <select name="" id="" class="select" formControlName="GeneralLocation">
+                        <select name="" id="" class="select" formControlName="DisplayName" [(ngModel)]="DisplayName">
                         <option value="" disabled selected style='display:none;' >Наименование участка</option>
-                    <option value="">Амурский ГПЗ, г. Свободный</option>
-                    <option value="">СМСЛ, г. Екатеринбург</option>
-                    <option value="">АО "КНПЗ", г. Новокуйбышевск</option>
-                    <option value="">ООО "Силур", г. Арамиль</option>
-                    <option value="">Реновация сетей газораспределения г.Норильск</option>
-                    <option value="">ООО «РН-Туапсинский НПЗ». г. Туапсе</option>
-                    <option value="">Компрессорная станция КС-2 "Олекминская"</option>
-                    <option value="">Алданское ЛПУМГ, г. Алдан</option>
-                    <option value="">ООО «СК РусВелдинг»,  Семаковское МР</option>
-                    <option value="">Система МГП Ухта - Торжок II нитка (Ямал), участок Микунь, Урдома</option>
+                    <option value="Амурский ГПЗ, г. Свободный">Амурский ГПЗ, г. Свободный</option>
+                    <option value="СМСЛ, г. Екатеринбург">СМСЛ, г. Екатеринбург</option>
+                    <option value="АО 'КНПЗ', г. Новокуйбышевск">АО "КНПЗ", г. Новокуйбышевск</option>
+                    <option value="ООО 'Силур', г. Арамиль">ООО "Силур", г. Арамиль</option>
+                    <option value="Реновация сетей газораспределения г.Норильск">Реновация сетей газораспределения г.Норильск</option>
+                    <option value="ООО «РН-Туапсинский НПЗ». г. Туапсе">ООО «РН-Туапсинский НПЗ». г. Туапсе</option>
+                    <option value="Компрессорная станция КС-2 'Олекминская'">Компрессорная станция КС-2 "Олекминская"</option>
+                    <option value="Алданское ЛПУМГ, г. Алдан">Алданское ЛПУМГ, г. Алдан</option>
+                    <option value="ООО «СК РусВелдинг»,  Семаковское МР">ООО «СК РусВелдинг»,  Семаковское МР</option>
+                    <option value="Система МГП Ухта - Торжок II нитка (Ямал), участок Микунь, Урдома">Система МГП Ухта - Торжок II нитка (Ямал), участок Микунь, Урдома</option>
                 </select>
                     </div>
                     <div class="reports-name">
@@ -37,7 +37,7 @@
                 </select>
                     </div>
                     <div class="reports-name-noarrow">
-                        <input type="date" class="select date" placeholder="Дата проведения работ" formControlName="">
+                        <input type="date" class="select date" placeholder="Дата проведения работ" formControlName="DataReport" [(ngModel)]="DataReport">
                     </div>
                 </div>
                 <div class="reports-content" [ngClass]="{cardActive:cardAct}">
@@ -45,16 +45,16 @@
                     <div class="report-content" *ngFor="let card of reportsCards">
                         <div class="report-content-text">
                             <p>
-                                Метод НК:{{card.Method}}
+                                Метод НК:{{card.MethodControl}}
                             </p>
                             <p>
                                 Заказчик:{{card.Customer}}
                             </p>
                             <p>
-                                Сотрудники:{{card.Staff}}
+                                Сотрудники:{{card.CwrWorkPersonals}}
                             </p>
                             <p>
-                                Оборудование:{{card.Equipment}}
+                                Оборудование:{{card.CwrWorkEquipments}}
                             </p>
                             <p>
                                 Предъявлено:{{card.Shown}}
@@ -75,10 +75,10 @@
                     <div class="report-content" *ngFor="let card of reportPers">
                         <div class="report-content-text">
                             <p>
-                                Сотрудники:{{card.Staff2}}
+                                Сотрудники:{{card.Personal}}
                             </p>
                             <p>
-                                Оборудование:{{card.Func}}
+                                Оборудование:{{card.CwrStatusFromPersonals}}
                             </p>
                             <!-- <p>
                                 Комментарий: тестовый текст тестовый текст
@@ -91,10 +91,10 @@
                     <div class="report-content" *ngFor="let card of reportEquip">
                         <div class="report-content-text">
                             <p>
-                                Оборудование:{{card.Equipment2}}
+                                Оборудование:{{card.Equipment}}
                             </p>
                             <p>
-                                Статус:{{card.Working}}
+                                Статус:{{card.Status}}
                             </p>
                             <!-- <p>
                                 Комментарий: тестовый текст тестовый текст
@@ -121,7 +121,7 @@
                             <div class="select-card-wrap">
                                 <div class="select-wrap">
                                     <p class="select-title">Метод НК</p>
-                                    <select class="select-content" name="Method" formControlName="Method" [(ngModel)]="Method">
+                                    <select class="select-content" name="MethodControl" formControlName="MethodControl" [(ngModel)]="MethodControl">
                                     <option value="РК" class="option-item">РК</option>
                                     <option value="ВИК" class="option-item">ВИК</option>
                                     <option value="УЗК" class="option-item">УЗК</option>
@@ -139,12 +139,12 @@
                                 </div>
                                 <div class="select-wrap">
                                     <p class="select-title">Сотрудники</p>
-                                    <ng-multiselect-dropdown [placeholder]="'Выберите сотрудников'" formControlName="Staff" [settings]="dropdownSettingsPers" [data]="dropdownListPers" name="Staff.Fio" [(ngModel)]="Staff" (onSelect)="onItemSelect($event)">
+                                    <ng-multiselect-dropdown [placeholder]="'Выберите сотрудников'" formControlName="CwrWorkPersonals" [settings]="dropdownSettingsPers" [data]="dropdownListPers" name="CwrWorkPersonals" [(ngModel)]="CwrWorkPersonals" (onSelect)="onItemSelect($event)">
                                     </ng-multiselect-dropdown>
                                 </div>
                                 <div class="select-wrap">
                                     <p class="select-title">Оборудование</p>
-                                    <ng-multiselect-dropdown [placeholder]="'Выберите оборудование'" formControlName="Equipment" [settings]="dropdownSettingsEquip" [data]="dropdownListEquip" name="Equipment" [(ngModel)]="Equipment">
+                                    <ng-multiselect-dropdown [placeholder]="'Выберите оборудование'" formControlName="CwrWorkEquipments" [settings]="dropdownSettingsEquip" [data]="dropdownListEquip" name="CwrWorkEquipments" [(ngModel)]="CwrWorkEquipments">
                                     </ng-multiselect-dropdown>
 
                                 </div>
@@ -183,14 +183,14 @@
                             <div class="select-card-wrap">
                                 <div class="select-wrap">
                                     <p class="select-title">Сотрудник ФИО </p>
-                                    <select id="" class="select-content" name="Staff2" formControlName="Staff2" [(ngModel)]="Staff2">
+                                    <select id="" class="select-content" name="Personal" formControlName="Personal" [(ngModel)]="Personal">
                                     <!-- <option value="" disabled selected style='display:none;'>ФИО отвестственного</option> -->
                                     <option value="{{Personal.Fio}}" *ngFor="let Personal of pers; index as i">{{Personal.Fio}}</option>
                             </select>
                                 </div>
                                 <div class="select-wrap">
                                     <p class="select-title">Функции</p>
-                                    <select class="select-content" name="Func" formControlName="Func" [(ngModel)]="Func">
+                                    <select class="select-content" name="CwrStatusFromPersonals" formControlName="CwrStatusFromPersonals" [(ngModel)]="CwrStatusFromPersonals">
                                     <option value="Функции 1" class="option-item">Функции 1</option>
                                     <option value="Функции 2" class="option-item">Функции 2</option>
                                     <option value="Функции 3" class="option-item">Функции 3</option>
@@ -199,7 +199,7 @@
                                 </div>
                                 <div class="select-wrap area-wrap">
                                     <p class="select-title">Комментарий</p>
-                                    <textarea rows="4" class="input-area" name="Comment" formControlName="Comment" [(ngModel)]="Comment"></textarea>
+                                    <textarea rows="4" class="input-area" name="Comment" formControlName="Comment2" [(ngModel)]="Comment2"></textarea>
                                 </div>
 
                             </div>
@@ -222,12 +222,12 @@
                             <div class="select-card-wrap">
                                 <div class="select-wrap">
                                     <p class="select-title">Оборудование</p>
-                                    <ng-multiselect-dropdown [placeholder]="'Выберите оборудование'" formControlName="Equipment2" [settings]="dropdownSettingsEquip" [data]="dropdownListEquip" name="Equipment2" [(ngModel)]="Equipment2">
+                                    <ng-multiselect-dropdown [placeholder]="'Выберите оборудование'" formControlName="Equipment" [settings]="dropdownSettingsEquip" [data]="dropdownListEquip" name="Equipment" [(ngModel)]="Equipment">
                                     </ng-multiselect-dropdown>
                                 </div>
                                 <div class="select-wrap">
                                     <p class="select-title">Статус</p>
-                                    <select class="select-content" name="Working" formControlName="Working" [(ngModel)]="Working">
+                                    <select class="select-content" name="Status" formControlName="Status" [(ngModel)]="Status">
                                     <option value="Исправен" class="option-item">Исправен</option>
                                     <option value="Не исправен" class="option-item">Не исправен</option>
                                     <option value="Отсутствует" class="option-item">Отсутствует</option>
@@ -235,7 +235,7 @@
                                 </div>
                                 <div class="select-wrap area-wrap">
                                     <p class="select-title">Комментарий</p>
-                                    <textarea rows="4" class="input-area" name="Comment" formControlName="Comment" [(ngModel)]="Comment"></textarea>
+                                    <textarea rows="4" class="input-area" name="Comment" formControlName="Comment3" [(ngModel)]="Comment3"></textarea>
                                 </div>
 
                             </div>

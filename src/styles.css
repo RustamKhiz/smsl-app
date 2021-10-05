@@ -79,3 +79,7 @@ li {
 .multiselect-item-checkbox input[type=checkbox]:checked+div:before {
     background: #FCC300 !important;
 }
+
+.dropdown-list ul {
+    overflow-x: hidden !important;
+}

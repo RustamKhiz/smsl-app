@@ -5,8 +5,8 @@ import {from, Observable} from "rxjs";
 import {map, tap} from "rxjs/operators"
 import{environment} from "src/environments/environment"
 @Injectable({
-  providedIn: 'root' 
-}) 
+  providedIn: 'root'
+})
 export class afterlogServices{
   public newPersonals: any;
   public newMashines: any;
@@ -15,12 +15,11 @@ export class afterlogServices{
   afterLog(): Observable<{Personals:string, Mashines: string}>{
     console.log("qu")
     return this.http.get<{Personals:string, Mashines: string}>(`${environment.apiUrl}/api/baseapp/dataload`)
-    
+
       .pipe(
         tap(({Personals})=>{
           console.log("первое получение Personals",Personals)
-          this.newPersonals = Personals 
-          console.log("длина массива: Personals",Personals.length)
+          this.newPersonals = Personals
         }),
         tap(({Mashines})=>{
           console.log("Первое получение Mashines", Mashines)
@@ -29,5 +28,5 @@ export class afterlogServices{
       )
 
   }
-  
+
 }

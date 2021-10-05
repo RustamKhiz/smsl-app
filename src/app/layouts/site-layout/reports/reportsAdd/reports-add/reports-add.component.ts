@@ -4,89 +4,116 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ReportAdd } from 'src/app/layouts/services/reports-add.services';
+import { Router } from '@angular/router';
 
-export class NameComplWorks{
-  constructor(public Method: string,
-              public Customer: string,
-              public Staff: {Id: any, Fio: string},
-              public Equipment: string,
+export class CwrWorks{
+  constructor(public MethodControl: string,
+              public Customer: {NameRu: string},
+              public CwrWorkPersonals:{Personal: {Id: number, Fio: string}},
+              public CwrWorkEquipments:{Equipment: {Id: number, Name: string}},
               public Shown: number,
               public Made: number,
-              public Comment: string)
+              // public Comment?: string
+              )
   { }
 }
-export class ReportPers{
-  constructor(public Staff2: {Id: any, Fio: string},
-              public Func: string
+export class CwrPersonals{
+  constructor(public Personal: {Id: number, Fio: string},
+              public CwrStatusFromPersonals: {CwrPesonalStatus:{ DisplayName: string}},
+              // public Comment?: string
   ){}
 }
-export class ReportEquip{
-  constructor(public Equipment2: string,
-              public Working: string
+export class CwrEquipments{
+  constructor(public Equipment: string,
+              public Status: string,
+              // public Comment?: string
   ){}
 }
+export class Report{
+  constructor(){}
+}
+export class GeneralLocation{
+  constructor(
+              public DisplayName: string
 
+  ){}
+}
+export class DataReport{
+             constructor( public DataReport: number){}
+}
 @Component({
   selector: 'app-reports-add',
   templateUrl: './reports-add.component.html',
   styleUrls: ['./reports-add.component.css']
 })
 export class ReportsAddComponent implements OnInit, OnDestroy {
-  constructor(private rep: ReportAdd) { }
+  constructor(private rep: ReportAdd,  private router: Router) { }
   pers = JSON.parse(localStorage.getItem('Personal'));
-  // equipment = JSON.parse(localStorage.getItem('Mashines'))
+  equipment = JSON.parse(localStorage.getItem('Mashines'))
 
-  Method: string = "";
-  Customer: string = "";
-  Staff = {Id: "", Fio: ""}
-  Equipment: string = "";
+  MethodControl: string = "";
+  Customer = {NameRu: ""};
+  CwrWorkPersonals = {Personal: {Id: 0, Fio: ""}}
+  CwrWorkEquipments = {Equipment: {Id: 0, Name: ""}}
   Shown: number = 0;
   Made: number = 0;
-  Comment: string = "";
-  
-  reportsCards: NameComplWorks[] = []; 
+  Comment?: string = "";
+
+  reportsCards: CwrWorks[] = [];
 
   form1: FormGroup
 
   addOnPopup(){
-    console.log(this.Staff)
-    // const test = JSON.parse(this.Staff)
-    // const test = JSON.stringify(this.Staff)
-    // const test2 = JSON.parse(test)
-    // this.Staff = test2;
-    this.reportsCards.push(new NameComplWorks(this.Method, this.Customer, this.Staff, this.Equipment, this.Shown, this.Made, this.Comment))
-    console.log('reportsCards:', this.reportsCards)
-    console.log('Staff:', this.Staff.Fio)
-    // console.log('test:',test)
-    // console.log('test2:',test2)
-
-    this.popupOpen() 
-    this.form1.reset(); 
+    this.reportsCards.push(new CwrWorks(this.MethodControl, this.Customer, this.CwrWorkPersonals, this.CwrWorkEquipments, this.Shown, this.Made))
+    this.popupOpen()
+    this.form1.reset();
   }
-  Staff2: {Id: any, Fio: string};
-  Func: string = "";
+  Personal = {Id: 0, Fio: ""};
+  CwrStatusFromPersonals = {CwrPesonalStatus:{ DisplayName: ""}}
+  Comment2?: string = "";
 
-  reportPers: ReportPers[] = []
+  reportPers: CwrPersonals[] = []
   form2: FormGroup
   addOnPopup2(){
-    this.reportPers.push(new ReportPers(this.Staff2, this.Func))
+    this.reportPers.push(new CwrPersonals(this.Personal, this.CwrStatusFromPersonals))
     this.popupOpen2();
-    this.form2.reset(); 
+    this.form2.reset();
   }
 
-  Equipment2: string = ""
-  Working: string = ""
+  Equipment: string = "";
+  Status: string = "";
+  Comment3?:string = "";
 
   form3: FormGroup
-  reportEquip: ReportEquip[] = []
+  reportEquip: CwrEquipments[] = []
   addOnPopup3(){
-    this.reportEquip.push(new ReportEquip(this.Equipment2, this.Working))
+    this.reportEquip.push(new CwrEquipments(this.Equipment, this.Status))
     this.popupOpen3();
-    this.form3.reset(); 
+    this.form3.reset();
   }
 
+  DataReport: number
+  DisplayName: ""
+
+  CwrFiles?: []
+  // Comment?: string
+  generalLocation: GeneralLocation[]=[]
+  dataReport: DataReport[]=[]
+  report: Report[]=[]
   formSub: FormGroup;
   aSub: Subscription;
+
+  reportSubmit() {
+    this.generalLocation.push(new GeneralLocation(this.DisplayName))
+    this.dataReport.push(new DataReport(this.DataReport))
+
+    this.report = this.report.concat(this.generalLocation, this.dataReport, this.reportsCards, this.reportPers, this.reportEquip)
+    console.log("report: ", this.report)
+    this.aSub = this.rep.reportAdd(this.report).subscribe(
+      ()=> this.router.navigate(['/reports/list']),
+      error => console.log('Ошибка отправки формы отчета')
+    )
+  }
 
   dropdownListPers = [];
   dropdownListEquip = [];
@@ -99,30 +126,30 @@ export class ReportsAddComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.form1 = new FormGroup({
-      Method: new FormControl('', Validators.required),
+      MethodControl: new FormControl('', Validators.required),
       Customer: new FormControl('', Validators.required),
-      Staff: new FormControl('', Validators.required),
-      Equipment: new FormControl('', Validators.required),
+      CwrWorkPersonals: new FormControl('', Validators.required),
+      CwrWorkEquipments: new FormControl('', Validators.required),
       Shown: new FormControl('', Validators.required),
       Made: new FormControl('', Validators.required),
       Comment: new FormControl(''),
     })
     this.form2 = new FormGroup({
-      Staff2: new FormControl('',Validators.required),
-      Func: new FormControl('',Validators.required),
-      Comment: new FormControl(''),
+      Personal: new FormControl('',Validators.required),
+      CwrStatusFromPersonals: new FormControl('',Validators.required),
+      Comment2: new FormControl(''),
     })
     this.form3 = new FormGroup({
-      Equipment2: new FormControl('', Validators.required),
-      Working: new FormControl('', Validators.required),
-      Comment: new FormControl(''),
+      Equipment: new FormControl('', Validators.required),
+      Status: new FormControl('', Validators.required),
+      Comment3: new FormControl(''),
     })
     this.formSub = new FormGroup({
-      GeneralLocation: new FormControl('', Validators.required),
+      DisplayName: new FormControl('', Validators.required),
       Person: new FormControl('', Validators.required),
       DataReport: new FormControl('', Validators.required),
 
-      Method: new FormControl('', Validators.required),
+      MethodControl: new FormControl('', Validators.required),
       Customer: new FormControl('', Validators.required),
       Staff: new FormControl('', Validators.required),
       Equipment: new FormControl('', Validators.required),
@@ -130,20 +157,20 @@ export class ReportsAddComponent implements OnInit, OnDestroy {
       Made: new FormControl('', Validators.required),
       Comment: new FormControl(''),
 
-      Staff2: new FormControl('',Validators.required),
-      Func: new FormControl('',Validators.required),
-      
+      Personal: new FormControl('',Validators.required),
+      CwrStatusFromPersonals: new FormControl('',Validators.required),
+
       Equipment2: new FormControl('', Validators.required),
-      Working: new FormControl('', Validators.required),
+      Status: new FormControl('', Validators.required),
     })
     this.dropdownListPers = JSON.parse(localStorage.getItem('Personal'));
     this.dropdownListEquip = JSON.parse(localStorage.getItem('Mashines'));
-    
+
     this.selectedItems=[
       { Id: 3, Fio: 'Pune' },
       { Id: 4, Fio: 'Navsari' }
-    ] 
-    
+    ]
+
     this.dropdownSettingsPers = {
       singleSelection: false,
       idField: 'Id',
@@ -162,7 +189,7 @@ export class ReportsAddComponent implements OnInit, OnDestroy {
       searchPlaceholderText:'Поиск',
       itemsShowLimit: 2
     };
-    
+
     // this.setStatus()
   }
   onItemSelect(item: any) {
@@ -174,22 +201,22 @@ export class ReportsAddComponent implements OnInit, OnDestroy {
       ? (this.requiredField = true)
       : (this.requiredField = false);
   }
-  reportSubmit() {
-    console.log("test form:", this.formSub.value)
-    // this.aSub = this.rep.reportAdd(this.formSub.value).subscribe(
-    //   () => console.log("Тестовый:", this.formSub.value),
-    //   error => console.log('error:', error )
-    // )
+
+
+  ngOnDestroy(){
+    if (this.aSub){
+      this.aSub.unsubscribe()
+    }
   }
 
-  ngOnDestroy(){}
+
   tabsBg = true;
   tabsBg2 = false;
   tabsBg3 = false;
 
-  popOpen = false; 
-  popOpen2 = false; 
-  popOpen3 = false; 
+  popOpen = false;
+  popOpen2 = false;
+  popOpen3 = false;
 
 
   tabsText = true;
@@ -202,7 +229,7 @@ export class ReportsAddComponent implements OnInit, OnDestroy {
     this.tabsBg = true;
     this.tabsBg2 = false;
     this.tabsBg3 = false;
-    
+
     this.cardAct = true;
     this.cardAct2 = false;
     this.cardAct3 = false;
@@ -234,6 +261,6 @@ export class ReportsAddComponent implements OnInit, OnDestroy {
   popupOpen3(){
     this.popOpen3 = !this.popOpen3
   }
-  
-  
+
+
 }
