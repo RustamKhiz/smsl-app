@@ -4,7 +4,7 @@ import {Observable, Subscription} from "rxjs";
 import {AutServices} from "../services/aut.services";
 import {afterlogServices} from "../services/afterlog.services";
 import { JsonHubProtocol } from '@microsoft/signalr';
-
+import {FormControl} from '@angular/forms';
 @Component({
   selector: 'app-site-layout',
   templateUrl: './site-layout.component.html',
@@ -12,6 +12,7 @@ import { JsonHubProtocol } from '@microsoft/signalr';
 })
 
 export class SiteLayoutComponent implements OnInit, OnDestroy {
+
   //переменные для настройки css стилей
   toggle = true;
   slideNav = true;
@@ -46,7 +47,7 @@ export class SiteLayoutComponent implements OnInit, OnDestroy {
   //метод для вызова настроек профиля
   conutAfter = 0;
   ngOnInit() {
-    
+
     this.toggle = !this.toggle;
     console.log("TEST NGONINIT")
 
@@ -54,32 +55,37 @@ export class SiteLayoutComponent implements OnInit, OnDestroy {
     // this.afteraut.afterLog()
 
      setTimeout(s =>{
-      this.aSub = this.afteraut.afterLog().subscribe(
-        (res)=> {
-          console.log("afterlog working!")
-          // Получаем персонал из afterLog
-          // console.log("первое получение: Personals",res)
-          // console.log("данные, полученные в самом начале new", this.afteraut.newPersonals)
-          const persData = JSON.stringify(this.afteraut.newPersonals)
-          // console.log("Данные, после использования stringify",data)
-          localStorage.setItem('Personal', persData)
-          this.pers = JSON.parse(localStorage.getItem('Personal'))
-          // console.log("parse new", this.pers)
-          // console.log("parse length", this.pers.length)
-          //Получаем оборудование из afterLog
-          const MashinData = JSON.stringify(this.afteraut.newMashines)
-          localStorage.setItem('Mashines', MashinData)
-          this.mashin = JSON.parse(localStorage.getItem('Mashines'))
-      },
-        (error) => {
-          console.log("afterlog dont work")
-          console.log("error:",error)
-        },()=> {
-          console.log("subscribe complite")
-        }
-      )
+      // this.aSub = this.afteraut.afterLog().subscribe(
+      //   (res)=> {
+      //     console.log("afterlog working!")
+      //     console.log("dataload: ", res)
+      //     // Получаем персонал из afterLog
+      //     const persData = JSON.stringify(this.afteraut.newPersonals)
+      //     localStorage.setItem('Personal', persData)
+      //     this.pers = JSON.parse(localStorage.getItem('Personal'))
+      //     //Получаем оборудование из afterLog
+      //     const MashinData = JSON.stringify(this.afteraut.newMashines)
+      //     localStorage.setItem('Mashines', MashinData)
+      //     this.mashin = JSON.parse(localStorage.getItem('Mashines'))
+      //     //Получаем заказчиков из afterlog
+      //     const CustomersData = JSON.stringify(this.afteraut.newCustomers)
+      //     localStorage.setItem('Customers', CustomersData)
+      //     //Получаем GeneralLocations из afterlog
+      //     const GeneralLocationsData = JSON.stringify(this.afteraut.newGeneralLocations)
+      //     localStorage.setItem('GeneralLocations', GeneralLocationsData)
+      //     //Получаем Locations из afterlog
+      //     const LocationsData = JSON.stringify(this.afteraut.newLocactions)
+      //     localStorage.setItem('Locations', LocationsData)
+      // },
+      //   (error) => {
+      //     console.log("afterlog dont work")
+      //     console.log("error:",error)
+      //   },()=> {
+      //     console.log("subscribe complite")
+      //   }
+      // )
       // complete().this.afteraut.afterLog().unsubscribe();
-     
+
     },3000);
     this.pers = JSON.parse(localStorage.getItem('Personal'))
     this.mashin = JSON.parse(localStorage.getItem('Mashines'))

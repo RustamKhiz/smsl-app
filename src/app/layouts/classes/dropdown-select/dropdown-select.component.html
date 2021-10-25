@@ -1,0 +1,17 @@
+<p>
+    <mat-form-field color="accent">
+        <mat-select [formControl]="ItemsCtrl" placeholder="{{placeholder}}" #singleSelect (selectionChange)="SelectionOnChange($event)">
+            <mat-option>
+                <ngx-mat-select-search [formControl]="ItemsFilterCtrl"></ngx-mat-select-search>
+            </mat-option>
+
+            <mat-option *ngFor="let item of filteredItems | async" [value]="item">
+                <!-- {{ item.FullName}} {{ item.Number}} {{item.Name}} {{item.SmallName}} {{item.Fio}} -->
+                {{item.Name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</p>
+<!-- <p>
+    Selected Bank: {{ItemsCtrl.value?.Name}}
+</p> -->

@@ -274,3 +274,8 @@ li {
     border: 2px solid #FCC300;
     transition: 0.3s;
 }
+
+.content-wrap {
+    height: 100vh;
+    background: white;
+}

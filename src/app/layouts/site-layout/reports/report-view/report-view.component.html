@@ -1,0 +1,85 @@
+<p class="title"> Проконтролировано </p>
+<table class="table_dark">
+    <tr>
+        <th>№</th>
+        <th>Метод</th>
+        <th>Заказчик</th>
+        <th>Персонал</th>
+        <th>Оборудование</th>
+        <th>Предьявленно</th>
+        <th>Проконтролированно</th>
+        <th>Комментарий</th>
+    </tr>
+    <tr *ngFor="let report of reportView.CwrWorks, index as i">
+        <td>{{i+1}}</td>
+        <td>{{report.MethodControl}}</td>
+        <td>{{report.Customer.NameRu}}</td>
+        <td> <span *ngFor="let pers of reportView.CwrWorks[i].CwrWorkPersonals, index as j">{{pers.Personal.Fio + "; "}} </span> </td>
+        <td> <span *ngFor="let equip of reportView.CwrWorks[i].CwrWorkEquipments, index as j">{{equip.Equipment.FullName + " " + equip.Equipment.Number + "; "}} </span> </td>
+        <td>{{report.Shown}}</td>
+        <td>{{report.Made}}</td>
+        <td>{{report.Comment}}</td>
+    </tr>
+</table>
+
+<p class="title"> Персонал на объекте </p>
+<table class="table_dark">
+    <tr>
+        <th>№</th>
+        <th>ФИО</th>
+        <th>Выполняемая функция</th>
+        <th>Комментарий</th>
+    </tr>
+    <tr *ngFor="let report of reportView.CwrPersonals, index as i">
+        <td>{{i+1}}</td>
+        <td>{{report.Personal.Fio}}</td>
+        <td> <span *ngFor="let status of reportView.CwrPersonals[i].CwrStatusFromPersonals"> {{status.CwrPesonalStatus.DisplayName + "; "}} </span> </td>
+        <td>{{report.Comment}}</td>
+
+    </tr>
+</table>
+<p class="title"> Оборудование на объекте </p>
+<table class="table_dark">
+    <tr>
+        <th>№</th>
+        <th>Название</th>
+        <th>Состояние</th>
+        <th>Комментарий</th>
+    </tr>
+    <tr *ngFor="let report of reportView.CwrEquipments, index as i">
+        <td>{{i+1}}</td>
+        <td>{{report.Equipment.FullName + " " + report.Equipment.Number}}</td>
+        <td>{{report.Status}}</td>
+        <td>{{report.Comment}}</td>
+
+    </tr>
+</table>
+
+<!-- <table mat-table [dataSource]="reportView" class="mat-elevation-z8 demo-table">
+    Position Column
+    <ng-container matColumnDef="demo-position">
+        <th mat-header-cell *matHeaderCellDef> No. </th>
+        <td mat-cell *matCellDef="let element, index as i"> {{element.CwrWorks[i].MethodControl}} </td>
+    </ng-container>
+
+    Name Column
+    <ng-container matColumnDef="demo-name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element, index as i"> {{element.CwrWorks[i].Customer.NameRu}} </td>
+    </ng-container>
+
+    Weight Column
+    <ng-container matColumnDef="demo-weight">
+        <th mat-header-cell *matHeaderCellDef> Weight </th>
+        <td mat-cell *matCellDef="let element, index as i"> {{element.CwrWorks[i].Customer.Made}} </td>
+    </ng-container>
+
+    Symbol Column
+    <ng-container matColumnDef="demo-symbol">
+        <th mat-header-cell *matHeaderCellDef> Symbol </th>
+        <td mat-cell *matCellDef="let element, index as i"> {{element.CwrWorks[i].Customer.Shown}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table> -->

@@ -28,8 +28,8 @@ export class AutServices {
         Id: null
       }
     }
- 
- 
+
+
     constructor(private http: HttpClient, private signal: SignalService){
 
     }
@@ -46,6 +46,10 @@ export class AutServices {
                 }
             )
         )
+        .pipe(
+          tap(
+
+        ))
           .pipe(
             tap(
               ({UserName})=>{
@@ -105,20 +109,15 @@ export class AutServices {
           )
           .pipe(
             tap(
-              ({ConnectionHash})=>{
-                localStorage.setItem('ConnectionHash', ConnectionHash)
-                this.setConnectionHash(ConnectionHash)
-              }
-            )
-          )
-          .pipe(
-            tap(
               () => {
                 this.signal.connect();
                 this.signal.onConnect.subscribe((c, n) => {
                     console.log(`AutServices ${c} hash ${n} `)
+                    localStorage.setItem('ConnectionHash', c)
                   }
+
                 );
+
 
               }
             )
@@ -126,7 +125,7 @@ export class AutServices {
           .pipe()
 
     }
-  
+
     setConnectionHash(ConnectionHash:string){
       this.ConnectionHash = ConnectionHash
     }

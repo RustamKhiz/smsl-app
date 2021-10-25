@@ -35,20 +35,20 @@ export class TokenInterseptor implements HttpInterceptor , OnInit{
             })
         }
         return next.handle(req)
-          // .pipe(
-          //   catchError((error: HttpErrorResponse)=>{
-          //     console.log('[Interseptor Error]: ', error)
-          //     //console.log('[Interseptor Error]: ', error.status)
-          //     if (error.status === 401){
-          //       this.auth.logout()
-          //       this.router.navigate(['/aut'],{
-          //         queryParams:{
-          //           authField: true
-          //         }
-          //       })
-          //     }
-          //       return throwError(error)
-          //   })
-          // )
+          .pipe(
+            catchError((error: HttpErrorResponse)=>{
+              console.log('[Interseptor Error]: ', error)
+              //console.log('[Interseptor Error]: ', error.status)
+              if (error.status === 401){
+                this.auth.logout()
+                this.router.navigate(['/aut'],{
+                  queryParams:{
+                    authField: true
+                  }
+                })
+              }
+                return throwError(error)
+            })
+          )
     }
 }

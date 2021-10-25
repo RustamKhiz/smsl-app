@@ -1,9 +1,10 @@
 /*@import "~materialize-css/dist/css/materialize.min.css";*/
 
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
 html {
     font-family: 'Roboto', sans-serif;
-    background: #2B2A29;
+    /* background: #2B2A29; */
 }
 
 p {
@@ -61,14 +62,17 @@ li {
     padding: 2px 15px !important;
     width: 224px !important;
     border-radius: 6px;
+    max-height: 24px !important;
+    overflow: hidden !important;
 }
 
 .multiselect-dropdown .dropdown-btn .selected-item {
     background: #FCC300 !important;
     color: #2B2A29 !important;
     border: none !important;
-    max-width: 50px !important;
+    max-width: 73px !important;
     max-height: 24px !important;
+    margin-bottom: 7px !important;
 }
 
 .multiselect-item-checkbox input[type=checkbox]+div:before {
@@ -82,4 +86,25 @@ li {
 
 .dropdown-list ul {
     overflow-x: hidden !important;
+}
+
+
+/* .dropdown-btn span {
+    float: none !important;
+} */
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.mat-body p,
+.mat-body-1 p,
+.mat-typography p {
+    margin: 0;
 }

@@ -1,108 +1,247 @@
+<!-- [formGroup]="formSub" (ngSubmit)="reportSubmit()" -->
 <div class="reports">
-    <form [formGroup]="formSub" (ngSubmit)="reportSubmit()">
+    <form>
         <p class="reports-title">Создание отчёта</p>
         <div class="reports-wrap">
-            <div class="reports-tabs-wrap">
-                <div class="reports-tab" (click)="tabsClick()" [ngClass]="{reportActive:tabsBg}">
-                    <p class="tab-text tab-border">Наименование выполняемых работ</p>
+            <div class="reports-wrap-wrap">
+                <div class="reports-tabs-wrap">
+                    <div class="reports-tab" (click)="tabsClick()" [ngClass]="{reportActive:tabsBg}">
+                        <p class="tab-text tab-border">Наименование выполняемых работ</p>
+                    </div>
+                    <div class="reports-tab" (click)="tabsClick2()" [ngClass]="{reportActive:tabsBg2}">
+                        <p class="tab-text tab-border">Персонал</p>
+                    </div>
+                    <div class="reports-tab" (click)="tabsClick3()" [ngClass]="{reportActive:tabsBg3}">
+                        <p class="tab-text">Оборудование</p>
+                    </div>
+
+
                 </div>
-                <div class="reports-tab" (click)="tabsClick2()" [ngClass]="{reportActive:tabsBg2}">
-                    <p class="tab-text tab-border">Персонал</p>
-                </div>
-                <div class="reports-tab" (click)="tabsClick3()" [ngClass]="{reportActive:tabsBg3}">
-                    <p class="tab-text">Оборудование</p>
+                <div class="reports-tab-file">
+                    <p>test </p>
+                    <label for="file">Добавить файл</label><br>
+                    <input type="file" id="file">
                 </div>
             </div>
+
             <div class="reports-content-wrap">
                 <div class="reports-name-wrap">
-                    <div class="reports-name">
-                        <select name="" id="" class="select" formControlName="DisplayName" [(ngModel)]="DisplayName">
-                        <option value="" disabled selected style='display:none;' >Наименование участка</option>
-                    <option value="Амурский ГПЗ, г. Свободный">Амурский ГПЗ, г. Свободный</option>
-                    <option value="СМСЛ, г. Екатеринбург">СМСЛ, г. Екатеринбург</option>
-                    <option value="АО 'КНПЗ', г. Новокуйбышевск">АО "КНПЗ", г. Новокуйбышевск</option>
-                    <option value="ООО 'Силур', г. Арамиль">ООО "Силур", г. Арамиль</option>
-                    <option value="Реновация сетей газораспределения г.Норильск">Реновация сетей газораспределения г.Норильск</option>
-                    <option value="ООО «РН-Туапсинский НПЗ». г. Туапсе">ООО «РН-Туапсинский НПЗ». г. Туапсе</option>
-                    <option value="Компрессорная станция КС-2 'Олекминская'">Компрессорная станция КС-2 "Олекминская"</option>
-                    <option value="Алданское ЛПУМГ, г. Алдан">Алданское ЛПУМГ, г. Алдан</option>
-                    <option value="ООО «СК РусВелдинг»,  Семаковское МР">ООО «СК РусВелдинг»,  Семаковское МР</option>
-                    <option value="Система МГП Ухта - Торжок II нитка (Ямал), участок Микунь, Урдома">Система МГП Ухта - Торжок II нитка (Ямал), участок Микунь, Урдома</option>
-                </select>
-                    </div>
-                    <div class="reports-name">
-                        <select name="" id="" class="select" formControlName="Person">
-                        <option value="" disabled selected style='display:none;'>ФИО отвестственного</option>
-                    <option value="" *ngFor="let Personal of pers; index as i">{{Personal.Fio}}</option>
-                </select>
+                    <div class="reports-name-noarrow">
+                        <app-dropdown-select [ItemsData]="LocationData" [ItemsCtrl]="LocationCtrl" [placeholder]="'Выберите локацию'" (itemSelect)="LocationIdAdd($event)"></app-dropdown-select>
+
                     </div>
                     <div class="reports-name-noarrow">
-                        <input type="date" class="select date" placeholder="Дата проведения работ" formControlName="DataReport" [(ngModel)]="DataReport">
+                        <app-dropdown-select [ItemsData]="PersData" [ItemsCtrl]="ChiefCtrl" [placeholder]="'Выберите сотрудников'" (itemSelect)="ChiefIdAdd($event)"></app-dropdown-select>
+                    </div>
+                    <div class="reports-name-noarrow">
+                        <mat-form-field appearance="fill" color="accent">
+                            <mat-label>Введите дату</mat-label>
+                            <input matInput [matDatepicker]="picker" [formControl]="DataReportCtrl">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
                     </div>
                 </div>
                 <div class="reports-content" [ngClass]="{cardActive:cardAct}">
 
-                    <div class="report-content" *ngFor="let card of reportsCards">
+                    <div class="report-content" *ngFor="let card of reportsCards, index as i">
                         <div class="report-content-text">
-                            <p>
-                                Метод НК:{{card.MethodControl}}
+                            <div>
+                                <p>
+                                    <strong>Метод НК:</strong><br> {{card.MethodControl}}
+                                </p>
+                                <p>
+                                    <strong>Заказчик:</strong><br> {{card.Customer}}
+                                </p>
+                            </div>
+                            <p class="report-content-pers">
+                                <strong>Сотрудники:</strong> <span *ngFor="let pers of reportsCards[i].CwrWorkPersonals, index as j">{{[j+1] + ". " + pers.Fio}}</span>
                             </p>
-                            <p>
-                                Заказчик:{{card.Customer}}
+                            <p class="report-content-equip">
+                                <strong>Оборудование:</strong> <span *ngFor="let equip of reportsCards[i].CwrWorkEquipments, index as j">{{[j+1] + ". " + equip.Name }}</span>
                             </p>
-                            <p>
-                                Сотрудники:{{card.CwrWorkPersonals}}
-                            </p>
-                            <p>
-                                Оборудование:{{card.CwrWorkEquipments}}
-                            </p>
-                            <p>
-                                Предъявлено:{{card.Shown}}
-                            </p>
-                            <p>
-                                Сделано:{{card.Made}}
-                            </p>
-                            <!-- <p>
-                            Комментарий: тестовый текст тестовый текст
-                        </p> -->
+                            <div>
+                                <p>
+                                    <strong>Предъявлено:</strong> {{card.Shown}}
+                                </p>
+                                <p>
+                                    <strong>Сделано:</strong> {{card.Made}}
+                                </p>
+                            </div>
                         </div>
-                        <img src="assets/reports-red.png" class="img_red" alt="">
-                    </div>
-                    <div class="report-content-add" (click)="popupOpen()"><img src="assets/reports-add.png" class="img-add" alt=""> </div>
-                </div>
-                <div class="reports-content" [ngClass]="{cardActive:cardAct2}">
 
-                    <div class="report-content" *ngFor="let card of reportPers">
-                        <div class="report-content-text">
-                            <p>
-                                Сотрудники:{{card.Personal}}
-                            </p>
-                            <p>
-                                Оборудование:{{card.CwrStatusFromPersonals}}
-                            </p>
-                            <!-- <p>
-                                Комментарий: тестовый текст тестовый текст
-                            </p> -->
+                        <img src="assets/reports-red.png" class="img_red" (click)="CwrWorksRed(i)" alt="">
+                        <img src="assets/delete-black.png" class="img_red" (click)="reportsCards.splice(i, 1)" alt="">
+                    </div>
+
+                    <div class="report-content-add"><img src="assets/reports-add.png" (click)="popupOpen()" class="img-add" alt=""> </div>
+                </div>
+                <div class="reports-popup" [ngClass]="{open:popOpenRed}">
+                    <div class="popup-area" (click)="popupOpenRed()"></div>
+                    <div class="popup-body">
+                        <div class="popup-content">
+                            <a class="popup-close" (click)="popupOpenRed()">X</a>
+                            <div class="popup-title">Наименование выполняемых работ</div>
+                            <div class="form">
+                                <form>
+                                    <div class="select-card-wrap">
+                                        <div class="select-wrap">
+                                            <p class="select-title">Метод НК</p>
+                                            <app-dropdown-select [ItemsData]='MethodData' [ItemsCtrl]="MethodControlCtrl" [placeholder]="'Выберите метод'" [setValue]="MethodControlCtrl.value" (itemSelect)="MethodAdd($event)"></app-dropdown-select>
+                                        </div>
+                                        <div class="select-wrap">
+                                            <p class="select-title">Заказчик</p>
+                                            <app-dropdown-select [ItemsData]="CustomerData" [ItemsCtrl]="CustomerCtrl" [placeholder]="'Выберите заказчика'" [setValue]="CustomerCtrl.value" (itemSelect)="CustomerAdd($event)"></app-dropdown-select>
+
+                                        </div>
+                                        <div class="select-wrap">
+                                            <p class="select-title">Сотрудники</p>
+                                            <app-dropdown-multi [ItemsData]="PersData" [ItemsMultiCtrl]="CwrWorkPersonalsCtrl" [allItemsSize]="pers.length" [placeholder]="'Выберите сотрудников'" (itemSelect)="CwrWorkPersonalsAdd($event)"></app-dropdown-multi>
+
+                                        </div>
+                                        <div class="select-wrap">
+                                            <p class="select-title">Оборудование</p>
+                                            <app-dropdown-multi [ItemsData]="EquipData" [ItemsMultiCtrl]="CwrWorkEquipmentsCtrl" [allItemsSize]="equipment.length" [placeholder]="'Выберите оборудование'" (itemSelect)="CwrWorkEquipmentsAdd($event)"></app-dropdown-multi>
+
+                                        </div>
+                                        <div class="select-wrap">
+                                            <p class="select-title">Предъявлено</p>
+                                            <mat-form-field class="example-full-width" appearance="fill" color="accent">
+                                                <mat-label>Предъявлено</mat-label>
+                                                <input type="number" matInput placeholder="0" [formControl]="ShownCtrl">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="select-wrap">
+                                            <p class="select-title">Сделано</p>
+                                            <mat-form-field class="example-full-width" appearance="fill" color="accent">
+                                                <mat-label>Сделано</mat-label>
+                                                <input type="number" matInput placeholder="0" [formControl]="MadeCtrl">
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="select-wrap area-wrap">
+                                            <p class="select-title">Комментарий</p>
+                                            <mat-form-field class="example-full-width" appearance="fill" color="accent">
+                                                <mat-label>Leave a comment</mat-label>
+                                                <textarea matInput placeholder="Ex. It makes me feel..." [formControl]="CommentCtrl"></textarea>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="select-wrap " *ngIf="(MethodControlCtrl.status && CustomerCtrl.status && CwrWorkPersonalsCtrl.status && CwrWorkEquipmentsCtrl.status && ShownCtrl.status && MadeCtrl.status) == 'INVALID'">
+                                            <div class="report-valid valid">
+                                                <strong> Не все обязательные поля формы заполнены!</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="button-wrap">
+                                        <button type="button" class="add-button" (click)="RedOnPopup()" [disabled]="(MethodControlCtrl.status && CustomerCtrl.status && CwrWorkPersonalsCtrl.status && CwrWorkEquipmentsCtrl.status && ShownCtrl.status && MadeCtrl.status) == 'INVALID'">
+                              <p class="button-text" style="font-size: 16px;">Редактировать</p>
+                            </button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                        <img src="assets/reports-red.png" class="img_red" alt=""></div>
+                    </div>
+                </div>
+
+                <div class="reports-content" [ngClass]="{cardActive:cardAct2}">
+                    <div class="report-content" *ngFor="let card of reportsPers, index as i">
+                        <div class="report-content-text normal">
+                            <p>
+                                <strong> Сотрудники:</strong> <br> {{card.PersonalStatusName}}
+                            </p>
+                            <p class="report-content-pers">
+                                <strong> Функции:</strong> <span *ngFor="let status of reportsPers[i].CwrStatusFromPersonals, index as j">{{[j+1] + ". " + status.DisplayName}}</span>
+                            </p>
+                        </div>
+                        <img src="assets/reports-red.png" class="img_red" (click)="CwrPersonalsRed(i)" alt="">
+                        <img src="assets/delete-black.png" class="img_red" (click)="reportsPers.splice(i, 1)" alt="">
+                    </div>
                     <div class="report-content-add" (click)="popupOpen2()"><img src="assets/reports-add.png" class="img-add" alt=""> </div>
                 </div>
+                <div class="reports-popup" [ngClass]="{open:popOpenRed2}">
+                    <div class="popup-area" (click)="popupOpenRed2()"></div>
+                    <div class="popup-body">
+                        <div class="popup-content">
+                            <a class="popup-close" (click)="popupOpenRed2()">X</a>
+                            <div class="popup-title">Персонал</div>
+                            <div class="form">
+                                <form>
+                                    <div class="select-card-wrap">
+                                        <div class="select-wrap">
+                                            <p class="select-title">Сотрудник ФИО </p>
+                                            <app-dropdown-select [ItemsData]="PersData" [ItemsCtrl]="CwrPersonalCtrl" [placeholder]="'Выберите сотрудника'" (itemSelect)="PersonalAdd($event)"></app-dropdown-select>
+                                        </div>
+                                        <div class="select-wrap">
+                                            <p class="select-title">Функции</p>
+                                            <app-dropdown-multi [ItemsData]="StatusData" [ItemsMultiCtrl]="StatusCtrl" [allItemsSize]="status.length" [placeholder]="'Выберите сотрудников'" (itemSelect)="StatusAdd($event)"></app-dropdown-multi>
+                                        </div>
+                                        <div class="select-wrap area-wrap">
+                                            <p class="select-title">Комментарий</p>
+                                            <mat-form-field class="example-full-width" appearance="fill" color="accent">
+                                                <mat-label>Leave a comment</mat-label>
+                                                <textarea matInput placeholder="Ex. It makes me feel..." [formControl]="CommentCtrl2"></textarea>
+                                            </mat-form-field>
+                                        </div>
+
+                                    </div>
+                                    <div class="button-wrap">
+                                        <button type="button" class="add-button" (click)="RedOnPopup2()"><p class="button-text" style="font-size: 16px;">Редактировать</p> </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="reports-content" [ngClass]="{cardActive:cardAct3}">
-                    <div class="report-content" *ngFor="let card of reportEquip">
+                    <div class="report-content" *ngFor="let card of reportEquip, index as i">
                         <div class="report-content-text">
                             <p>
-                                Оборудование:{{card.Equipment}}
+                                <strong>Оборудование:</strong> <br> {{card.CwrEquipments}}
                             </p>
                             <p>
-                                Статус:{{card.Status}}
+                                <strong>Статус:</strong> <br> {{card.Status}}
                             </p>
-                            <!-- <p>
-                                Комментарий: тестовый текст тестовый текст
-                            </p> -->
                         </div>
-                        <img src="assets/reports-red.png" class="img_red" alt="">
+                        <img src="assets/reports-red.png" class="img_red" (click)="CwrEquipmentsRed(i)" alt="">
+                        <img src="assets/delete-black.png" class="img_red" (click)="reportEquip.splice(i, 1)" alt="">
                     </div>
+
                     <div class="report-content-add" (click)="popupOpen3()"><img src="assets/reports-add.png" class="img-add" alt=""> </div>
+                </div>
+                <div class="reports-popup" [ngClass]="{open:popOpenRed3}">
+                    <div class="popup-area" (click)="popupOpenRed3()"></div>
+                    <div class="popup-body">
+                        <div class="popup-content">
+                            <a class="popup-close" (click)="popupOpenRed3()">X</a>
+                            <div class="popup-title">Оборудование</div>
+                            <div class="form">
+                                <form>
+                                    <div class="select-card-wrap">
+                                        <div class="select-wrap">
+                                            <p class="select-title">Оборудование</p>
+                                            <app-dropdown-select [ItemsData]="EquipData" [ItemsCtrl]="CwrEquipmentslCtrl" [placeholder]="'Выберите сотрудника'" (itemSelect)="EquipmentAdd($event)"></app-dropdown-select>
+
+                                        </div>
+                                        <div class="select-wrap">
+                                            <p class="select-title">Статус</p>
+                                            <app-dropdown-select [ItemsData]="StatusEqData" [ItemsCtrl]="StatusEqCtrl" [placeholder]="'Выберите сотрудника'" (itemSelect)="StatusEqAdd($event)"></app-dropdown-select>
+
+                                        </div>
+                                        <div class="select-wrap area-wrap">
+                                            <p class="select-title">Комментарий</p>
+                                            <mat-form-field class="example-full-width" appearance="fill" color="accent">
+                                                <mat-label>Leave a comment</mat-label>
+                                                <textarea matInput placeholder="Ex. It makes me feel..." [formControl]="CommentCtrl3"></textarea>
+                                            </mat-form-field>
+                                        </div>
+
+                                    </div>
+                                    <div class="button-wrap">
+                                        <button type="button" class="add-button" (click)="RedOnPopup3()"><p class="button-text">Добавить</p> </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
 
@@ -116,58 +255,61 @@
                 <div class="popup-content">
                     <a class="popup-close" (click)="popupOpen()">X</a>
                     <div class="popup-title">Наименование выполняемых работ</div>
-                    <div class="form">
-                        <form [formGroup]="form1" (ngSubmit)='addOnPopup()'>
+                    <div class="form" (ngSubmit)='addOnPopup()'>
+                        <form (ngSubmit)='addOnPopup()'>
                             <div class="select-card-wrap">
                                 <div class="select-wrap">
                                     <p class="select-title">Метод НК</p>
-                                    <select class="select-content" name="MethodControl" formControlName="MethodControl" [(ngModel)]="MethodControl">
-                                    <option value="РК" class="option-item">РК</option>
-                                    <option value="ВИК" class="option-item">ВИК</option>
-                                    <option value="УЗК" class="option-item">УЗК</option>
-                                    <option value="ПВК" class="option-item">ПВК</option>
-                                </select>
+                                    <app-dropdown-select [ItemsData]='MethodData' [ItemsCtrl]="MethodControlCtrl" [placeholder]="'Выберите метод'" (itemSelect)="MethodAdd($event)"></app-dropdown-select>
                                 </div>
                                 <div class="select-wrap">
                                     <p class="select-title">Заказчик</p>
-                                    <select class="select-content" name="Customer" formControlName="Customer" [(ngModel)]="Customer">
-                                    <option value="Вариант" class="option-item">Вариант</option>
-                                    <option value="Вариант 2" class="option-item">Вариант 2</option>
-                                    <option value="Вариант 3" class="option-item">Вариант 3</option>
-                                    <option value="Вариант 4" class="option-item">Вариант 4</option>
-                                </select>
+                                    <app-dropdown-select [ItemsData]="CustomerData" [ItemsCtrl]="CustomerCtrl" [placeholder]="'Выберите заказчика'" (itemSelect)="CustomerAdd($event)"></app-dropdown-select>
+
                                 </div>
                                 <div class="select-wrap">
                                     <p class="select-title">Сотрудники</p>
-                                    <ng-multiselect-dropdown [placeholder]="'Выберите сотрудников'" formControlName="CwrWorkPersonals" [settings]="dropdownSettingsPers" [data]="dropdownListPers" name="CwrWorkPersonals" [(ngModel)]="CwrWorkPersonals" (onSelect)="onItemSelect($event)">
-                                    </ng-multiselect-dropdown>
+                                    <app-dropdown-multi [ItemsData]="PersData" [ItemsMultiCtrl]="CwrWorkPersonalsCtrl" [allItemsSize]="pers.length" [placeholder]="'Выберите сотрудников'" (itemSelect)="CwrWorkPersonalsAdd($event)"></app-dropdown-multi>
+
                                 </div>
                                 <div class="select-wrap">
                                     <p class="select-title">Оборудование</p>
-                                    <ng-multiselect-dropdown [placeholder]="'Выберите оборудование'" formControlName="CwrWorkEquipments" [settings]="dropdownSettingsEquip" [data]="dropdownListEquip" name="CwrWorkEquipments" [(ngModel)]="CwrWorkEquipments">
-                                    </ng-multiselect-dropdown>
+                                    <app-dropdown-multi [ItemsData]="EquipData" [ItemsMultiCtrl]="CwrWorkEquipmentsCtrl" [allItemsSize]="equipment.length" [placeholder]="'Выберите оборудование'" (itemSelect)="CwrWorkEquipmentsAdd($event)"></app-dropdown-multi>
 
                                 </div>
                                 <div class="select-wrap">
                                     <p class="select-title">Предъявлено</p>
-                                    <input type="text" class="input-content" name="Shown" formControlName="Shown" [(ngModel)]="Shown">
+                                    <mat-form-field class="example-full-width" appearance="fill" color="accent">
+                                        <mat-label>Предъявлено</mat-label>
+                                        <input type="number" matInput placeholder="0" [formControl]="ShownCtrl">
+                                    </mat-form-field>
                                 </div>
                                 <div class="select-wrap">
                                     <p class="select-title">Сделано</p>
-                                    <input type="text" class="input-content" name="Made" formControlName="Made" [(ngModel)]="Made">
+                                    <mat-form-field class="example-full-width" appearance="fill" color="accent">
+                                        <mat-label>Сделано</mat-label>
+                                        <input type="number" matInput placeholder="0" [formControl]="MadeCtrl">
+                                    </mat-form-field>
                                 </div>
                                 <div class="select-wrap area-wrap">
                                     <p class="select-title">Комментарий</p>
-                                    <textarea rows="4" class="input-area" name="Comment" formControlName="Comment" [(ngModel)]="Comment"></textarea>
+                                    <mat-form-field class="example-full-width" appearance="fill" color="accent">
+                                        <mat-label>Leave a comment</mat-label>
+                                        <textarea matInput placeholder="Ex. It makes me feel..." [formControl]="CommentCtrl"></textarea>
+                                    </mat-form-field>
+                                </div>
+                                <div class="select-wrap " *ngIf="(MethodControlCtrl.status && CustomerCtrl.status && CwrWorkPersonalsCtrl.status && CwrWorkEquipmentsCtrl.status && ShownCtrl.status && MadeCtrl.status) == 'INVALID'">
+                                    <div class="report-valid valid">
+                                        <strong> Не все обязательные поля формы заполнены!</strong>
+                                    </div>
                                 </div>
                             </div>
                             <div class="button-wrap">
-                                <button type="submit" class="add-button"><p class="button-text">Добавить</p> </button>
+                                <button type="button" class="add-button" (click)="addOnPopup()" [disabled]="(MethodControlCtrl.status && CustomerCtrl.status && CwrWorkPersonalsCtrl.status && CwrWorkEquipmentsCtrl.status && ShownCtrl.status && MadeCtrl.status) == 'INVALID'">
+                                  <p class="button-text">Добавить</p>
+                                </button>
                             </div>
                         </form>
-                        <!-- <ul *ngFor="let card of reportsCards">
-                        <li>{{card.Method}} ({{card.Staff}}) - {{card.Shown}}</li>
-                    </ul> -->
                     </div>
                 </div>
             </div>
@@ -178,33 +320,28 @@
                 <div class="popup-content">
                     <a class="popup-close" (click)="popupOpen2()">X</a>
                     <div class="popup-title">Персонал</div>
-                    <div class="form">
-                        <form [formGroup]="form2" (ngSubmit)='addOnPopup2()'>
+                    <div class="form" (ngSubmit)='addOnPopup2() '>
+                        <form (ngSubmit)='addOnPopup2()'>
                             <div class="select-card-wrap">
                                 <div class="select-wrap">
                                     <p class="select-title">Сотрудник ФИО </p>
-                                    <select id="" class="select-content" name="Personal" formControlName="Personal" [(ngModel)]="Personal">
-                                    <!-- <option value="" disabled selected style='display:none;'>ФИО отвестственного</option> -->
-                                    <option value="{{Personal.Fio}}" *ngFor="let Personal of pers; index as i">{{Personal.Fio}}</option>
-                            </select>
+                                    <app-dropdown-select [ItemsData]="PersData" [ItemsCtrl]="CwrPersonalCtrl" [placeholder]="'Выберите сотрудника'" (itemSelect)="PersonalAdd($event)"></app-dropdown-select>
                                 </div>
                                 <div class="select-wrap">
                                     <p class="select-title">Функции</p>
-                                    <select class="select-content" name="CwrStatusFromPersonals" formControlName="CwrStatusFromPersonals" [(ngModel)]="CwrStatusFromPersonals">
-                                    <option value="Функции 1" class="option-item">Функции 1</option>
-                                    <option value="Функции 2" class="option-item">Функции 2</option>
-                                    <option value="Функции 3" class="option-item">Функции 3</option>
-                                    <option value="Функции 4" class="option-item">Функции 4</option>
-                                    </select>
+                                    <app-dropdown-multi [ItemsData]="StatusData" [ItemsMultiCtrl]="StatusCtrl" [allItemsSize]="status.length" [placeholder]="'Выберите сотрудников'" (itemSelect)="StatusAdd($event)"></app-dropdown-multi>
                                 </div>
                                 <div class="select-wrap area-wrap">
                                     <p class="select-title">Комментарий</p>
-                                    <textarea rows="4" class="input-area" name="Comment" formControlName="Comment2" [(ngModel)]="Comment2"></textarea>
+                                    <mat-form-field class="example-full-width" appearance="fill" color="accent">
+                                        <mat-label>Leave a comment</mat-label>
+                                        <textarea matInput placeholder="Ex. It makes me feel..." [formControl]="CommentCtrl2"></textarea>
+                                    </mat-form-field>
                                 </div>
 
                             </div>
                             <div class="button-wrap">
-                                <button type="submit" class="add-button"><p class="button-text">Добавить</p> </button>
+                                <button type="button" class="add-button" (click)="addOnPopup2()"><p class="button-text">Добавить</p> </button>
                             </div>
                         </form>
                     </div>
@@ -217,53 +354,41 @@
                 <div class="popup-content">
                     <a class="popup-close" (click)="popupOpen3()">X</a>
                     <div class="popup-title">Оборудование</div>
-                    <div class="form">
-                        <form [formGroup]="form3" (ngSubmit)='addOnPopup3()'>
+                    <div class="form" (ngSubmit)='addOnPopup3() '>
+                        <form (ngSubmit)='addOnPopup3()'>
                             <div class="select-card-wrap">
                                 <div class="select-wrap">
                                     <p class="select-title">Оборудование</p>
-                                    <ng-multiselect-dropdown [placeholder]="'Выберите оборудование'" formControlName="Equipment" [settings]="dropdownSettingsEquip" [data]="dropdownListEquip" name="Equipment" [(ngModel)]="Equipment">
-                                    </ng-multiselect-dropdown>
+                                    <app-dropdown-select [ItemsData]="EquipData" [ItemsCtrl]="CwrEquipmentslCtrl" [placeholder]="'Выберите сотрудника'" (itemSelect)="EquipmentAdd($event)"></app-dropdown-select>
+
                                 </div>
                                 <div class="select-wrap">
                                     <p class="select-title">Статус</p>
-                                    <select class="select-content" name="Status" formControlName="Status" [(ngModel)]="Status">
-                                    <option value="Исправен" class="option-item">Исправен</option>
-                                    <option value="Не исправен" class="option-item">Не исправен</option>
-                                    <option value="Отсутствует" class="option-item">Отсутствует</option>
-                                </select>
+                                    <app-dropdown-select [ItemsData]="StatusEqData" [ItemsCtrl]="StatusEqCtrl" [placeholder]="'Выберите сотрудника'" (itemSelect)="StatusEqAdd($event)"></app-dropdown-select>
+
                                 </div>
                                 <div class="select-wrap area-wrap">
                                     <p class="select-title">Комментарий</p>
-                                    <textarea rows="4" class="input-area" name="Comment" formControlName="Comment3" [(ngModel)]="Comment3"></textarea>
+                                    <mat-form-field class="example-full-width" appearance="fill" color="accent">
+                                        <mat-label>Leave a comment</mat-label>
+                                        <textarea matInput placeholder="Ex. It makes me feel..." [formControl]="CommentCtrl3"></textarea>
+                                    </mat-form-field>
                                 </div>
 
                             </div>
                             <div class="button-wrap">
-                                <button type="submit" class="add-button"><p class="button-text">Добавить</p> </button>
+                                <button type="button" class="add-button" (click)="addOnPopup3()"><p class="button-text">Добавить</p> </button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="reports-submit"><button type="submit" class="send-button"><p class="button-text">Отправить</p> </button></div>
+        <div class="reports-submit"><button type="submit" class="send-button" (click)="reportSubmit()"><p class="button-text">Отправить</p> </button></div>
     </form>
+
+    <div style="padding-bottom:150px;">
+
+
+    </div>
 </div>
-
-
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>

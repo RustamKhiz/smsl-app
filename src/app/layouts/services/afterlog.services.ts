@@ -10,20 +10,34 @@ import{environment} from "src/environments/environment"
 export class afterlogServices{
   public newPersonals: any;
   public newMashines: any;
+  public newCustomers: any;
+  public newGeneralLocations: any
+  public newLocactions: any
   constructor(private http: HttpClient) {
   }
-  afterLog(): Observable<{Personals:string, Mashines: string}>{
-    console.log("qu")
-    return this.http.get<{Personals:string, Mashines: string}>(`${environment.apiUrl}/api/baseapp/dataload`)
+  afterLog(): Observable<{Personals:string, Mashines: string, Customers: string, GeneralLocations: string, Locactions: string}>{
+    return this.http.get<{Personals:string, Mashines: string, Customers: string, GeneralLocations: string, Locactions: string}>(`${environment.apiUrl}/api/baseapp/dataload`)
 
       .pipe(
         tap(({Personals})=>{
-          console.log("первое получение Personals",Personals)
-          this.newPersonals = Personals
+          // console.log("первое получение Personals",Personals)
+          this.newPersonals = Personals;
         }),
         tap(({Mashines})=>{
-          console.log("Первое получение Mashines", Mashines)
+          // console.log("Первое получение Mashines", Mashines)
           this.newMashines = Mashines;
+        }),
+        tap(({Customers})=>{
+          // console.log("Первое получение Customers", Customers)
+          this.newCustomers = Customers;
+        }),
+        tap(({GeneralLocations})=>{
+          // console.log("Первое получение GeneralLocations", GeneralLocations)
+          this.newGeneralLocations = GeneralLocations;
+        }),
+        tap(({Locactions})=>{
+          console.log("Первое получение Locactions", Locactions)
+          this.newLocactions = Locactions
         })
       )
 

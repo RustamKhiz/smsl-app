@@ -68,6 +68,7 @@ export class SignalService {
     this.connection.onreconnected(()=>{
       this.SignalHash = this.connection.connectionId ? this.connection.connectionId :"";
       console.log("reconnected " + this.SignalHash);
+
       this._onConnect.dispatch(this.SignalHash, 0);
 
     });
@@ -78,7 +79,7 @@ export class SignalService {
           this.SignalHash = this.connection.connectionId ? this.connection.connectionId :"";
           console.log(this.SignalHash);
           this._onConnect.dispatch(this.SignalHash, 0);
-         // this.addTransferChartDataListener();
+         this.addTransferChartDataListener();
 
         // this.afteraut.afterLog(this.testName).subscribe(
         //   ()=> console.log("afterlog working!"),
@@ -118,7 +119,7 @@ export class SignalService {
       console.log(data);
     });
 
-    this.connection.on('Keep-Alive',  () => {
+    this.connection.on('KeepAlive',  () => {
        console.log('Keep-Alive');
        this.connection.invoke('ResponseKeepAlive');
 

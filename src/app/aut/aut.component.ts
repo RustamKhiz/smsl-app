@@ -19,7 +19,7 @@ import {afterlogServices} from "../layouts/services/afterlog.services";
 export class AutComponent implements OnInit, OnDestroy {
   title = 'Войти в личный кабинет';
   year: number = new Date().getFullYear();
- 
+
   //Объявление для считывания формы авторизации
   form: FormGroup
   aSub: Subscription
@@ -35,7 +35,7 @@ export class AutComponent implements OnInit, OnDestroy {
       UserName: new FormControl(null, [Validators.required, Validators.email]),
       Password: new FormControl (null, [Validators.required, Validators.minLength(6)])
     })
-  
+
     this.route.queryParams.subscribe( (params: Params)  => {
       if (params['accessDenied']){
         MaterialService.toast("Для начала авторизуйтесь в системе")
@@ -54,7 +54,10 @@ export class AutComponent implements OnInit, OnDestroy {
     this.form.disable()
 
     this.aSub = this.aut.login(this.form.value).subscribe(
-       () => this.router.navigate(['/site']),
+       (User) => {
+        this.router.navigate(['/site'])
+        console.log("Данные пользователяЖ ",User)
+        },
        error => {
          MaterialService.toast("Неверный логин или пароль")
          console.warn(error)

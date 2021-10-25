@@ -10,9 +10,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class ReportsComponent implements OnInit {
   constructor() { }
-  
+
   ngOnInit() {
-    
+
   }
-  
-} 
+
+}

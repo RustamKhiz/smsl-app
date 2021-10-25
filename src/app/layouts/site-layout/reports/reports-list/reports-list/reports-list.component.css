@@ -1,6 +1,6 @@
 .hot-filter {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     max-width: 1280px;
     height: 33px;
@@ -13,6 +13,24 @@
 
 .hot-filter p {
     margin-left: 10px;
+    margin-right: 10px;
+}
+
+.filter-label-wrap {
+    /* margin-top: 20px; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.filter-label-wrap label {
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+.filter-label-wrap input {
+    width: 60%;
 }
 
 .grid-list-view {
@@ -64,20 +82,33 @@
     top: 100px;
 }
 
-.reports-filter p {
+.reports-filter-title {
     font-size: 26px;
     text-align: center;
     margin-top: 15px;
 }
 
+.reports-filter-desc {
+    font-size: 20px;
+    text-align: center;
+    margin-top: 15px;
+}
+
 .reports-card {
-    width: 265px;
-    height: 340px;
     background: white;
-    padding-top: 10px;
     border: #FCC300 solid 2px;
     border-radius: 8px;
     transition: .8s cubic-bezier(.165, .84, .44, 1);
+    width: 962px;
+    height: 138px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.reports-content-left {
+    display: flex;
 }
 
 .reports-card:hover {
@@ -106,29 +137,46 @@
     margin-left: 24%;
 }
 
-.reports-online {
+.reports-edit {
     width: 15px;
     height: 15px;
-    border-radius: 100px;
+    /* border-radius: 100px; */
     position: relative;
-    left: 93%;
+    left: 97.9%;
+    top: -55px;
+    background: url("src/assets/edit.png");
+    background-position: 50% 50%;
+    background-size: cover;
+    cursor: pointer;
 }
 
-.online {
-    background: lime;
+.reports-delete {
+    width: 15px;
+    height: 15px;
+    /* border-radius: 100px; */
+    position: relative;
+    left: -4px;
+    top: 55px;
+    background: url("src/assets/delete-black.png");
+    background-position: 50% 50%;
+    background-size: cover;
+    cursor: pointer;
 }
 
-.offline {
-    background: #F2F2F2;
+.reports-card:hover .reports-delete {
+    width: 15px;
+    height: 19px;
+    /* border-radius: 100px; */
+    background: url("src/assets/delete-white.png");
+    background-position: 50% 50%;
+    background-size: cover;
 }
 
 .reports-img {
-    margin-top: 17px;
-    width: 140px;
-    height: 140px;
+    width: 100px;
+    height: 100px;
     border-radius: 1000px;
-    margin-left: 24%;
-    background: url("src/assets/personal_prifile_icon.png");
+    background: url("src/assets/report-logo.png");
     background-position: 50% 50%;
     background-size: cover;
     background-color: white;
@@ -139,11 +187,16 @@
 }
 
 .reports-desc {
-    text-align: center;
+    /* text-align: center; */
+    margin: 0px 0 0 77px;
 }
 
 .reports-name {
     font-size: 25px;
+}
+
+.desc-wrap {
+    display: flex;
 }
 
 .reports-email {
@@ -151,6 +204,7 @@
     text-decoration-line: underline;
     opacity: 0.5;
     color: rgba(255, 255, 255, 0.52);
+    margin-right: 20px;
 }
 
 .reports-position {
@@ -216,10 +270,11 @@
     transition: .8s cubic-bezier(.165, .84, .44, 1);
 }
 
-.active {
+
+/* .active {
     background: linear-gradient(180deg, #FCC300 0%, #FFD33D 32.29%, #FFDE6C 65.69%);
     color: #fff;
-}
+} */
 
 .reports-button:hover {
     background: rgba(255, 255, 255, 0);

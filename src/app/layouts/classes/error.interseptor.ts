@@ -17,7 +17,7 @@ export class ErrorInterseptor implements HttpInterceptor {
         // при получении 401 от api выходим на авторизацию
         this.autserv.logout();
         console.log("err.status" + err.status)
-        location.reload(true);
+        location.reload();
       }
 
       const error = err.body;

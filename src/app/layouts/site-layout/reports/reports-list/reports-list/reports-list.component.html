@@ -1,35 +1,60 @@
-<div class="hot-filter">
-    <p>"Горячий фильр 1"</p>
-    <p>"Горячий фильр 2"</p>
-    <p>"Горячий фильр 3"</p>
-    <p>"Горячий фильр 4"</p>
-    <p>"Горячий фильр 5"</p>
+<!-- <div class="hot-filter">
+    <p>Сегодня</p>
+    <p>Вчера</p>
+    <p>По дате</p>
+    <p>По объектам</p>
+    <p>По имени</p>
     <div class="grid-list-view">
         <div class="grid-view"><img src="/assets/list-icon.png" alt=""></div>
         <div class="list-view"><img src="/assets/grid-icon.png" alt=""></div>
     </div>
-</div>
+</div> -->
 
 <div class="content-flex">
 
     <div class="reports-filter">
-        <p>Фильтры</p>
+        <p class="reports-filter-title">Фильтры</p>
+        <form [formGroup]="formFilter" (ngSubmit)="FilterSubmit()">
+            <p class="reports-filter-desc">Дата:</p>
+            <div class="filter-label-wrap">
+                <label>Выберите дату</label>
+                <app-date-input (SelectFromDate)="FromDateItem($event)" (SelectToDate)="ToDateItem($event)"></app-date-input>
+                <label>Номер отчёта</label>
+                <mat-form-field class="example-full-width" appearance="fill" color="accent">
+                    <mat-label>Введите номер отчета</mat-label>
+                    <input matInput placeholder="Номер отчета" formControlName="ReportId">
+                </mat-form-field>
+                <label>Ответственный</label>
+                <app-dropdown-multi [ItemsData]="pers" [allItemsSize]="pers.length" [placeholder]="'Выберите сотрудников'" (itemSelect)="PersFilterIdAdd($event)"></app-dropdown-multi>
+                <label> Локация</label>
+                <app-dropdown-multi [ItemsData]="location" [allItemsSize]="location.length" [placeholder]="'Выберите локацию'" (itemSelect)="LocationFilterIdAdd($event)"></app-dropdown-multi>
+                <button style="margin-top: 20px;" type="submit"> Применить </button>
+            </div>
+
+        </form>
     </div>
     <div class="reports">
 
-        <div class="reports-card">
-            <div class="reports-online online"></div>
-            <div class="reports-img-wrap">
-                <div class="reports-img"></div>
-            </div>
-            <div class="reports-desc">
-                <p class="reports-name">1</p>
-                <p class="reports-email">2</p>
-                <p class="reports-position">3</p>
+        <div class="reports-card" *ngFor="let report of reportsAll, index as i">
+            <div class="reports-edit" (click)="NavigateToRepRed(i)"></div>
+            <div class="reports-content-left">
+                <div class="reports-img-wrap">
+                    <div class="reports-img"></div>
+                </div>
+                <div class="reports-desc">
+                    <p class="reports-name">{{report.GeneralLocation.DisplayName}}</p>
+                    <div class="desc-wrap">
+                        <!-- <p class="reports-email" *ngIf="(report[i].UserId === pers.Id)">{{pers.Fio}}</p> -->
+                        <p class="reports-email">{{UserName}}</p>
+                        <p class="reports-email">от {{report.DataReport}}</p>
+                    </div>
+                    <p class="reports-position">№{{report.Id}}</p>
+                </div>
             </div>
             <div class="button-wrap">
-                <button class="reports-button"><p class="button-text">Подробнее</p></button>
+                <button class="reports-button" (click)="ReportView(i)"><p class="button-text">Подробнее</p></button>
             </div>
+            <div class="reports-delete"></div>
         </div>
 
 
