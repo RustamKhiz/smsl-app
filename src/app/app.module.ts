@@ -27,6 +27,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatCardModule} from '@angular/material/card';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatTabsModule} from '@angular/material/tabs';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import { AppComponent } from './app.component';
 import {AutComponent} from './aut/aut.component';
@@ -105,7 +106,8 @@ import { ReportViewComponent } from './layouts/site-layout/reports/report-view/r
     MatMenuModule,
     MatCardModule,
     MatDividerModule,
-    MatTabsModule
+    MatTabsModule,
+    InfiniteScrollModule
   ],
   providers: [
     {

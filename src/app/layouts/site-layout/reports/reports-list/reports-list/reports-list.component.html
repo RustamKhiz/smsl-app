@@ -25,9 +25,9 @@
                     <input matInput placeholder="Номер отчета" formControlName="ReportId">
                 </mat-form-field>
                 <label>Ответственный</label>
-                <app-dropdown-multi [ItemsData]="pers" [allItemsSize]="pers.length" [placeholder]="'Выберите сотрудников'" (itemSelect)="PersFilterIdAdd($event)"></app-dropdown-multi>
+                <app-dropdown-multi [ItemsData]="PersData" [allItemsSize]="pers.length" [placeholder]="'Выберите сотрудников'" (itemSelect)="PersFilterIdAdd($event)" style="width: 95%;"></app-dropdown-multi>
                 <label> Локация</label>
-                <app-dropdown-multi [ItemsData]="location" [allItemsSize]="location.length" [placeholder]="'Выберите локацию'" (itemSelect)="LocationFilterIdAdd($event)"></app-dropdown-multi>
+                <app-dropdown-multi [ItemsData]="LocationData" [allItemsSize]="location.length" [placeholder]="'Выберите локацию'" (itemSelect)="LocationFilterIdAdd($event)" style="width: 95%;"></app-dropdown-multi>
                 <button style="margin-top: 20px;" type="submit" mat-raised-button color="accent"> Применить </button>
             </div>
 
@@ -60,7 +60,7 @@
                 <button mat-raised-button color="accent" (click)="ReportView(i)">Подробнее</button>
             </div>
             <div class="reports-delete">
-                <mat-icon *ngIf="accessLvl == 3">delete</mat-icon>
+                <mat-icon *ngIf="accessLvl >= 3">delete</mat-icon>
             </div>
         </div>
 

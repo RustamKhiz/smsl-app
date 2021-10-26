@@ -22,7 +22,7 @@ export class ReportAll {
     return this.http.post<any>(`${environment.apiUrl}/api/cwr/loaddata`, filter)
     .pipe(
       tap(({filter})=>{
-          console.log('Получение CwrWorks: ', filter)
+          console.log('filter: ', filter)
         }
       )
     )

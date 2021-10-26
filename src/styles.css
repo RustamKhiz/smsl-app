@@ -112,3 +112,7 @@ body {
 .mat-card-header-text {
     margin: unset !important;
 }
+
+.mat-form-field {
+    width: 100%;
+}

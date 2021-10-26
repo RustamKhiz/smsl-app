@@ -415,8 +415,8 @@ input {
 }
 
 .reports-name-noarrow {
-    margin-bottom: 20px;
-    max-width: 320px;
+    /* margin-bottom: 20px; */
+    width: 280px;
 }
 
 

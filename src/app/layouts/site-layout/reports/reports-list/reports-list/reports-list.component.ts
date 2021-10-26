@@ -2,16 +2,28 @@ import { formatDate } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ReportAll } from 'src/app/layouts/services/reports-all.service';
-import {ReportsAll} from 'src/app/layouts/services/interfaces'
+import { ReportsAll} from 'src/app/layouts/services/interfaces'
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DropdownMultiComponent } from 'src/app/layouts/classes/dropdown-classes/dropdown-multi/dropdown-multi.component';
 import { Router } from '@angular/router';
 import { ReportGet } from 'src/app/layouts/services/report-get.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+export class NewDropdown {
+  constructor(
+              public Id: number,
+              public Name: string,
+              public Display: boolean,
+              public IsSelect: boolean
+  ) {}
+}
+
 @Component({
   selector: 'app-reports-list',
   templateUrl: './reports-list.component.html',
   styleUrls: ['./reports-list.component.css']
 })
+
 export class ReportsListComponent implements OnInit, OnDestroy {
   reportsAll: ReportsAll[]
   today= new Date();
@@ -27,12 +39,14 @@ export class ReportsListComponent implements OnInit, OnDestroy {
   }
   ReportId = 0;
   FromDate: null;
-  constructor(private repAll: ReportAll, private dropDown: DropdownMultiComponent, private router: Router, private repGet: ReportGet) {
+  constructor(private repAll: ReportAll, private dropDown: DropdownMultiComponent, private router: Router, private repGet: ReportGet, private snackBar: MatSnackBar) {
     // this.Filter.FromDate = formatDate(this.today, 'yyyy-MM-dd', 'en-US', '+0530');
   }
   UserName: string []=[]
   pers = JSON.parse(localStorage.getItem('Personal'))
+  PersData: NewDropdown [] = [];
   location = JSON.parse(localStorage.getItem('Locations'))
+  LocationData: NewDropdown [] = [];
   equipment = JSON.parse(localStorage.getItem('Mashines'))
   formFilter: FormGroup;
   filterTrueFalse = false;
@@ -42,6 +56,26 @@ export class ReportsListComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(){
+    let Id
+    let Name
+    let Display
+    let IsSelect
+    for (let i = 0; i < this.pers.length; i++) {
+      Id = this.pers[i].Id
+      Name = this.pers[i].Fio
+      Display = true
+      IsSelect = false
+      this.PersData.push(new NewDropdown(Id, Name, Display, IsSelect))
+    }
+    for (let i = 0; i < this.location.length; i++) {
+      Id = this.location[i].Id
+      Name = this.location[i].SmallName
+      Display = true
+      IsSelect = true
+      this.LocationData.push(new NewDropdown(Id, Name, Display, IsSelect))
+    }
+
+
     this.loading = true;
     if (this.filterTrueFalse == false){
       this.aSub = this.repAll.reportAll(this.Filter).subscribe(
@@ -109,6 +143,13 @@ export class ReportsListComponent implements OnInit, OnDestroy {
     this.ToDateVal = $event.value
     console.log("ToDateVal: ", this.ToDateVal)
   }
+  openSnackBar(message: string, action: string) {
+    // let message = "Ошибка отправки отчета"
+    // let action = "Ok"
+    this.snackBar.open(message, action, {
+      duration: 3000
+    });
+  }
   FilterSubmit(){
     this.loading = true;
     this.dropDown.Submit()
@@ -117,35 +158,36 @@ export class ReportsListComponent implements OnInit, OnDestroy {
     this.formFilter.get("SubLocIds").setValue(this.locationFilterId)
     this.formFilter.get("FromDate").setValue(this.FromDateVal)
     this.formFilter.get("ToDate").setValue(this.ToDateVal)
-    console.log(this.formFilter.get("ChiefIds").value)
 
     this.filterSub = this.repAll.reportAll(this.formFilter.value).subscribe(
       (FilterData)=>{
         console.log("FilterSubmit is Submit! Data:", FilterData);
         const filterData = JSON.stringify(FilterData.ChiefWorkReports)
         localStorage.setItem('ReportAll', filterData)
-        // console.log(localStorage.getItem('ReportAll'))
         this.reportsAll = JSON.parse(localStorage.getItem('ReportAll'))
         for (let i = 0; i < this.reportsAll.length; i++) {
           for (let j = 0; j < this.pers.length; j++) {
             if (this.reportsAll[i].UserId == this.pers[j].Id){
               this.UserName = this.pers[j].Fio
             }
-            // console.log("this.repview.UserId:", this.repview.Id)
-            // console.log("testPersId:", this.pers[i].Id)
-            // console.log("testPers:", this.pers[i].Fio)
           }
+
         console.log("test:", this.UserName)
+        }
+        console.log("reportsAll: ", this.reportsAll)
+        if (this.reportsAll.length == 0){
+          console.log("reportsAll == undefined!!!")
+          this.openSnackBar("Ни одного отчета не найдено", "Ok")
         }
         this.filterTrueFalse = true;
         this.loading = false;
         this.persFilterId = []
         this.locationFilterId = []
-        // console.log("void numberId", this.numberId)
       },
       (error) => {
         this.loading = false;
         console.log("FilterSubmit is not a Submit!")
+        this.openSnackBar("Возникла непредвиденная ошибка", "Ok")
       }
     )
   }
