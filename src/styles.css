@@ -108,3 +108,7 @@ body {
 .mat-typography p {
     margin: 0;
 }
+
+.mat-card-header-text {
+    margin: unset !important;
+}

@@ -28,15 +28,19 @@
                 <app-dropdown-multi [ItemsData]="pers" [allItemsSize]="pers.length" [placeholder]="'Выберите сотрудников'" (itemSelect)="PersFilterIdAdd($event)"></app-dropdown-multi>
                 <label> Локация</label>
                 <app-dropdown-multi [ItemsData]="location" [allItemsSize]="location.length" [placeholder]="'Выберите локацию'" (itemSelect)="LocationFilterIdAdd($event)"></app-dropdown-multi>
-                <button style="margin-top: 20px;" type="submit"> Применить </button>
+                <button style="margin-top: 20px;" type="submit" mat-raised-button color="accent"> Применить </button>
             </div>
 
         </form>
     </div>
-    <div class="reports">
-
+    <div class="loader" *ngIf="loading">
+        <mat-spinner color="accent"></mat-spinner>
+    </div>
+    <div class="reports" *ngIf="!loading">
         <div class="reports-card" *ngFor="let report of reportsAll, index as i">
-            <div class="reports-edit" (click)="NavigateToRepRed(i)"></div>
+            <div class="reports-edit">
+                <mat-icon (click)="NavigateToRepRed(i)" *ngIf="accessLvl == 3">edit</mat-icon>
+            </div>
             <div class="reports-content-left">
                 <div class="reports-img-wrap">
                     <div class="reports-img"></div>
@@ -52,9 +56,12 @@
                 </div>
             </div>
             <div class="button-wrap">
-                <button class="reports-button" (click)="ReportView(i)"><p class="button-text">Подробнее</p></button>
+                <!-- <button class="reports-button" (click)="ReportView(i)"><p class="button-text">Подробнее</p></button> -->
+                <button mat-raised-button color="accent" (click)="ReportView(i)">Подробнее</button>
             </div>
-            <div class="reports-delete"></div>
+            <div class="reports-delete">
+                <mat-icon *ngIf="accessLvl == 3">delete</mat-icon>
+            </div>
         </div>
 
 

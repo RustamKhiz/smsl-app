@@ -19,7 +19,8 @@ export class SiteLayoutComponent implements OnInit, OnDestroy {
   visibleNav = true;
   aSub: Subscription;
   //переменная для сохранения имени пользователя
-  public UserName: string
+  userData = JSON.parse(localStorage.getItem('UserData'))
+  UserName: string = ""
 
   //переменные для сохранения сотрудников и оборудования
   pers: Personals[]
@@ -47,7 +48,7 @@ export class SiteLayoutComponent implements OnInit, OnDestroy {
   //метод для вызова настроек профиля
   conutAfter = 0;
   ngOnInit() {
-
+    this.UserName = this.userData.MyPerson.Personal.EMail
     this.toggle = !this.toggle;
     console.log("TEST NGONINIT")
 

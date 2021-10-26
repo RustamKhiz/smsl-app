@@ -44,6 +44,32 @@ input {
     border: 1px solid #FCC300;
     border-radius: 5px;
     min-height: 50px;
+    max-width: 255px !important;
+    padding: 12px;
+}
+
+.file-item {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    border: 1px #FCC300 solid;
+    border-radius: 5px;
+    padding: 6px;
+}
+
+.file-item span {
+    display: flex;
+    align-items: center;
+}
+
+.file-add {
+    cursor: pointer;
+}
+
+.file-delete {
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
 }
 
 .reports-tab:hover {
@@ -72,7 +98,7 @@ input {
     display: flex;
     justify-content: space-between;
     margin-top: 40px;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
 }
 
 .reports-content {
@@ -296,7 +322,8 @@ input {
     margin-top: 10px;
 }
 
-.report-valid {}
+
+/* .report-valid {} */
 
 .valid {
     border: 1px red solid;

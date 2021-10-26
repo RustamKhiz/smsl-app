@@ -45,27 +45,6 @@
     margin-left: 2px;
 }
 
-.grid-view {
-    /* background: #FFD33D; */
-}
-
-.list-view {}
-
-
-/* .grid-list-view:hover {
-    background: #FCC300
-} */
-
-.grid-view {
-    border-right: 1px solid #FCC300;
-    padding-right: 3px;
-}
-
-
-/* .grid-view:hover {
-    background: rgba(255, 255, 255, 0.52)
-} */
-
 .content-flex {
     display: flex;
 }
@@ -142,9 +121,9 @@
     height: 15px;
     /* border-radius: 100px; */
     position: relative;
-    left: 97.9%;
-    top: -55px;
-    background: url("src/assets/edit.png");
+    left: 97.4%;
+    top: -60px;
+    /* background: url("src/assets/edit.png"); */
     background-position: 50% 50%;
     background-size: cover;
     cursor: pointer;
@@ -155,9 +134,9 @@
     height: 15px;
     /* border-radius: 100px; */
     position: relative;
-    left: -4px;
-    top: 55px;
-    background: url("src/assets/delete-black.png");
+    left: -8px;
+    top: 53px;
+    /* background: url("src/assets/delete-black.png"); */
     background-position: 50% 50%;
     background-size: cover;
     cursor: pointer;
@@ -167,7 +146,7 @@
     width: 15px;
     height: 19px;
     /* border-radius: 100px; */
-    background: url("src/assets/delete-white.png");
+    /* background: url("src/assets/delete-white.png"); */
     background-position: 50% 50%;
     background-size: cover;
 }
@@ -291,4 +270,10 @@
     color: #2B2A29;
     position: relative;
     z-index: 2;
+}
+
+.loader {
+    display: flex;
+    justify-content: center;
+    margin: 164px 388px;
 }

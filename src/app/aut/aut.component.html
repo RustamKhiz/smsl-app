@@ -6,7 +6,10 @@
             </div>
             <div class="title">{{title}}</div>
         </div>
-        <div class="form">
+        <div class="loader" *ngIf="loading">
+            <mat-spinner color="accent"></mat-spinner>
+        </div>
+        <div class="form" *ngIf="!loading">
             <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
                 <input type="email" formControlName="UserName" id="UserName" placeholder="Имя пользователя" value="r.khizriev@smsl-nk.ru">

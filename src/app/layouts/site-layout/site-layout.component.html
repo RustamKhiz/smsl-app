@@ -4,21 +4,44 @@
             <div class="container">
                 <nav>
                     <div class="nav-wrapper">
-                        <a href="#!" class="brand-logo"><img src="https://smsl-nk.ru/assets/img/logo_smsl_header_2.png" alt="logo_smsl" class="logo"></a>
+                        <a routerLink="/site" class="brand-logo"><img src="https://smsl-nk.ru/assets/img/logo_smsl_header_2.png" alt="logo_smsl" class="logo"></a>
                         <ul class="nav-elem li-box">
-                            <li routerLink="/site"><a>Новости</a></li>
-                            <li routerLink="/site"><a>Задачи</a></li>
-                            <!-- Dropdown Trigger -->
-                            <li (click)="ngOnInit()"><a class="dropdown-trigger" data-target="dropdown1">Профиль<i class="material-icons right">arrow_drop_down</i></a></li>
+                            <li routerLink="/site">
+                                <a></a>
+                            </li>
 
+                            <button mat-button disabled aria-label="Example icon-button with a menu">
+                              Новости
+                            </button>
+                            <button mat-button disabled aria-label="Example icon-button with a menu">
+                              Задачи
+                            </button>
+                            <button mat-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                              Профиль
+                              <mat-icon>more_horiz</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu">
+                                <button mat-menu-item routerLink="/profile">
+                                <mat-icon>person</mat-icon>
+                                <span>{{UserName}}</span>
+                              </button>
+                                <button mat-menu-item disabled>
+                                <mat-icon>edit</mat-icon>
+                                <span>Редактировать</span>
+                              </button>
+                                <button mat-menu-item (click)="lout()">
+                                <mat-icon>exit_to_app</mat-icon>
+                                <span>Выйти</span>
+                              </button>
+                            </mat-menu>
                         </ul>
-                        <div class="dropdown-wrap">
+                        <!-- <div class="dropdown-wrap">
                             <ul id="dropdown1" class="dropdown-content li-box" [style.transform]="toggle ? 'scaleX(1)' : 'scaleX(0)'" [style.transition]="'0.3s'">
                                 <li routerLink="/profile" class="profile-name"><span class="profile-name-color">{{UserName}}</span></li>
                                 <li routerLink="/site" class="dropdown-cursor">Редактировать</li>
                                 <li routerLink="/site" class="dropdown-cursor" (click)="lout()">Выйти</li>
                             </ul>
-                        </div>
+                        </div> -->
 
                     </div>
                 </nav>

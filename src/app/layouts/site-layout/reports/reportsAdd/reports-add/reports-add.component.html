@@ -18,9 +18,9 @@
 
                 </div>
                 <div class="reports-tab-file">
-                    <p>test </p>
-                    <label for="file">Добавить файл</label><br>
-                    <input type="file" id="file">
+                    <p class="file-item" *ngFor="let file of reportFile, index as i">{{[i+1] + ". " + file.OriginalName}}<span> <img src="assets/delete-black.png" class="file-delete" (click)="reportFile.splice(i, 1)"> </span> </p>
+                    <label class="file-add" for="file">Добавить файл + </label>
+                    <input type="file" id="file" hidden (change)="fileChange($event)" multiple placeholder="Upload file" accept=".pdf,.doc,.docx,.png,.jpg,.xlsx,.xls">
                 </div>
             </div>
 
@@ -392,3 +392,13 @@
 
     </div>
 </div>
+
+<!-- <mat-form-field appearance="fill">
+    <mat-label>Message</mat-label>
+    <input matInput value="Disco party!" #message>
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+    <mat-label>Action</mat-label>
+    <input matInput value="Dance" #action>
+</mat-form-field> -->

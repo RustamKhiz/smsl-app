@@ -29,7 +29,7 @@ export class AutComponent implements OnInit, OnDestroy {
   constructor(private aut: AutServices, private router: Router, private route: ActivatedRoute, private afteraut: afterlogServices){
 
   }
-
+  loading: boolean = false;
   ngOnInit(){
     this.form = new FormGroup({
       UserName: new FormControl(null, [Validators.required, Validators.email]),
@@ -52,13 +52,21 @@ export class AutComponent implements OnInit, OnDestroy {
 
   onSubmit(){
     this.form.disable()
-
+    this.loading = true;
     this.aSub = this.aut.login(this.form.value).subscribe(
        (User) => {
+        this.loading = false;
+        console.log("Данные пользователя: ", User)
+        const userData = JSON.stringify(User)
+        localStorage.setItem('UserData', userData)
+        console.log("AccessLevel: ", User.MyPerson.Personal.AccessLevel)
+        const userAccessLevel = JSON.stringify(User.MyPerson.Personal.AccessLevel)
+        localStorage.setItem('AccessLevel', userAccessLevel)
         this.router.navigate(['/site'])
-        console.log("Данные пользователяЖ ",User)
+
         },
        error => {
+         this.loading = false;
          MaterialService.toast("Неверный логин или пароль")
          console.warn(error)
          this.form.enable()

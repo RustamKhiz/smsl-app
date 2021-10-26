@@ -36,7 +36,13 @@ export class ReportsListComponent implements OnInit, OnDestroy {
   equipment = JSON.parse(localStorage.getItem('Mashines'))
   formFilter: FormGroup;
   filterTrueFalse = false;
+  loading: boolean = false;
+
+  accessLvl: number = JSON.parse(localStorage.getItem('AccessLevel'))
+
+
   ngOnInit(){
+    this.loading = true;
     if (this.filterTrueFalse == false){
       this.aSub = this.repAll.reportAll(this.Filter).subscribe(
         (AllData) => {
@@ -48,7 +54,7 @@ export class ReportsListComponent implements OnInit, OnDestroy {
 
           const PesonalStatuses = JSON.stringify(AllData.CwrPesonalStatuses)
           localStorage.setItem('PesonalStatuses', PesonalStatuses)
-
+          this.loading = false;
 
           for (let i = 0; i < this.reportsAll.length; i++) {
             for (let j = 0; j < this.pers.length; j++) {
@@ -62,7 +68,9 @@ export class ReportsListComponent implements OnInit, OnDestroy {
           console.log("test:", this.UserName)
           }
         },
-        (error) => console.log("Filter don`t work!")
+        (error) => {
+          console.log("Filter don`t work!")
+        }
       )
     }else console.log('filterTrueFalse is true')
 
@@ -102,6 +110,7 @@ export class ReportsListComponent implements OnInit, OnDestroy {
     console.log("ToDateVal: ", this.ToDateVal)
   }
   FilterSubmit(){
+    this.loading = true;
     this.dropDown.Submit()
 
     this.formFilter.get("ChiefIds").setValue(this.persFilterId)
@@ -129,11 +138,13 @@ export class ReportsListComponent implements OnInit, OnDestroy {
         console.log("test:", this.UserName)
         }
         this.filterTrueFalse = true;
+        this.loading = false;
         this.persFilterId = []
         this.locationFilterId = []
         // console.log("void numberId", this.numberId)
       },
       (error) => {
+        this.loading = false;
         console.log("FilterSubmit is not a Submit!")
       }
     )

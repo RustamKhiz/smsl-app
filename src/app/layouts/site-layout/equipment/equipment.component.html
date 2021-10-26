@@ -1,34 +1,52 @@
 <div class="equipment-title">Оборудование</div>
-<div class="equipment-nav">
+<!-- <div class="equipment-nav">
+
     <p class="equipment-nav-elem active">Оборудование</p>
     <p class="equipment-nav-elem">Статистика ремонтов</p>
     <p class="equipment-nav-elem">Табель</p>
     <p class="equipment-nav-elem">Вспомогательное</p>
     <p class="equipment-nav-elem"></p>
-</div>
-<div class="content-flex">
-
-    <div class="equipment-filter">
-        <p>Фильтры</p>
-    </div>
-    <div class="equipment">
-
-        <div class="equipment-card" *ngFor="let Equipment of equipment; index as i">
-            <div class="equipment-online online"></div>
-            <div class="equipment-img-wrap">
-                <div class="equipment-img"></div>
+</div> -->
+<mat-tab-group mat-align-tabs="center" color="accent" dynamicHeight>
+    <mat-tab label="Оборудование">
+        <div class="content-flex">
+            <div class="equipment-filter">
+                <p>Фильтры</p>
             </div>
-            <div class="equipment-desc">
-                <p class="equipment-name">{{Equipment.Name}}</p>
-                <p class="equipment-email">{{Equipment.PeronalFio}}</p>
-                <p class="equipment-position">{{Equipment.Status}}</p>
-            </div>
-            <div class="button-wrap">
-                <button class="equipment-button"><p class="button-text">Подробнее</p></button>
+            <div class="equipment">
+                <mat-card class="example-card" *ngFor="let Equipment of equipment; index as i">
+                    <mat-card-header>
+                        <!-- <div mat-card-avatar class="example-header-image"></div> -->
+                        <mat-card-title>{{Equipment.FullName}} {{Equipment.Number}}</mat-card-title>
+                        <mat-card-subtitle>{{Equipment.PeronalFio}}</mat-card-subtitle>
+                    </mat-card-header>
+                    <img mat-card-image src="../../../../assets/mashines.png">
+                    <mat-card-content>
+                        <p>
+                            {{Equipment.Status}}
+                        </p>
+                    </mat-card-content>
+                    <mat-divider></mat-divider>
+                    <mat-card-actions>
+                        <button mat-button>Подробнее</button>
+                    </mat-card-actions>
+                </mat-card>
+
+
             </div>
         </div>
-
-
-    </div>
-</div>
+    </mat-tab>
+    <mat-tab label="Статистика">
+        <p style="text-align: center; margin-top: 90px; font-size: 30px; height: 300px;"> Раздел в разработке</p>
+    </mat-tab>
+    <mat-tab label="Статистика ремонтов">
+        <p style="text-align: center; margin-top: 90px; font-size: 30px; height: 300px;"> Раздел в разработке</p>
+    </mat-tab>
+    <mat-tab label="Табель">
+        <p style="text-align: center; margin-top: 90px; font-size: 30px; height: 300px;"> Раздел в разработке</p>
+    </mat-tab>
+    <mat-tab label="Вспомогательное">
+        <p style="text-align: center; margin-top: 90px; font-size: 30px; height: 300px;"> Раздел в разработке</p>
+    </mat-tab>
+</mat-tab-group>
 <!-- <div class="equipment-wrap" *ngFor="let Equipment of equipment; index as i"></div> -->

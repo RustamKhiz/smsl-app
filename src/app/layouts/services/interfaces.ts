@@ -6,6 +6,7 @@ export interface User {
   ConnectionHash: string
   MyPerson: {
     Personal:{
+      AccessLevel: string
       Name: string
       LastName: string
       MidName: string

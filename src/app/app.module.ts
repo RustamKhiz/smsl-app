@@ -19,6 +19,14 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatInputModule} from '@angular/material/input';
 import {MatTableModule} from '@angular/material/table';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatButtonModule} from '@angular/material/button';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatCardModule} from '@angular/material/card';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatTabsModule} from '@angular/material/tabs';
 
 import { AppComponent } from './app.component';
 import {AutComponent} from './aut/aut.component';
@@ -89,7 +97,15 @@ import { ReportViewComponent } from './layouts/site-layout/reports/report-view/r
     MatDatepickerModule,
     MatNativeDateModule,
     MatInputModule,
-    MatTableModule
+    MatTableModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule,
+    MatButtonModule,
+    MatDialogModule,
+    MatMenuModule,
+    MatCardModule,
+    MatDividerModule,
+    MatTabsModule
   ],
   providers: [
     {

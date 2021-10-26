@@ -9,6 +9,8 @@ import { DropdownSelectComponent } from 'src/app/layouts/classes/dropdown-select
 import { DropdownMultiComponent } from 'src/app/layouts/classes/dropdown-classes/dropdown-multi/dropdown-multi.component';
 import { DropdownMultiCloneComponent } from 'src/app/layouts/classes/dropdown-classes/dropdown-multi-clone/dropdown-multi-clone.component';
 import { ReportRed } from 'src/app/layouts/services/report-red.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Byte } from '@angular/compiler/src/util';
 
 
 
@@ -56,6 +58,21 @@ export class NewDropdown {
               public Name: string,
               public Display: boolean,
               public IsSelect: boolean
+  ) {}
+}
+export class CwrFiles {
+  constructor(public id: number,
+              public OriginalName: string,
+              public FullPath: string,
+              public DisplayName: string,
+              public Length: number,
+              public FileType: string,
+              public Ext: string,
+              public IsPreveiw: boolean,
+              public CwrId: number,
+              public byte: any [],
+              public Hash: string
+
   ) {}
 }
 // // export class Report{
@@ -248,7 +265,7 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
-  constructor(private rep: ReportAdd,  private router: Router, private repRed: ReportRed) { }
+  constructor(private rep: ReportAdd,  private router: Router, private repRed: ReportRed, private snackBar: MatSnackBar) { }
 
   MethodControl: string = ""
   MethodControlId: number = 0
@@ -502,9 +519,71 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
   ChiefCtrl: FormControl = new FormControl('', Validators.required);
   DataReportCtrl: FormControl = new FormControl('', Validators.required);
 
-  fileToUpload: File | null = null;
-  handleFileInput(files: FileList) {
-    this.fileToUpload = files.item(0);
+  FileCtrl: FormControl = new FormControl('', Validators.required);
+
+  OriginalName: string = ""
+  FullPath: string = ""
+  DisplayName: string = ""
+  Length: number = 0
+  FileType: string = ""
+  Ext: string = ""
+  IsPreveiw: boolean
+  byte: any [] = []
+  Hash: string = ""
+
+  reportFile: any [] = []
+
+  convertDataURIToBinary(dataURI) {
+    var base64Index = dataURI.indexOf(';base64,') + ';base64,'.length;
+    var base64 = dataURI.substring(base64Index);
+    var raw = window.atob(base64);
+    var rawLength = raw.length;
+    var array = new Uint8Array(new ArrayBuffer(rawLength));
+    for(let i = 0; i < rawLength; i++) {
+      array[i] = raw.charCodeAt(i);
+    }
+    return array;
+  }
+
+  fileChange(event) {
+    let fileList: FileList = event.target.files;
+    console.log("fileList: ", fileList)
+    const file = fileList[0]
+    const reader = new FileReader();
+    let byteArray;
+
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+    for (let i = 0; i < fileList.length; i++) {
+      // let file: File [] = [];
+      this.byte = []
+      reader.addEventListener("loadend",  () => {
+        // convert image file to base64 string
+        // console.log('base64', reader.result);
+        byteArray = this.convertDataURIToBinary(reader.result);
+        this.byte.push(byteArray)
+
+        console.log('byte array', byteArray);
+      }, false);
+
+      this.OriginalName = fileList[i].name
+      console.log("fileList[i]: ", fileList[i])
+      this.reportFile.push(new CwrFiles(this.Id, this.OriginalName, this.FullPath, this.DisplayName, this.Length, this.FileType, this.Ext, this.IsPreveiw, this.CwrId, this.byte, this.Hash) )
+      console.log("reportFile: ", this.reportFile)
+
+    }
+
+
+
+}
+openSnackBar(message: string, action: string) {
+  // let message = "Ошибка отправки отчета"
+  // let action = "Ok"
+  this.snackBar.open(message, action, {
+    duration: 3000
+  });
 }
   reportSubmit() {
     console.log("locationId: ", this.locationId) //получение locationId в консоль
@@ -533,7 +612,7 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
       CwrPersonals: this.reportsPers,
       CwrEquipments: this.reportEquip,
       CwrActions: null,
-      CwrFiles: null
+      CwrFiles: this.reportFile
     }
     console.log("newrep: ", newrep)
     this.repAdd = newrep;
@@ -541,16 +620,24 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
       this.aSub = this.rep.reportAdd(this.repAdd).subscribe(
         (pers)=>{
           console.log('Отчет отправлен!', pers)
+          this.openSnackBar("Отчет успешно создан!", "Ok")
           this.router.navigate(['/reports/list'])
         },
-        error => console.log('Ошибка отправки формы отчета: ')
+        error => {
+          this.openSnackBar("Ошибка отправки отчета", "Ok")
+          console.log('Ошибка отправки формы отчета: ')
+        }
       )
     } else {
       this.aSub = this.repRed.reportRed(this.repAdd, this.getRedId).subscribe(
         (repRed) => {
+          this.openSnackBar("Отчет отредактирован!", "Ok")
           console.log("Отчет отредактирован! ", repRed)
         },
-        error => console.log("Ошибка! отчет не отправлен")
+        error => {
+          this.openSnackBar("Ошибка отправки отчета", "Ok")
+          console.log("Ошибка! отчет не отправлен")
+        }
       )
     }
   }

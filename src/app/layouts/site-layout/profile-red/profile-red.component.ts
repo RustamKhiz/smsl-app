@@ -6,22 +6,23 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./profile-red.component.css']
 })
 export class ProfileRedComponent implements OnInit {
-  public Name: string
-  public LastName: string
-  public MidName: string
-  public Telephone: string
-  public Position: string
-  public Id: string
-  constructor() {
-    this.Name = localStorage.getItem('Name');
-    this.LastName = localStorage.getItem('LastName');
-    this.MidName = localStorage.getItem('MidName');
-    this.Telephone = localStorage.getItem('Telephone');
-    this.Position = localStorage.getItem('Position');
-    this.Id = localStorage.getItem('Id');
-  }
+  userData = JSON.parse(localStorage.getItem('UserData'))
+
+  Name: string = ""
+  LastName: string = ""
+  MidName: string = ""
+  Telephone: string = ""
+  Position: string = ""
+  Id: string = ""
+  constructor() {}
 
   ngOnInit(): void {
+    this.Name = this.userData.MyPerson.Personal.Name
+    this.LastName = this.userData.MyPerson.Personal.LastName
+    this.MidName = this.userData.MyPerson.Personal.MidName
+    this.Telephone = this.userData.MyPerson.Personal.Telephone
+    this.Position = this.userData.MyPerson.Personal.Position
+    this.Id = this.userData.MyPerson.Personal.Id
   }
 
 }

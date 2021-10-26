@@ -1,44 +1,48 @@
-.title{
-  margin: 70px 0 40px 0;
-  font-size: 40px;
-}
-.input-wrap{
-  display: flex;
-  flex-direction: column;
-  background: #2B2A29;
-  margin-left: 60px;
-  width: 80%;
-  border-radius: 5px;
-}
-.profile-photo{
-  width: 300px;
-  border-radius: 5px;
-}
-.profile-edit{
-  width: 18px;
-  position: relative;
-  left: 881px;
-  top: 16px;
-  cursor: pointer;
-}
-.profle-wrap-flex{
-  display: flex;
+.title {
+    margin: 170px 0 40px 0;
+    font-size: 40px;
 }
 
-input{
-  width: 200px;
-  height: 25px;
-  margin: 30px 0 0 60px;
-  font-size: 20px;
-  border-color: #FCC300;
-  border-top: none;
-  border-right: none;
-  border-left:none ;
-  color: white;
+.input-wrap {
+    display: flex;
+    flex-direction: column;
+    background: #2B2A29;
+    margin-left: 60px;
+    width: 80%;
+    border-radius: 5px;
 }
+
+.profile-photo {
+    width: 300px;
+    border-radius: 5px;
+}
+
+.profile-edit {
+    width: 18px;
+    position: relative;
+    left: 881px;
+    top: 16px;
+    cursor: pointer;
+}
+
+.profle-wrap-flex {
+    display: flex;
+}
+
+input {
+    width: 200px;
+    height: 25px;
+    margin: 30px 0 0 60px;
+    font-size: 20px;
+    border-color: #FCC300;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    color: white;
+}
+
 input:disabled {
-  background: #2B2A29;
-  border-color: #FCC300;
-  color: white;
+    background: #2B2A29;
+    border-color: #FCC300;
+    color: white;
 }
-
