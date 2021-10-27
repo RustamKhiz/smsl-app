@@ -16,7 +16,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import {MatSelectInfiniteScrollModule} from 'ng-mat-select-infinite-scroll';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MAT_DATE_FORMATS } from '@angular/material/core';
 import {MatInputModule} from '@angular/material/input';
 import {MatTableModule} from '@angular/material/table';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
@@ -52,6 +52,7 @@ import { DropdownSelectComponent } from './layouts/classes/dropdown-select/dropd
 import { DropdownMultiCloneComponent } from './layouts/classes/dropdown-classes/dropdown-multi-clone/dropdown-multi-clone.component';
 import { ReportsRedComponent } from './layouts/site-layout/reports/reports-red/reports-red.component';
 import { ReportViewComponent } from './layouts/site-layout/reports/report-view/report-view.component';
+import { MessengerComponent } from './layouts/site-layout/messenger/messenger.component';
 
 
 @NgModule({
@@ -75,7 +76,8 @@ import { ReportViewComponent } from './layouts/site-layout/reports/report-view/r
     DropdownSelectComponent,
     DropdownMultiCloneComponent,
     ReportsRedComponent,
-    ReportViewComponent
+    ReportViewComponent,
+    MessengerComponent
   ],
   imports: [
     BrowserModule,
@@ -117,6 +119,20 @@ import { ReportViewComponent } from './layouts/site-layout/reports/report-view/r
     },
     {
       provide: HTTP_INTERCEPTORS, useClass: ErrorInterseptor, multi: true
+    },
+    {
+      provide: MAT_DATE_FORMATS,
+      useValue: {
+        parse: {
+          dateInput: ['l', 'LL'],
+        },
+        display: {
+          dateInput: '',
+          monthYearLabel: '',
+          dateA11yLabel: '',
+          monthYearA11yLabel: '',
+        },
+      },
     }
   ],
   bootstrap: [AppComponent]

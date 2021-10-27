@@ -5,6 +5,7 @@
 html {
     font-family: 'Roboto', sans-serif;
     /* background: #2B2A29; */
+    background: rgb(252, 252, 252);
 }
 
 p {
@@ -114,5 +115,5 @@ body {
 }
 
 .mat-form-field {
-    width: 100%;
+    width: 90%;
 }
