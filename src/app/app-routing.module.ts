@@ -14,6 +14,7 @@ import {EquipmentComponent} from "./layouts/site-layout/equipment/equipment.comp
 import { PersonalComponent } from './layouts/site-layout/personal/personal.component';
 import { ReportsRedComponent } from './layouts/site-layout/reports/reports-red/reports-red.component';
 import { ReportViewComponent } from './layouts/site-layout/reports/report-view/report-view.component';
+import { MessengerComponent } from './layouts/site-layout/messenger/messenger.component';
 
 
 const routes: Routes = [
@@ -59,6 +60,9 @@ const routes: Routes = [
       },
       {
         path: 'personal', component: PersonalComponent
+      },
+      {
+        path: 'messenger', component: MessengerComponent
       }
     ]
   }
