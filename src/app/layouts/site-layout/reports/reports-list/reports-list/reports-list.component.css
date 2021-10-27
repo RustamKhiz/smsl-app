@@ -180,7 +180,7 @@
 
 .reports-email {
     font-size: 15px;
-    text-decoration-line: underline;
+    /* text-decoration-line: underline; */
     opacity: 0.5;
     color: rgba(255, 255, 255, 0.52);
     margin-right: 20px;

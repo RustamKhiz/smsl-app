@@ -46,11 +46,11 @@
                     <div class="reports-img"></div>
                 </div>
                 <div class="reports-desc">
-                    <p class="reports-name">{{report.GeneralLocation.DisplayName}}</p>
+                    <p class="reports-name">{{ getSubLockName(report)}}</p>
                     <div class="desc-wrap">
                         <!-- <p class="reports-email" *ngIf="(report[i].UserId === pers.Id)">{{pers.Fio}}</p> -->
-                        <p class="reports-email">{{UserName}}</p>
-                        <p class="reports-email">от {{report.DataReport}}</p>
+                        <p class="reports-email">{{getChiedName(report)}}</p>
+                        <p class="reports-email">от {{FormatDate(report.DataReport)}}</p>
                     </div>
                     <p class="reports-position">№{{report.Id}}</p>
                 </div>

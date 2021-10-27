@@ -40,7 +40,8 @@ export class ReportsListComponent implements OnInit, OnDestroy {
   ReportId = 0;
   FromDate: null;
   constructor(private repAll: ReportAll, private dropDown: DropdownMultiComponent, private router: Router, private repGet: ReportGet, private snackBar: MatSnackBar) {
-    // this.Filter.FromDate = formatDate(this.today, 'yyyy-MM-dd', 'en-US', '+0530');
+    this.Filter.FromDate = formatDate(this.today, 'yyyy-MM-dd', 'en-US', '+0530');
+
   }
   UserName: string []=[]
   pers = JSON.parse(localStorage.getItem('Personal'))
@@ -90,17 +91,14 @@ export class ReportsListComponent implements OnInit, OnDestroy {
           localStorage.setItem('PesonalStatuses', PesonalStatuses)
           this.loading = false;
 
-          for (let i = 0; i < this.reportsAll.length; i++) {
-            for (let j = 0; j < this.pers.length; j++) {
-              if (this.reportsAll[i].UserId == this.pers[j].Id){
-                this.UserName = this.pers[j].Fio
-              }
-              // console.log("this.repview.UserId:", this.repview.Id)
-              // console.log("testPersId:", this.pers[i].Id)
-              // console.log("testPers:", this.pers[i].Fio)
-            }
-          console.log("test:", this.UserName)
-          }
+          // for (let i = 0; i < this.reportsAll.length; i++) {
+          //   for (let j = 0; j < this.pers.length; j++) {
+          //     if (this.reportsAll[i].UserId == this.pers[j].Id){
+          //       this.UserName = this.pers[j].Fio
+          //     }
+          //   }
+          // console.log("test:", this.UserName)
+          // }
         },
         (error) => {
           console.log("Filter don`t work!")
@@ -165,15 +163,7 @@ export class ReportsListComponent implements OnInit, OnDestroy {
         const filterData = JSON.stringify(FilterData.ChiefWorkReports)
         localStorage.setItem('ReportAll', filterData)
         this.reportsAll = JSON.parse(localStorage.getItem('ReportAll'))
-        for (let i = 0; i < this.reportsAll.length; i++) {
-          for (let j = 0; j < this.pers.length; j++) {
-            if (this.reportsAll[i].UserId == this.pers[j].Id){
-              this.UserName = this.pers[j].Fio
-            }
-          }
 
-        console.log("test:", this.UserName)
-        }
         console.log("reportsAll: ", this.reportsAll)
         if (this.reportsAll.length == 0){
           console.log("reportsAll == undefined!!!")
@@ -191,6 +181,39 @@ export class ReportsListComponent implements OnInit, OnDestroy {
       }
     )
   }
+
+
+  getChiedName(report: ReportsAll){
+    let chiefObj
+    let chiefName
+      if ((report.СhiefUserId !== 3) && (report.СhiefUserId !== 0) ){
+      // console.log("chiefId.СhiefUserId", report.СhiefUserId)
+      chiefObj = this.pers.find(x => x.Id == report.СhiefUserId)
+      chiefName = chiefObj.Fio
+    } else chiefName = "Ошибка чтения: сотрудник не существует"
+      return chiefName
+  }
+
+  getSubLockName(report){
+    // console.log("report.SubLocationId", report.SubLocationId)
+    let LockfObj
+    let LockfName
+    if (report.SubLocationId !== 0){
+      LockfObj = this.location.find(x => x.Id == report.SubLocationId)
+      // console.log("LockfObj", LockfObj)
+      LockfName = LockfObj.SmallName
+    } else LockfName = "Ошибка чтения: локация не существует"
+
+    return LockfName
+  }
+  // this.Filter.FromDate = formatDate(this.today, 'yyyy-MM-dd', 'en-US', '+0530');
+  FormatDate(date){
+
+    date = formatDate(date, 'dd.MM.yyyy', 'en-US', '+0530');
+    // console.log("date", date)
+    return date
+  }
+
   reportRedSub: Subscription
   NavigateToRepRed(i){
     // let Id = JSON.stringify(this.reportsAll[i].Id)
@@ -218,6 +241,11 @@ export class ReportsListComponent implements OnInit, OnDestroy {
     }
     )
   }
+
+
+
+
+
   ngOnDestroy(){
     if(this.aSub){
       this.aSub.unsubscribe()

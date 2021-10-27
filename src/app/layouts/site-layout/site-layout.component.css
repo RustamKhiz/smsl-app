@@ -20,7 +20,7 @@
 }
 
 .wrap-bg {
-    background-color: white;
+    background-color: rgb(84, 84, 84);
     height: 100%;
 }
 
@@ -88,7 +88,7 @@ ul {
 /* Ссылки меню навигации */
 
 .sidenav a {
-    padding: 8px 8px 53px 95px;
+    padding: 15px 8px 53px 43px;
     text-decoration: none;
     font-size: 28px;
     color: #818181;
@@ -176,6 +176,8 @@ ul {
 
 .nav-elem-wrap {
     cursor: pointer;
+    display: flex;
+    flex-direction: row;
 }
 
 .profile-name {
@@ -217,5 +219,36 @@ ul {
 
 .content-wrap {
     height: 100vh;
-    background: white;
+    background: rgb(252, 252, 252);
 }
+
+.navleft-elem {
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-elem-icon {
+    color: white;
+    width: 45px;
+    left: 15px;
+    top: -51px;
+    font-size: 50px;
+    margin-left: 13px;
+    transition: 0.3s;
+}
+
+.nav-elem-wrap:hover .nav-elem-icon {
+    color: #FCC300;
+    transition: 0.3s;
+}
+
+.nav-elem-wrap:hover a {
+    color: #FCC300;
+    transition: 0.3s;
+}
+
+
+/* .nav-elem-icon:hover {
+    color: #FCC300;
+    transition: 0.3s;
+} */
