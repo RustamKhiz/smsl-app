@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { afterlogServices } from './layouts/services/afterlog.services';
 import { AutServices } from './layouts/services/aut.services';
@@ -11,7 +12,7 @@ import { SignalService } from './layouts/services/signalR.services';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  constructor(private aut: AutServices, private signal: SignalService, private afteraut: afterlogServices){
+  constructor(private aut: AutServices, private signal: SignalService, private afteraut: afterlogServices, private router: Router){
 
   }
   pers: Personals[]
@@ -58,7 +59,11 @@ export class AppComponent implements OnInit, OnDestroy {
           )
         }
       );
+    } else{
+      this.aut.logout()
+      this.router.navigate(['/aut'])
     }
+    //else location.reload()
   }
   ngOnDestroy(){
     if(this.aSub){

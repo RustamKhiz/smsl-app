@@ -13,6 +13,19 @@
         <div class="content-flex">
             <div class="staff-filter">
                 <p>Фильтры</p>
+                <div class="reports-filter">
+                    <form (ngSubmit)="FilterSubmit()">
+                        <p class="reports-filter-desc" style="margin-bottom: 10px; font-size: 15px;">Введите имя:</p>
+                        <div class="filter-label-wrap">
+                            <mat-form-field disabled class="example-full-width" appearance="fill" color="accent">
+                                <mat-label>Введите имя </mat-label>
+                                <input matInput placeholder="Имя" [formControl]="filterName">
+                            </mat-form-field>
+                            <button style="margin-top: 20px;" type="submit" mat-raised-button color="accent" disabled> Применить </button>
+                        </div>
+
+                    </form>
+                </div>
             </div>
             <div class="staff" infinite-scroll [infiniteScrollDistance]="scrollDistance" [infiniteScrollThrottle]="throttle" (scrolled)="onScrollDown(0)">
 
@@ -30,7 +43,7 @@
                     </mat-card-content>
                     <mat-divider></mat-divider>
                     <mat-card-actions>
-                        <button mat-button>Подробнее</button>
+                        <button mat-button disabled>Подробнее</button>
                     </mat-card-actions>
                 </mat-card>
 
@@ -40,13 +53,13 @@
     <mat-tab label="Статистика">
         <p style="text-align: center; margin-top: 90px; font-size: 30px; height: 300px;"> Раздел в разработке</p>
     </mat-tab>
-    <mat-tab label="Табель">
+    <mat-tab label="Табель" disabled>
         <p style="text-align: center; margin-top: 90px; font-size: 30px; height: 300px;"> Раздел в разработке</p>
     </mat-tab>
-    <mat-tab label="График перевахтовки">
+    <mat-tab label="График перевахтовки" disabled>
         <p style="text-align: center; margin-top: 90px; font-size: 30px; height: 300px;"> Раздел в разработке</p>
     </mat-tab>
-    <mat-tab label="Личный прогресс сотрудников">
+    <mat-tab label="Личный прогресс сотрудников" disabled>
         <p style="text-align: center; margin-top: 90px; font-size: 30px; height: 300px;"> Раздел в разработке</p>
     </mat-tab>
 </mat-tab-group>

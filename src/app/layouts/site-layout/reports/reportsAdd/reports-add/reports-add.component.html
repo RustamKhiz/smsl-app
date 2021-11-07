@@ -67,6 +67,9 @@
                                 <p>
                                     <strong>Сделано:</strong> {{card.Made}}
                                 </p>
+                                <p>
+                                    <strong>Комментарий:</strong> {{card.Comment}}
+                                </p>
                             </div>
                         </div>
 
@@ -151,6 +154,9 @@
                             <p class="report-content-pers">
                                 <strong> Функции:</strong> <span *ngFor="let status of reportsPers[i].CwrStatusFromPersonals, index as j">{{[j+1] + ". " + status.DisplayName}}</span>
                             </p>
+                            <p>
+                                <strong> Комментарий:</strong> <br> {{card.Comment}}
+                            </p>
                         </div>
                         <img src="assets/reports-red.png" class="img_red" (click)="CwrPersonalsRed(i)" alt="">
                         <img src="assets/delete-black.png" class="img_red" (click)="reportsPers.splice(i, 1)" alt="">
@@ -172,7 +178,7 @@
                                         </div>
                                         <div class="select-wrap">
                                             <p class="select-title">Функции</p>
-                                            <app-dropdown-multi [ItemsData]="StatusData" [ItemsMultiCtrl]="StatusCtrl" [allItemsSize]="status.length" [placeholder]="'Выберите сотрудников'" (itemSelect)="StatusAdd($event)"></app-dropdown-multi>
+                                            <app-dropdown-multi [ItemsData]="StatusData" [ItemsMultiCtrl]="StatusCtrl" [allItemsSize]="status.length" [placeholder]="'Выберите функцию'" (itemSelect)="StatusAdd($event)"></app-dropdown-multi>
                                         </div>
                                         <div class="select-wrap area-wrap">
                                             <p class="select-title">Комментарий</p>
@@ -200,6 +206,9 @@
                             <p>
                                 <strong>Статус:</strong> <br> {{card.Status}}
                             </p>
+                            <p>
+                                <strong> Комментарий:</strong> <br> {{card.Comment}}
+                            </p>
                         </div>
                         <img src="assets/reports-red.png" class="img_red" (click)="CwrEquipmentsRed(i)" alt="">
                         <img src="assets/delete-black.png" class="img_red" (click)="reportEquip.splice(i, 1)" alt="">
@@ -218,12 +227,12 @@
                                     <div class="select-card-wrap">
                                         <div class="select-wrap">
                                             <p class="select-title">Оборудование</p>
-                                            <app-dropdown-select [ItemsData]="EquipData" [ItemsCtrl]="CwrEquipmentslCtrl" [placeholder]="'Выберите сотрудника'" (itemSelect)="EquipmentAdd($event)"></app-dropdown-select>
+                                            <app-dropdown-select [ItemsData]="EquipData" [ItemsCtrl]="CwrEquipmentslCtrl" [placeholder]="'Выберите оборудование'" (itemSelect)="EquipmentAdd($event)"></app-dropdown-select>
 
                                         </div>
                                         <div class="select-wrap">
                                             <p class="select-title">Статус</p>
-                                            <app-dropdown-select [ItemsData]="StatusEqData" [ItemsCtrl]="StatusEqCtrl" [placeholder]="'Выберите сотрудника'" (itemSelect)="StatusEqAdd($event)"></app-dropdown-select>
+                                            <app-dropdown-select [ItemsData]="StatusEqData" [ItemsCtrl]="StatusEqCtrl" [placeholder]="'Выберите статус'" (itemSelect)="StatusEqAdd($event)"></app-dropdown-select>
 
                                         </div>
                                         <div class="select-wrap area-wrap">
@@ -236,7 +245,7 @@
 
                                     </div>
                                     <div class="button-wrap">
-                                        <button type="button" class="add-button" (click)="RedOnPopup3()"><p class="button-text">Добавить</p> </button>
+                                        <button type="button" class="add-button" (click)="RedOnPopup3()"><p class="button-text" style="font-size: 16px;">Редактировать</p> </button>
                                     </div>
                                 </form>
                             </div>
@@ -392,6 +401,21 @@
 
     </div>
 </div>
+
+<!-- <div class="loader-wrap">
+    <div class="loader-area">
+
+    </div>
+</div> -->
+<div class="reports-popup" [ngClass]="{open:popLoader}" *ngIf="loading">
+    <div class="popup-area"></div>
+    <div class="popup-body">
+        <div class="loader">
+            <mat-spinner color="accent"></mat-spinner>
+        </div>
+    </div>
+</div>
+
 
 <!-- <mat-form-field appearance="fill">
     <mat-label>Message</mat-label>

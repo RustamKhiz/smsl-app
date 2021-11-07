@@ -4,10 +4,7 @@
     <p>По дате</p>
     <p>По объектам</p>
     <p>По имени</p>
-    <div class="grid-list-view">
-        <div class="grid-view"><img src="/assets/list-icon.png" alt=""></div>
-        <div class="list-view"><img src="/assets/grid-icon.png" alt=""></div>
-    </div>
+
 </div> -->
 
 <div class="content-flex">
@@ -15,7 +12,6 @@
     <div class="reports-filter">
         <p class="reports-filter-title">Фильтры</p>
         <form [formGroup]="formFilter" (ngSubmit)="FilterSubmit()">
-            <p class="reports-filter-desc">Дата:</p>
             <div class="filter-label-wrap">
                 <label>Выберите дату</label>
                 <app-date-input (SelectFromDate)="FromDateItem($event)" (SelectToDate)="ToDateItem($event)"></app-date-input>
@@ -28,7 +24,12 @@
                 <app-dropdown-multi [ItemsData]="PersData" [allItemsSize]="pers.length" [placeholder]="'Выберите сотрудников'" (itemSelect)="PersFilterIdAdd($event)" style="width: 95%;"></app-dropdown-multi>
                 <label> Локация</label>
                 <app-dropdown-multi [ItemsData]="LocationData" [allItemsSize]="location.length" [placeholder]="'Выберите локацию'" (itemSelect)="LocationFilterIdAdd($event)" style="width: 95%;"></app-dropdown-multi>
-                <button style="margin-top: 20px;" type="submit" mat-raised-button color="accent"> Применить </button>
+                <div class="button-duo-wrap">
+                    <button style="margin-top: 20px;" type="submit" mat-raised-button color="accent"> Применить </button>
+                    <br>
+                    <button style="margin-top: 20px;" type="button" mat-raised-button (click)="FilterReset()"> Очистить </button>
+                </div>
+                <button style="margin-top: 20px;" type="button" mat-raised-button (click)="FilterSubmit()"> Загрузить все </button>
             </div>
 
         </form>
@@ -36,7 +37,7 @@
     <div class="loader" *ngIf="loading">
         <mat-spinner color="accent"></mat-spinner>
     </div>
-    <div class="reports" *ngIf="!loading">
+    <!-- <div class="reports" *ngIf="!loading">
         <div class="reports-card" *ngFor="let report of reportsAll, index as i">
             <div class="reports-edit">
                 <mat-icon (click)="NavigateToRepRed(i)" *ngIf="accessLvl == 3">edit</mat-icon>
@@ -48,7 +49,6 @@
                 <div class="reports-desc">
                     <p class="reports-name">{{ getSubLockName(report)}}</p>
                     <div class="desc-wrap">
-                        <!-- <p class="reports-email" *ngIf="(report[i].UserId === pers.Id)">{{pers.Fio}}</p> -->
                         <p class="reports-email">{{getChiedName(report)}}</p>
                         <p class="reports-email">от {{FormatDate(report.DataReport)}}</p>
                     </div>
@@ -56,14 +56,59 @@
                 </div>
             </div>
             <div class="button-wrap">
-                <!-- <button class="reports-button" (click)="ReportView(i)"><p class="button-text">Подробнее</p></button> -->
                 <button mat-raised-button color="accent" (click)="ReportView(i)">Подробнее</button>
             </div>
             <div class="reports-delete">
-                <mat-icon *ngIf="accessLvl >= 3">delete</mat-icon>
+                <mat-icon *ngIf="accessLvl >= 3" (click)="popupDelOpen(report.Id, report, i)">delete</mat-icon>
             </div>
         </div>
+    </div> -->
+    <div class="reports" *ngIf="!loading">
+        <mat-card class="example-card" *ngFor="let report of reportsAll, index as i">
+            <div class="reports-card-wrap">
+                <img mat-card-lg-image src="assets/logo_icon.png">
+                <mat-card-title-group class="reports-card-title-group">
+                    <mat-card-title>
+                        <mat-icon> location_on</mat-icon>{{ getSubLockName(report)}} №{{report.Id}}</mat-card-title>
+                    <mat-card-title style="font-size: 18px;">
 
+                    </mat-card-title>
 
+                    <mat-card-subtitle>{{getChiedName(report)}} от {{FormatDate(report.DataReport)}}</mat-card-subtitle>
+                    <mat-card-subtitle><strong>Работ: </strong> {{getLength(report.CwrWorks)}}</mat-card-subtitle>
+                    <mat-card-subtitle><strong>Персонал: </strong> {{getLength(report.CwrPersonals)}}</mat-card-subtitle>
+                    <mat-card-subtitle><strong>Оборудование: </strong> {{getLength(report.CwrEquipments)}}</mat-card-subtitle>
+                    <mat-card-subtitle><strong>Файлов в отчёте: </strong> {{getLength(report.CwrFiles)}}</mat-card-subtitle>
+                </mat-card-title-group>
+            </div>
+            <mat-card-content class="reports-card-button-wrap">
+                <div class="reports-edit">
+                    <mat-icon (click)="NavigateToRepRed(i)" *ngIf="accessLvl == 3">edit</mat-icon>
+                </div>
+                <div class="button-wrap">
+                    <button mat-raised-button color="accent" (click)="ReportView(i)">Подробнее</button>
+                </div>
+                <div class="reports-delete">
+                    <mat-icon *ngIf="accessLvl >= 3" (click)="popupDelOpen(report.Id, report, i)">delete</mat-icon>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+<div class="reports-popup" [ngClass]="{open:repDeleteWind}">
+    <div class="popup-area"></div>
+    <div class="popup-body">
+        <div>
+            <mat-card class="example-card2" style="width: 263px;">
+                <mat-card-title>Вы уверены, что хотите удалить отчет?</mat-card-title>
+                <mat-card-content>
+                    <p>Это действие нельзя будет отменить</p>
+                </mat-card-content>
+                <mat-card-actions style="display: flex; justify-content: space-between;">
+                    <button mat-flat-button color="accent" (click)="ReportDel()" (click)="reportsAll.splice(i, 1)">Да</button>
+                    <button mat-flat-button color="warn" (click)="repDeleteWind = false">Нет</button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
     </div>
 </div>

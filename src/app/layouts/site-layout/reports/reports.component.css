@@ -210,7 +210,7 @@
 
 .active {
     background: linear-gradient(180deg, #FCC300 0%, #FFD33D 32.29%, #FFDE6C 65.69%);
-    color: #fff;
+    color: #262626;
 }
 
 .reports-button:hover {

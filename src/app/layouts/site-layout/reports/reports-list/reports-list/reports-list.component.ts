@@ -8,6 +8,7 @@ import { DropdownMultiComponent } from 'src/app/layouts/classes/dropdown-classes
 import { Router } from '@angular/router';
 import { ReportGet } from 'src/app/layouts/services/report-get.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ReportDel } from 'src/app/layouts/services/report-delete.service';
 
 export class NewDropdown {
   constructor(
@@ -39,7 +40,7 @@ export class ReportsListComponent implements OnInit, OnDestroy {
   }
   ReportId = 0;
   FromDate: null;
-  constructor(private repAll: ReportAll, private dropDown: DropdownMultiComponent, private router: Router, private repGet: ReportGet, private snackBar: MatSnackBar) {
+  constructor(private repAll: ReportAll, private dropDown: DropdownMultiComponent, private router: Router, private repGet: ReportGet, private snackBar: MatSnackBar, private repDel: ReportDel) {
     this.Filter.FromDate = formatDate(this.today, 'yyyy-MM-dd', 'en-US', '+0530');
 
   }
@@ -63,7 +64,7 @@ export class ReportsListComponent implements OnInit, OnDestroy {
     let IsSelect
     for (let i = 0; i < this.pers.length; i++) {
       Id = this.pers[i].Id
-      Name = this.pers[i].Fio
+      Name = this.pers[i].SmalFio
       Display = true
       IsSelect = false
       this.PersData.push(new NewDropdown(Id, Name, Display, IsSelect))
@@ -78,32 +79,36 @@ export class ReportsListComponent implements OnInit, OnDestroy {
 
 
     this.loading = true;
+
     if (this.filterTrueFalse == false){
-      this.aSub = this.repAll.reportAll(this.Filter).subscribe(
-        (AllData) => {
-          console.log("Filter is work!", AllData)
-          console.log("AllData.ChiefWorkReports:", AllData.ChiefWorkReports)
-          const reportData = JSON.stringify(AllData.ChiefWorkReports)
-          localStorage.setItem('ReportAll', reportData)
-          this.reportsAll = JSON.parse(localStorage.getItem('ReportAll'))
+      setTimeout(() => {
+        this.aSub = this.repAll.reportAll(this.Filter).subscribe(
+          (AllData) => {
+            console.log("Filter is work!", AllData)
+            console.log("AllData.ChiefWorkReports:", AllData.ChiefWorkReports)
+            const reportData = JSON.stringify(AllData.ChiefWorkReports)
+            localStorage.setItem('ReportAll', reportData)
+            this.reportsAll = JSON.parse(localStorage.getItem('ReportAll'))
 
-          const PesonalStatuses = JSON.stringify(AllData.CwrPesonalStatuses)
-          localStorage.setItem('PesonalStatuses', PesonalStatuses)
-          this.loading = false;
+            const PesonalStatuses = JSON.stringify(AllData.CwrPesonalStatuses)
+            localStorage.setItem('PesonalStatuses', PesonalStatuses)
+            this.loading = false;
 
-          // for (let i = 0; i < this.reportsAll.length; i++) {
-          //   for (let j = 0; j < this.pers.length; j++) {
-          //     if (this.reportsAll[i].UserId == this.pers[j].Id){
-          //       this.UserName = this.pers[j].Fio
-          //     }
-          //   }
-          // console.log("test:", this.UserName)
-          // }
-        },
-        (error) => {
-          console.log("Filter don`t work!")
-        }
-      )
+            // for (let i = 0; i < this.reportsAll.length; i++) {
+            //   for (let j = 0; j < this.pers.length; j++) {
+            //     if (this.reportsAll[i].UserId == this.pers[j].Id){
+            //       this.UserName = this.pers[j].Fio
+            //     }
+            //   }
+            // console.log("test:", this.UserName)
+            // }
+          },
+          (error) => {
+            console.log("Filter don`t work!")
+          }
+        )
+      }, 3000)
+
     }else console.log('filterTrueFalse is true')
 
     this.formFilter = new FormGroup({
@@ -168,20 +173,107 @@ export class ReportsListComponent implements OnInit, OnDestroy {
         if (this.reportsAll.length == 0){
           console.log("reportsAll == undefined!!!")
           this.openSnackBar("Ни одного отчета не найдено", "Ok")
+        } else {
+          this.openSnackBar(`Найдено отчётов: ${this.reportsAll.length}` , "Ok")
         }
         this.filterTrueFalse = true;
         this.loading = false;
         this.persFilterId = []
         this.locationFilterId = []
       },
-      (error) => {
+      () => {
         this.loading = false;
-        console.log("FilterSubmit is not a Submit!")
-        this.openSnackBar("Возникла непредвиденная ошибка", "Ok")
+        console.log("FilterSubmit is not a Submit!");
+
+        this.openSnackBar("Возникла непредвиденная ошибка, проверьте фильтры", "Ok")
       }
     )
   }
+  FilterAll(){
+    this.Filter = {
+      ReportId: 0,
+      FromDate: null,
+      ToDate: null,
+      ChiefIds: null,
+      GeneralLocIds: null,
+      SubLocIds: null
+    }
+    let allFilter = this.Filter
+    this.aSub = this.repAll.reportAll(allFilter).subscribe(
+      (AllData) => {
+        console.log("Filter is work!", AllData)
+        console.log("AllData.ChiefWorkReports:", AllData.ChiefWorkReports)
+        const reportData = JSON.stringify(AllData.ChiefWorkReports)
+        localStorage.setItem('ReportAll', reportData)
+        this.reportsAll = JSON.parse(localStorage.getItem('ReportAll'))
 
+        const PesonalStatuses = JSON.stringify(AllData.CwrPesonalStatuses)
+        localStorage.setItem('PesonalStatuses', PesonalStatuses)
+        if (this.reportsAll.length == 0){
+          console.log("reportsAll == undefined!!!")
+          this.openSnackBar("Ни одного отчета не найдено", "Ok")
+        } else {
+          this.openSnackBar(`Найдено отчётов: ${this.reportsAll.length}` , "Ok")
+        }
+        this.loading = false;
+
+        // for (let i = 0; i < this.reportsAll.length; i++) {
+        //   for (let j = 0; j < this.pers.length; j++) {
+        //     if (this.reportsAll[i].UserId == this.pers[j].Id){
+        //       this.UserName = this.pers[j].Fio
+        //     }
+        //   }
+        // console.log("test:", this.UserName)
+        // }
+      },
+      (error) => {
+        console.log("Filter don`t work!")
+      }
+    )
+  }
+  FilterReset(){
+    this.PersFilterIdAdd(0)
+    this.LocationFilterIdAdd(0)
+    this.FromDateItem(0)
+    this.ToDateItem(0)
+    // this.formFilter.get("ChiefIds").setValue(null)
+    // this.formFilter.get("SubLocIds").setValue(null)
+    // this.formFilter.get("FromDate").setValue(null)
+    // this.formFilter.get("ToDate").setValue(null)
+    // this.formFilter.get("ReportId").setValue(0)
+
+    this.aSub = this.repAll.reportAll(this.Filter).subscribe(
+      (AllData) => {
+        console.log("Filter is work!", AllData)
+        console.log("AllData.ChiefWorkReports:", AllData.ChiefWorkReports)
+        const reportData = JSON.stringify(AllData.ChiefWorkReports)
+        localStorage.setItem('ReportAll', reportData)
+        this.reportsAll = JSON.parse(localStorage.getItem('ReportAll'))
+
+        const PesonalStatuses = JSON.stringify(AllData.CwrPesonalStatuses)
+        localStorage.setItem('PesonalStatuses', PesonalStatuses)
+        if (this.reportsAll.length == 0){
+          console.log("reportsAll == undefined!!!")
+          this.openSnackBar("Ни одного отчета не найдено", "Ok")
+        } else {
+          this.openSnackBar(`Найдено отчётов: ${this.reportsAll.length}` , "Ok")
+        }
+        this.loading = false;
+
+        // for (let i = 0; i < this.reportsAll.length; i++) {
+        //   for (let j = 0; j < this.pers.length; j++) {
+        //     if (this.reportsAll[i].UserId == this.pers[j].Id){
+        //       this.UserName = this.pers[j].Fio
+        //     }
+        //   }
+        // console.log("test:", this.UserName)
+        // }
+      },
+      (error) => {
+        console.log("Filter don`t work!")
+      }
+    )
+  }
 
   getChiedName(report: ReportsAll){
     let chiefObj
@@ -189,7 +281,7 @@ export class ReportsListComponent implements OnInit, OnDestroy {
       if ((report.СhiefUserId !== 3) && (report.СhiefUserId !== 0) ){
       // console.log("chiefId.СhiefUserId", report.СhiefUserId)
       chiefObj = this.pers.find(x => x.Id == report.СhiefUserId)
-      chiefName = chiefObj.Fio
+      chiefName = chiefObj.SmalFio
     } else chiefName = "Ошибка чтения: сотрудник не существует"
       return chiefName
   }
@@ -205,6 +297,9 @@ export class ReportsListComponent implements OnInit, OnDestroy {
     } else LockfName = "Ошибка чтения: локация не существует"
 
     return LockfName
+  }
+  getLength(report){
+    return  report.length
   }
   // this.Filter.FromDate = formatDate(this.today, 'yyyy-MM-dd', 'en-US', '+0530');
   FormatDate(date){
@@ -241,8 +336,40 @@ export class ReportsListComponent implements OnInit, OnDestroy {
     }
     )
   }
+  repDeleteWind = false
+  delYesNo = false
+  reportId;
+  reportItem;
+  i;
+  popupDelOpen(reporti, report, i){
+    this.repDeleteWind = true
 
+    this.reportId = reporti
+    this.reportItem = report
+    this.i = i
 
+  }
+  reportDelSub: Subscription
+
+  ReportDel(){
+
+      this.reportDelSub = this.repDel.repDel(this.reportId, this.reportItem).subscribe(
+        () => {
+          console.log("Удаление прошло успешно!")
+          this.openSnackBar("Удаление прошло успешно", "Ok")
+          // this.reportsAll.slice(i, 1)
+          // const reportsAllRed = JSON.stringify(this.reportsAll)
+          // localStorage.setItem('ReportAll', reportsAllRed)
+          // this.reportsAll = JSON.parse(localStorage.getItem('ReportAll'))
+          // console.log("reportsAll", this.reportsAll)
+          this.repDeleteWind = false
+        },
+        () => {
+          console.log("Ошибка удаления отчёта!")
+        }
+      )
+
+  }
 
 
 

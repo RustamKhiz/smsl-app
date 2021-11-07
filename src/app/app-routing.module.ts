@@ -15,6 +15,8 @@ import { PersonalComponent } from './layouts/site-layout/personal/personal.compo
 import { ReportsRedComponent } from './layouts/site-layout/reports/reports-red/reports-red.component';
 import { ReportViewComponent } from './layouts/site-layout/reports/report-view/report-view.component';
 import { MessengerComponent } from './layouts/site-layout/messenger/messenger.component';
+import { CloudComponent } from './layouts/site-layout/cloud/cloud.component';
+import { SupportComponent } from './layouts/site-layout/support/support.component';
 
 
 const routes: Routes = [
@@ -63,6 +65,12 @@ const routes: Routes = [
       },
       {
         path: 'messenger', component: MessengerComponent
+      },
+      {
+        path: 'cloud', component: CloudComponent
+      },
+      {
+        path: 'support', component: SupportComponent
       }
     ]
   }

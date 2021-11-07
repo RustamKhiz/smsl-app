@@ -1,4 +1,4 @@
-.reports-title {
+/* .reports-title {
     font-size: 30px;
     padding: 40px 0 40px 0;
 }
@@ -37,4 +37,29 @@
 
 .table_dark tr:hover td {
     text-decoration: underline;
+} */
+
+.example-container {
+    min-height: 200px;
+    max-height: 600px;
+    overflow: auto;
+}
+
+table {
+    width: 100%;
+}
+
+table td {
+    max-width: 181px;
+    /* padding: 0 13px 0 0; */
+}
+
+.reports-title {
+    font-size: 30px;
+    padding: 40px 0 0px 0;
+}
+
+.title {
+    font-size: 25px;
+    padding: 80px 0 20px 0;
 }

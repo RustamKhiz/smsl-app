@@ -1,10 +1,3 @@
-input {
-    padding: 0;
-    margin: 0;
-    border: 0;
-    border: none;
-}
-
 .reports {
     padding-top: 20px;
 }
@@ -238,7 +231,6 @@ input {
 .select-wrap {
     width: 310px;
     height: 90px;
-    /* border: 1px solid #000000; */
     box-sizing: border-box;
     border-radius: 5px;
     padding-left: 10px;
@@ -276,7 +268,6 @@ input {
     height: 50px;
     border-radius: 5px;
     margin: 10px 20px;
-    /*text-transform: uppercase;*/
     overflow: hidden;
     letter-spacing: 2px;
     transition: .8s cubic-bezier(.165, .84, .44, 1);
@@ -322,91 +313,12 @@ input {
     margin-top: 10px;
 }
 
-
-/* .report-valid {} */
-
 .valid {
     border: 1px red solid;
     font-size: 24px;
     padding: 10px;
     border-radius: 5px;
 }
-
-.select-content {
-    width: 250px;
-    /* Убираем браузерную стрелку */
-    /* -moz-appearance: none;
-    -webkit-appearance: none;
-    appearance: none; */
-    /* Задаем свой фон и рамку */
-    border: 1px solid #FCC300;
-    border-radius: 6px;
-    background-color: #fff;
-    /* Отступы от рамки к тексту */
-    padding: 5px 35px 5px 15px;
-    /* Убираем баузерную обводку*/
-    outline: none;
-    cursor: pointer;
-}
-
-.input-content {
-    width: 218px;
-    border: 1px solid #FCC300;
-    border-radius: 6px;
-    background-color: #fff;
-    padding: 5px 15px 5px 15px;
-    outline: none;
-}
-
-.input-area {
-    width: 568px;
-    border: 1px solid #FCC300;
-    border-radius: 6px;
-    background-color: #fff;
-    padding: 5px 15px 5px 15px;
-    outline: none;
-}
-
-.area-wrap {
-    /* width: 660px; */
-    height: 130px;
-}
-
-.select {
-    width: 100%;
-    /* Убираем браузерную стрелку */
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    appearance: none;
-    /* Задаем свой фон и рамку */
-    border: 1px solid #FCC300;
-    border-radius: 6px;
-    background-color: #fff;
-    /* Отступы от рамки к тексту */
-    padding: 10px 35px 10px 15px;
-    /* Убираем баузерную обводку*/
-    outline: none;
-    cursor: pointer;
-}
-
-
-/* Убираем стрелочку в IE 10 и 11 */
-
-.select::-ms-expand {
-    display: none;
-}
-
-
-/* По клику - убираем обводку и добавляем свою*/
-
-
-/* .select:focus {
-    outline: none;
-    box-shadow: 0px 0px 0px 1px #38577a, 0px 0px 10px #FCC300;
-} */
-
-
-/* Делаем .reports-name родительским элементом для позиционирования "стрелочки" */
 
 .reports-name {
     position: relative;
@@ -421,23 +333,6 @@ input {
 
 
 /* Рисуем стрелочку */
-
-.reports-name::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    right: 15px;
-    transform: translateY(-50%);
-    display: block;
-    /* Рисуем треугольник */
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 10.4px 6px 0 6px;
-    border-color: #2B2A29 transparent transparent transparent;
-    /* Снимаем клик с треугольника */
-    pointer-events: none;
-}
 
 .reports-name-wrap {
     display: flex;

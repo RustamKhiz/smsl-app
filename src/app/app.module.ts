@@ -28,6 +28,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatTabsModule} from '@angular/material/tabs';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+// import { moment } from 'moment/moment'
 
 import { AppComponent } from './app.component';
 import {AutComponent} from './aut/aut.component';
@@ -41,7 +42,7 @@ import { MajorComponent } from './layouts/site-layout/major/major.component';
 import { ProfileRedComponent } from './layouts/site-layout/profile-red/profile-red.component';
 import { ChartComponent } from './chart/chart.component';
 import { ReportsComponent } from './layouts/site-layout/reports/reports.component';
-import {ErrorInterseptor} from '../app/layouts/classes/error.interseptor';
+// import {ErrorInterseptor} from '../app/layouts/classes/error.interseptor';
 import { PersonalComponent } from './layouts/site-layout/personal/personal.component';
 import { EquipmentComponent } from './layouts/site-layout/equipment/equipment.component';
 import { ReportsAddComponent } from './layouts/site-layout/reports/reportsAdd/reports-add/reports-add.component';
@@ -53,7 +54,9 @@ import { DropdownMultiCloneComponent } from './layouts/classes/dropdown-classes/
 import { ReportsRedComponent } from './layouts/site-layout/reports/reports-red/reports-red.component';
 import { ReportViewComponent } from './layouts/site-layout/reports/report-view/report-view.component';
 import { MessengerComponent } from './layouts/site-layout/messenger/messenger.component';
-
+import { DialogDeleteComponent } from './layouts/classes/dialog/dialog-delete/dialog-delete.component';
+import { CloudComponent } from './layouts/site-layout/cloud/cloud.component';
+import { SupportComponent } from './layouts/site-layout/support/support.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +80,10 @@ import { MessengerComponent } from './layouts/site-layout/messenger/messenger.co
     DropdownMultiCloneComponent,
     ReportsRedComponent,
     ReportViewComponent,
-    MessengerComponent
+    MessengerComponent,
+    DialogDeleteComponent,
+    CloudComponent,
+    SupportComponent
   ],
   imports: [
     BrowserModule,
@@ -109,7 +115,8 @@ import { MessengerComponent } from './layouts/site-layout/messenger/messenger.co
     MatCardModule,
     MatDividerModule,
     MatTabsModule,
-    InfiniteScrollModule
+    InfiniteScrollModule,
+    // MomentDateModule
   ],
   providers: [
     {
@@ -117,9 +124,9 @@ import { MessengerComponent } from './layouts/site-layout/messenger/messenger.co
       multi: true,
       useClass: TokenInterseptor
     },
-    {
-      provide: HTTP_INTERCEPTORS, useClass: ErrorInterseptor, multi: true
-    },
+    // {
+    //   provide: HTTP_INTERCEPTORS, useClass: ErrorInterseptor, multi: true
+    // },
     {
       provide: MAT_DATE_FORMATS,
       useValue: {

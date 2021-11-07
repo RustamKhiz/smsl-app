@@ -71,3 +71,9 @@
 .example-card {
     border: 1px #FCC300 solid;
 }
+
+.filter-label-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

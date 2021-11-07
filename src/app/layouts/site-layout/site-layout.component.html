@@ -11,17 +11,17 @@
                             </li>
 
                             <button mat-button disabled aria-label="Example icon-button with a menu">
-                              Новости
+                              <span>Новости</span>
                             </button>
                             <button mat-button disabled aria-label="Example icon-button with a menu">
-                              Задачи
+                              <span>Задачи</span>
                             </button>
                             <button mat-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                              Профиль
-                              <mat-icon>more_horiz</mat-icon>
+                              <span>Профиль</span>
+                              <mat-icon>keyboard_arrow_down</mat-icon>
                             </button>
                             <mat-menu #menu="matMenu">
-                                <button mat-menu-item routerLink="/profile">
+                                <button mat-menu-item routerLink="/profile" disabled>
                                 <mat-icon>person</mat-icon>
                                 <span>{{UserName}}</span>
                               </button>
@@ -65,9 +65,9 @@
                             <mat-icon class="nav-elem-icon">settings_input_component</mat-icon><a>Оборудование</a></div>
                         <div class="nav-elem-wrap" routerLink="messenger">
                             <mat-icon class="nav-elem-icon">chat</mat-icon><a>Диалоги</a></div>
-                        <div class="nav-elem-wrap" routerLink="/site">
+                        <div class="nav-elem-wrap" routerLink="/cloud">
                             <mat-icon class="nav-elem-icon">cloud_queue</mat-icon><a>Облако</a></div>
-                        <div class="nav-elem-wrap" routerLink="/site">
+                        <div class="nav-elem-wrap" routerLink="/support">
                             <mat-icon class="nav-elem-icon">settings</mat-icon><a>Поддержка</a></div>
                         <!-- <div class="nav-elem-wrap" routerLink="">
                             <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div>

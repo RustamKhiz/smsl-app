@@ -3,10 +3,11 @@
     margin: 0 auto;
 }
 
-.header-fix {
-    /*!*position: fixed;*!*/
-    /*background-color: white;*/
-}
+
+/* .header-fix {
+    position: fixed;
+    background-color: white;
+} */
 
 .nav-wrapper {
     display: flex;

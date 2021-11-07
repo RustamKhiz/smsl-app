@@ -288,6 +288,7 @@ export interface ReportsAll{
       Name: string,
       LastName: string,
       MidName: string,
+      SmalFio: string
     },
     CwrStatusFromPersonals:{
       Id: number,

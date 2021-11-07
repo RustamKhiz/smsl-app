@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-staff',
@@ -33,6 +34,16 @@ export class StaffComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+  filterName: FormControl = new FormControl('')
+  FilterSubmit(){
+    console.log("this.filterName.value: ", this.filterName.value)
+    for (let i = 0; i <  this.staffData.length; i++) {
+      if (this.filterName.value == this.staffData[i].Fio){
+        this.staff = [this.staffData[i]]
+        console.log("this.staffData: ",  this.staff)
+      }
+    }
   }
 
 }
