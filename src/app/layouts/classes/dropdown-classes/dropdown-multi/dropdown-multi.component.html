@@ -3,7 +3,7 @@
         <mat-form-field color="accent">
             <mat-select [formControl]="ItemsMultiCtrl" placeholder="{{placeholder}}" [multiple]="true" #multiSelect (selectionChange)="SelectionOnChange($event)">
                 <mat-option>
-                    <ngx-mat-select-search placeholder="Поиск" [showToggleAllCheckbox]="true" [toggleAllCheckboxIndeterminate]="isIndeterminate" [toggleAllCheckboxChecked]="isChecked" (toggleAll)="toggleSelectAll($event)" [formControl]="ItemsMultiFilterCtrl">
+                    <ngx-mat-select-search placeholder="Поиск" [showToggleAllCheckbox]="false" [toggleAllCheckboxIndeterminate]="isIndeterminate" (selectionChange)="SelectionOnChange($event)" [toggleAllCheckboxChecked]="isChecked" (toggleAll)="toggleSelectAll($event)" [formControl]="ItemsMultiFilterCtrl">
                     </ngx-mat-select-search>
                 </mat-option>
                 <mat-option *ngFor="let item of filteredItemsMulti | async" [value]="item">

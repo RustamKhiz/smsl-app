@@ -48,6 +48,12 @@ export class SiteLayoutComponent implements OnInit, OnDestroy {
   //метод для вызова настроек профиля
   conutAfter = 0;
   ngOnInit() {
+
+    if (localStorage.getItem('reloadItem') !== null){
+      location.reload()
+      localStorage.removeItem('reloadItem')
+    }
+
     this.UserName = this.userData.MyPerson.Personal.EMail
     this.toggle = !this.toggle;
     console.log("TEST NGONINIT")

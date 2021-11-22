@@ -2,47 +2,30 @@
 
     <div class="title">Профиль</div>
     <div class="profle-wrap-flex">
-        <img class="profile-photo" src="assets/profile_photo.jpg">
+        <img class="profile-photo" src="assets/personal_prifile_icon.png">
         <div class="input-wrap">
-            <img src="assets/edit.png" class="profile-edit">
-            <input type="text" value="{{LastName}}" disabled>
-            <input type="text" value="{{Name}} " disabled>
-            <input type="text" value="{{MidName}}" disabled>
-            <input type="text" value="{{Telephone}}" disabled>
-            <input type="text" value="{{Position}}" disabled>
-            <input type="text" value="{{Id}}" disabled>
+            <div style="display: flex; justify-content: flex-end; padding: 10px 10px 0 0;">
+                <button mat-button disabled style="min-width: 0; padding: 0; color: white;"> <mat-icon  style="color: white;" >edit</mat-icon></button>
+            </div>
+            <mat-tab-group mat-align-tabs="left" color="accent">
+                <mat-tab label="Информация" style="color: white;">
+                    <div class="profile-info">
+                        <p><strong>ФИО: </strong> {{Fio}}</p>
+                        <p><strong>Логин: </strong> {{EMail}}</p>
+                        <p><strong>Телефон: </strong>{{Telephone}}</p>
+                        <p><strong>Должность: </strong>{{Position}}</p>
+                        <p><strong>Идентификатор: </strong>{{Id}}</p>
+                        <p><strong>Клеймо: </strong>{{DefId}}</p>
+                        <p><strong>Участок: </strong>{{Organization}}</p>
+                    </div>
+                </mat-tab>
+                <mat-tab label="Задачи" disabled>Раздел в разработке</mat-tab>
+                <mat-tab label="Статистика" disabled>Раздел в разработке</mat-tab>
+                <mat-tab label="Таблица" disabled>Раздел в разработке</mat-tab>
+                <mat-tab label="Таблица" disabled>Раздел в разработке</mat-tab>
+            </mat-tab-group>
+
+
         </div>
     </div>
 </div>
-
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>

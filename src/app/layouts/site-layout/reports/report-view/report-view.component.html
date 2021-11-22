@@ -1,4 +1,5 @@
-<p class="reports-title">Отчет № {{reportView.Id}}</p>
+<mat-icon (click)="arrowBack()" style="cursor: pointer;">arrow_back</mat-icon>
+<p class="reports-title" style="display: inline; padding-left: 5px;">Отчет № {{reportView.Id}}</p>
 
 <p class="title"> Проконтролировано </p>
 <div class="example-container mat-elevation-z8">
@@ -25,12 +26,12 @@
         <!-- Symbol Column -->
         <ng-container matColumnDef="reportView.CwrWorks.CwrWorkPersonals">
             <th mat-header-cell *matHeaderCellDef> Персонал </th>
-            <td mat-cell *matCellDef="let element, index as i"> <span *ngFor="let pers of reportView.CwrWorks[i].CwrWorkPersonals, index as j">{{pers.Personal.Fio + "; "}} </span> </td>
+            <td mat-cell *matCellDef="let element, index as i"> <span *ngFor="let pers of reportView.CwrWorks[i].CwrWorkPersonals, index as j">{{pers.Personal.SmalFio + "; "}} <br> </span> </td>
         </ng-container>
 
         <ng-container matColumnDef="reportView.CwrWorks.CwrWorkEquipments">
             <th mat-header-cell *matHeaderCellDef style="padding-left: 16px;"> Оборудование </th>
-            <td mat-cell *matCellDef="let element, index as i" style="padding-left: 16px;"> <span *ngFor="let equip of reportView.CwrWorks[i].CwrWorkEquipments, index as j">{{equip.Equipment.FullName  + " " + equip.Equipment.Number + "; "}} </span> </td>
+            <td mat-cell *matCellDef="let element, index as i" style="padding-left: 16px;"> <span *ngFor="let equip of reportView.CwrWorks[i].CwrWorkEquipments, index as j">{{equip.Equipment.FullName + " " + equip.Equipment.Name + " " + equip.Equipment.Number + "; "}}<br> </span> </td>
         </ng-container>
         <ng-container matColumnDef="Shown">
             <th mat-header-cell *matHeaderCellDef style="padding-left: 16px;"> Предьявленно </th>
@@ -49,23 +50,24 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 </div>
+
 <p class="title"> Персонал на объекте </p>
 <div class="example-container mat-elevation-z8">
     <table mat-table [dataSource]="reportView.CwrPersonals">
 
         <ng-container matColumnDef="№">
-            <th mat-header-cell *matHeaderCellDef> № </th>
+            <th mat-header-cell *matHeaderCellDef style="width: 30px;"> № </th>
             <td mat-cell *matCellDef="let element, index as i"> {{i+1}} </td>
         </ng-container>
 
         <ng-container matColumnDef="Personal.Fio">
             <th mat-header-cell *matHeaderCellDef> ФИО </th>
-            <td mat-cell *matCellDef="let element"> {{element.Personal.Fio}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.Personal.SmalFio}} </td>
         </ng-container>
 
         <ng-container matColumnDef="CwrStatusFromPersonals">
             <th mat-header-cell *matHeaderCellDef> Выполняемая функция </th>
-            <td mat-cell *matCellDef="let element, index as i"> <span *ngFor="let status of reportView.CwrPersonals[i].CwrStatusFromPersonals"> {{status.CwrPesonalStatus.DisplayName + "; "}} </span> </td>
+            <td mat-cell *matCellDef="let element, index as i"> <span *ngFor="let status of reportView.CwrPersonals[i].CwrStatusFromPersonals">  {{status.CwrPesonalStatus.DisplayName + "; "}} <br>  </span> </td>
         </ng-container>
 
         <ng-container matColumnDef="Comment">
@@ -77,18 +79,19 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
     </table>
 </div>
+
 <p class="title"> Оборудование на объекте </p>
 <div class="example-container mat-elevation-z8">
     <table mat-table [dataSource]="reportView.CwrEquipments">
 
         <ng-container matColumnDef="№">
-            <th mat-header-cell *matHeaderCellDef> № </th>
+            <th mat-header-cell *matHeaderCellDef style="width: 30px;"> № </th>
             <td mat-cell *matCellDef="let element, index as i"> {{i+1}} </td>
         </ng-container>
 
         <ng-container matColumnDef="Equipment">
             <th mat-header-cell *matHeaderCellDef> Название </th>
-            <td mat-cell *matCellDef="let element"> {{element.Equipment.FullName + " " + element.Equipment.Number}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.Equipment.FullName + " " + element.Equipment.Name + " " + element.Equipment.Number}} </td>
         </ng-container>
 
         <ng-container matColumnDef="Status">

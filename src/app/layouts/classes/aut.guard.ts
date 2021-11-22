@@ -11,14 +11,14 @@ export class AutGuard implements CanActivate, CanActivateChild{
     constructor(private aut: AutServices, private router: Router){
 
     }
-    
+
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean>{
         if (this.aut.isAuthenticated()) {
             return of(true)
         } else {
             this.router.navigate(['/aut'],{
                 queryParams: {
-                    accessDenied:true
+                    accessDenied: true
                 }
             })
             return of (false)
@@ -28,4 +28,4 @@ export class AutGuard implements CanActivate, CanActivateChild{
         return this.canActivate(route, state)
     }
 }
-     
+

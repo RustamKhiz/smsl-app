@@ -16,7 +16,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import {MatSelectInfiniteScrollModule} from 'ng-mat-select-infinite-scroll';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import { MatNativeDateModule, MAT_DATE_FORMATS } from '@angular/material/core';
+import { MatNativeDateModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import {MatInputModule} from '@angular/material/input';
 import {MatTableModule} from '@angular/material/table';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
@@ -28,7 +28,9 @@ import {MatCardModule} from '@angular/material/card';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatTabsModule} from '@angular/material/tabs';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import {MatRippleModule} from '@angular/material/core';
 // import { moment } from 'moment/moment'
+import { MomentDateModule, MomentDateAdapter } from '@angular/material-moment-adapter';
 
 import { AppComponent } from './app.component';
 import {AutComponent} from './aut/aut.component';
@@ -57,6 +59,7 @@ import { MessengerComponent } from './layouts/site-layout/messenger/messenger.co
 import { DialogDeleteComponent } from './layouts/classes/dialog/dialog-delete/dialog-delete.component';
 import { CloudComponent } from './layouts/site-layout/cloud/cloud.component';
 import { SupportComponent } from './layouts/site-layout/support/support.component';
+import { DialogInfoComponent } from './layouts/classes/dialog/dialog-info/dialog-info.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +86,8 @@ import { SupportComponent } from './layouts/site-layout/support/support.componen
     MessengerComponent,
     DialogDeleteComponent,
     CloudComponent,
-    SupportComponent
+    SupportComponent,
+    DialogInfoComponent
   ],
   imports: [
     BrowserModule,
@@ -116,7 +120,8 @@ import { SupportComponent } from './layouts/site-layout/support/support.componen
     MatDividerModule,
     MatTabsModule,
     InfiniteScrollModule,
-    // MomentDateModule
+    MatRippleModule,
+    MomentDateModule
   ],
   providers: [
     {
@@ -131,16 +136,20 @@ import { SupportComponent } from './layouts/site-layout/support/support.componen
       provide: MAT_DATE_FORMATS,
       useValue: {
         parse: {
-          dateInput: ['l', 'LL'],
+          dateInput: 'DD.MM.YYYY',
         },
         display: {
-          dateInput: '',
-          monthYearLabel: '',
-          dateA11yLabel: '',
-          monthYearA11yLabel: '',
+          dateInput: 'DD.MM.YYYY',
+          monthYearLabel: 'DD.MM.YYYY',
+          dateA11yLabel: 'DD.MM.YYYY',
+          monthYearA11yLabel: 'DD.MM.YYYY',
         },
       },
+    },
+    {
+      provide: MAT_DATE_LOCALE, useValue: 'en-GB'
     }
+
   ],
   bootstrap: [AppComponent]
 })

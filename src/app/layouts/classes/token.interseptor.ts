@@ -43,7 +43,11 @@ export class TokenInterseptor implements HttpInterceptor , OnInit{
               // при получении 401 от api выходим на авторизацию
               this.auth.logout();
               console.log("err.status" + err.status)
-              location.reload();
+              this.router.navigate(['/aut'],{
+                queryParams:{
+                  authField: true
+                }
+              })
             } else console.log("err.status", err.status)
 
             const error = err;
@@ -51,22 +55,22 @@ export class TokenInterseptor implements HttpInterceptor , OnInit{
           })
         )
     }
-    private handleAuthError(error: HttpErrorResponse): Observable<any>{
-      // console.log("of(error)", of(error))
+    // private handleAuthError(error: HttpErrorResponse): Observable<any>{
+    //   // console.log("of(error)", of(error))
 
-      if (error.status === 401){
-        this.auth.logout()
-        this.router.navigate(['/aut'],{
-          queryParams:{
-            authField: true
-          }
+    //   if (error.status === 401){
+    //     this.auth.logout()
+    //     this.router.navigate(['/aut'],{
+    //       queryParams:{
+    //         authField: true
+    //       }
 
-        })
+    //     })
 
-      }
+    //   }
 
-      return throwError(error)
-    }
+    //   return throwError(error)
+    // }
     // intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     //   return next.handle(req).pipe(
     //     catchError((err: HttpErrorResponse) => {

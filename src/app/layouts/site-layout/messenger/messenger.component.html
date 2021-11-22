@@ -1,13 +1,13 @@
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css" rel="stylesheet" />
 <br>
 <br>
 <br>
 <br>
 <br>
-<!-- Toolbar -->
+Toolbar
 <div class="content" role="main">
-    <!-- <div class="login">
+    <div class="login">
         <h2 class="title">Login to Chat</h2>
         <form id="login-form">
             <div class="form-group">
@@ -16,9 +16,9 @@
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
-    </div> -->
+    </div>
 
-    <div class="container">
+    <div class="container2">
         <div class="messaging">
             <div class="inbox_msg">
                 <div class="inbox_people">
@@ -80,6 +80,108 @@
               </button>
                         </form>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div class="messenger-wrap">
+    <div class="messenger-contain">
+        <div class="messenger-content">
+            <div class="left-content">
+                <div class="profile-title">
+                    <div class="profile-title-group1">
+                        <div class="profile-pers-logo"><img src="../../../../assets/profile.png" alt="" style="width: 29px;"> </div>
+                        <div class="profile-pers-name"> <strong>Разработчик</strong></div>
+                    </div>
+                    <div class="profile-title-group2">
+                        <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon">
+                        <mat-icon> chat_bubble_outline</mat-icon>
+                      </button>
+                        <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon">
+                        <mat-icon>more_vert</mat-icon>
+                      </button>
+
+                    </div>
+                </div>
+                <div class="messenger-chats-list">
+
+                    <div class="messenger-chat-item">
+                        <div class="chat-item-logo"></div>
+                        <div class="chat-item-content-wrap">
+                            <div class="chat-item-name-wrap">
+                                <div class="chat-item-name"> Имя собеседника</div>
+                                <div class="chat-item-date"> Дата </div>
+                            </div>
+                            <div class="chat-item-message">Текст сообщения</div>
+                        </div>
+                    </div>
+                    <div class="messenger-chat-item">
+                        <div class="chat-item-logo"></div>
+                        <div class="chat-item-content-wrap">
+                            <div class="chat-item-name-wrap">
+                                <div class="chat-item-name"> Имя собеседника</div>
+                                <div class="chat-item-date"> Дата </div>
+                            </div>
+                            <div class="chat-item-message">Текст сообщения</div>
+                        </div>
+                    </div>
+                    <div class="messenger-chat-item">
+                        <div class="chat-item-logo"></div>
+                        <div class="chat-item-content-wrap">
+                            <div class="chat-item-name-wrap">
+                                <div class="chat-item-name"> Имя собеседника</div>
+                                <div class="chat-item-date"> Дата </div>
+                            </div>
+                            <div class="chat-item-message">Текст сообщения</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="right-content">
+                <div class="profile-title chat-title">
+                    <div class="profile-title-group1">
+                        <div class="profile-pers-logo"></div>
+                        <div class="profile-pers-name"> <strong>Твой собеседник</strong></div>
+                    </div>
+                    <div class="profile-title-group2">
+                        <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon">
+                          <mat-icon>search</mat-icon>
+                  </button>
+                        <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon">
+                    <mat-icon>more_vert</mat-icon>
+                  </button>
+
+                    </div>
+                </div>
+                <div class="chat-content">
+                    <div class="message-left">
+                        <div class="message">
+                            <p>Скоро тут можно будет общаться!</p>
+                        </div>
+                    </div>
+                    <div class="message-right">
+                        <div class="message">
+                            <p>Наконец-то!!!</p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="new-message">
+                    <form class="example-form">
+                        <mat-form-field class="example-full-width" appearance="fill" color="accent">
+                            <mat-label>Сообщение</mat-label>
+                            <input matInput #message maxlength="256" placeholder="Введите сообщение...">
+                            <mat-icon class="messege-send-arrow" matSuffix>arrow_forward_ios</mat-icon>
+                            <!-- <button mat-icon-button color="accent" aria-label="Example icon button with a menu icon">
+                              <mat-icon matSuffix>arrow_forward_ios</mat-icon>
+                            </button> -->
+                            <!-- <mat-hint align="start"><strong>Don't disclose personal info</strong> </mat-hint> -->
+                            <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
+                        </mat-form-field>
+                    </form>
                 </div>
             </div>
         </div>

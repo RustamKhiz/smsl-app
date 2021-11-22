@@ -117,3 +117,19 @@ body {
 .mat-form-field {
     width: 90%;
 }
+
+.mat-form-field-appearance-standard .mat-form-field-flex {
+    padding-top: 0 !important;
+}
+
+.mat-tab-header {
+    margin-bottom: 45px;
+}
+
+.mat-select-panel {
+    max-width: 400px !important;
+}
+
+.mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {
+    background: unset;
+}

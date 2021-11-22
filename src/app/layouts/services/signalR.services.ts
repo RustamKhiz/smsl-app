@@ -79,14 +79,14 @@ export class SignalService {
           this.SignalHash = this.connection.connectionId ? this.connection.connectionId :"";
           console.log(this.SignalHash);
           this._onConnect.dispatch(this.SignalHash, 0);
-         this.addTransferChartDataListener();
+          this.addTransferChartDataListener();
 
-        // this.afteraut.afterLog(this.testName).subscribe(
-        //   ()=> console.log("afterlog working!"),
-        //   error => {
-        //     console.log("afterlog dont work")
-        //   }
-        // )
+          // this.afteraut.afterLog(this.testName).subscribe(
+          //   ()=> console.log("afterlog working!"),
+          //   error => {
+          //     console.log("afterlog dont work")
+          //   }
+          // )
         }
       )
       .catch(err => console.log('Error while starting connection: ' + err))
@@ -114,17 +114,15 @@ export class SignalService {
       if (data == "Подключен к серверу")
       {
 
-
       }
       console.log(data);
     });
 
     this.connection.on('KeepAlive',  () => {
-       console.log('Keep-Alive');
-       this.connection.invoke('ResponseKeepAlive');
-
-
-    });
+      console.log('Keep-Alive');
+      this.connection.invoke('ResponseKeepAlive');
+    }
+    );
 
     this.connection.on('Debug',  (title:string, dis: string) => {
       console.log('Debug ' + title + " " + dis);
@@ -132,12 +130,7 @@ export class SignalService {
     });
     this.connection.onclose =() =>{
 
-
-
     }
-
-
-
   }
 
 

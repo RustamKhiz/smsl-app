@@ -141,7 +141,8 @@ export class DropdownMultiComponent implements OnInit, OnDestroy, AfterViewInit 
       this.NumberId.push(event.value[i].Id)
       this.Name.push(event.value[i].Name)
     }
-
+    console.log("this.NumberId: ", this.NumberId)
+    console.log("this.Name: ", this.Name)
     this.itemSelect.emit({valueId: this.NumberId, valueName: this.Name})
   }
 

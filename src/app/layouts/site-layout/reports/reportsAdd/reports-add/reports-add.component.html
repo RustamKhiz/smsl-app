@@ -6,21 +6,24 @@
             <div class="reports-wrap-wrap">
                 <div class="reports-tabs-wrap">
                     <div class="reports-tab" (click)="tabsClick()" [ngClass]="{reportActive:tabsBg}">
-                        <p class="tab-text tab-border">Наименование выполняемых работ</p>
+                        <p class="tab-text tab-border">Выполняемые работы</p>
                     </div>
-                    <div class="reports-tab" (click)="tabsClick2()" [ngClass]="{reportActive:tabsBg2}">
+                    <div class="reports-tab" (click)="tabsClick2()" [ngClass]="{reportActive:tabsBg2}" style="border-radius: 0 ">
                         <p class="tab-text tab-border">Персонал</p>
                     </div>
-                    <div class="reports-tab" (click)="tabsClick3()" [ngClass]="{reportActive:tabsBg3}">
+                    <div class="reports-tab" (click)="tabsClick3()" [ngClass]="{reportActive:tabsBg3}" style="border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px;">
                         <p class="tab-text">Оборудование</p>
                     </div>
 
 
                 </div>
-                <div class="reports-tab-file">
-                    <p class="file-item" *ngFor="let file of reportFile, index as i">{{[i+1] + ". " + file.OriginalName}}<span> <img src="assets/delete-black.png" class="file-delete" (click)="reportFile.splice(i, 1)"> </span> </p>
-                    <label class="file-add" for="file">Добавить файл + </label>
-                    <input type="file" id="file" hidden (change)="fileChange($event)" multiple placeholder="Upload file" accept=".pdf,.doc,.docx,.png,.jpg,.xlsx,.xls">
+                <div class="reports-tab-file-wrap">
+                    <p class="reports-tab-file-title">Файлы: </p>
+                    <div class="reports-tab-file">
+                        <p class="file-item" *ngFor="let file of reportFile, index as i">{{[i+1] + ". " + file.OriginalName}}<span><mat-icon (click)="reportFile.splice(i, 1)" style="cursor: pointer;">delete</mat-icon> </span> </p>
+                        <label class="file-add" for="file"><button type="button" mat-raised-button style="pointer-events: none;"> Добавить файл <mat-icon> attach_file</mat-icon></button></label>
+                        <input type="file" id="file" hidden (change)="fileChange($event)" multiple placeholder="Upload file" accept=".pdf,.doc,.docx,.png,.jpg,.xlsx,.xls">
+                    </div>
                 </div>
             </div>
 
@@ -31,22 +34,63 @@
 
                     </div>
                     <div class="reports-name-noarrow">
-                        <app-dropdown-select [ItemsData]="PersData" [ItemsCtrl]="ChiefCtrl" [placeholder]="'Выберите сотрудников'" (itemSelect)="ChiefIdAdd($event)"></app-dropdown-select>
+                        <app-dropdown-select [ItemsData]="ChiefData" [ItemsCtrl]="ChiefCtrl" [placeholder]="'ФИО ответственного'" (itemSelect)="ChiefIdAdd($event)"></app-dropdown-select>
                     </div>
                     <div class="reports-name-noarrow">
-                        <mat-form-field appearance="fill" color="accent">
+                        <mat-form-field appearance="standard" color="accent">
                             <mat-label>Введите дату</mat-label>
-                            <input matInput [matDatepicker]="picker" [formControl]="DataReportCtrl">
+                            <input matInput (dateInput)="'dd-mm-yyyy'" [matDatepicker]="picker" [formControl]="DataReportCtrl" [max]="maxDate" autocomplete="off">
                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                            <mat-datepicker #picker></mat-datepicker>
+                            <mat-datepicker #picker disabled="false"></mat-datepicker>
                         </mat-form-field>
                     </div>
                 </div>
                 <div class="reports-content" [ngClass]="{cardActive:cardAct}">
 
+                    <!-- <div class="report-card-wrap" *ngFor="let card of reportsCards, index as i">
+                        <div class="report-card">
+                            <div class="report-card-header">
+                                <div class="report-card-number">
+                                    <p>{{i+1}}</p>
+                                </div>
+                                <p class="report-card-title">
+                                    {{card.MethodControl}}
+                                </p>
+                                <p class="report-card-subtitle">
+                                    {{card.Customer}}
+                                </p>
+                                <div class="icon-edit">
+                                    <mat-icon (click)="CwrWorksRed(i)" style="cursor: pointer;">edit</mat-icon>
+                                </div>
+                            </div>
+                            <div class="report-card-center">
+                                <div class="report-card-center-left">
+                                    <span *ngFor="let pers of reportsCards[i].CwrWorkPersonals, index as j">{{[j+1] + ". " + pers.Fio}}</span>
+                                </div>
+                                <div class="report-card-center-right">
+                                    <span *ngFor="let equip of reportsCards[i].CwrWorkEquipments, index as j">{{[j+1] + ". " + equip.Name }}</span>
+                                </div>
+                            </div>
+                            <div class="report-card-footer">
+
+                                <p>
+                                    <strong>Предъявлено:</strong> {{card.Shown}}
+                                </p>
+                                <p>
+                                    <strong>Сделано:</strong> {{card.Made}}
+                                </p>
+                                <div class="icon-delete">
+                                    <mat-icon (click)="reportsCards.splice(i, 1)" style="cursor: pointer;">delete</mat-icon>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
                     <div class="report-content" *ngFor="let card of reportsCards, index as i">
+                        <div class="report-content-text-number">
+                            <p>{{i+1}}</p>
+                        </div>
                         <div class="report-content-text">
-                            <div>
+                            <div style="width: 150px;">
                                 <p>
                                     <strong>Метод НК:</strong><br> {{card.MethodControl}}
                                 </p>
@@ -54,10 +98,10 @@
                                     <strong>Заказчик:</strong><br> {{card.Customer}}
                                 </p>
                             </div>
-                            <p class="report-content-pers">
+                            <p class="report-content-pers" style="width: 175px;">
                                 <strong>Сотрудники:</strong> <span *ngFor="let pers of reportsCards[i].CwrWorkPersonals, index as j">{{[j+1] + ". " + pers.Fio}}</span>
                             </p>
-                            <p class="report-content-equip">
+                            <p class="report-content-equip" style="width: 170px;">
                                 <strong>Оборудование:</strong> <span *ngFor="let equip of reportsCards[i].CwrWorkEquipments, index as j">{{[j+1] + ". " + equip.Name }}</span>
                             </p>
                             <div>
@@ -67,24 +111,31 @@
                                 <p>
                                     <strong>Сделано:</strong> {{card.Made}}
                                 </p>
-                                <p>
-                                    <strong>Комментарий:</strong> {{card.Comment}}
-                                </p>
+
                             </div>
                         </div>
 
-                        <img src="assets/reports-red.png" class="img_red" (click)="CwrWorksRed(i)" alt="">
-                        <img src="assets/delete-black.png" class="img_red" (click)="reportsCards.splice(i, 1)" alt="">
+                        <div class="icon-wrap">
+                            <mat-icon (click)="CwrWorksRed(i)" style="cursor: pointer;">edit</mat-icon>
+                            <mat-icon (click)="reportsCards.splice(i, 1)" style="cursor: pointer;">delete</mat-icon>
+                        </div>
                     </div>
-
-                    <div class="report-content-add"><img src="assets/reports-add.png" (click)="popupOpen()" class="img-add" alt=""> </div>
+                    <!-- <div class="report-card-add" matRipple matRippleColor="rgba(13, 255, 0, 0.1)">
+                        <mat-icon (click)="popupOpen()" class="img-add">add</mat-icon>
+                    </div> -->
+                    <div class="report-content-add" matRipple matRippleColor="rgba(13, 255, 0, 0.1)">
+                        <p class="report-content-add-title">Добавить работу</p>
+                        <mat-icon (click)="popupOpen()" class="img-add">add</mat-icon>
+                    </div>
                 </div>
                 <div class="reports-popup" [ngClass]="{open:popOpenRed}">
-                    <div class="popup-area" (click)="popupOpenRed()"></div>
+                    <div class="popup-area" (click)="popupHiddenRed()"></div>
                     <div class="popup-body">
                         <div class="popup-content">
-                            <a class="popup-close" (click)="popupOpenRed()">X</a>
-                            <div class="popup-title">Наименование выполняемых работ</div>
+                            <a class="popup-close" (click)="popupCloseRed()">
+                                <mat-icon class="popup-close-icon">close</mat-icon>
+                            </a>
+                            <div class="popup-title">Выполняемая работа № {{workNum}}</div>
                             <div class="form">
                                 <form>
                                     <div class="select-card-wrap">
@@ -109,35 +160,34 @@
                                         </div>
                                         <div class="select-wrap">
                                             <p class="select-title">Предъявлено</p>
-                                            <mat-form-field class="example-full-width" appearance="fill" color="accent">
+                                            <mat-form-field class="example-full-width" appearance="standard" color="accent">
                                                 <mat-label>Предъявлено</mat-label>
-                                                <input type="number" matInput placeholder="0" [formControl]="ShownCtrl">
+                                                <input type="text" matInput placeholder="0" [formControl]="ShownCtrl">
                                             </mat-form-field>
                                         </div>
                                         <div class="select-wrap">
                                             <p class="select-title">Сделано</p>
-                                            <mat-form-field class="example-full-width" appearance="fill" color="accent">
+                                            <mat-form-field class="example-full-width" appearance="standard" color="accent">
                                                 <mat-label>Сделано</mat-label>
-                                                <input type="number" matInput placeholder="0" [formControl]="MadeCtrl">
+                                                <input type="text" matInput placeholder="0" [formControl]="MadeCtrl">
                                             </mat-form-field>
                                         </div>
                                         <div class="select-wrap area-wrap">
                                             <p class="select-title">Комментарий</p>
-                                            <mat-form-field class="example-full-width" appearance="fill" color="accent">
-                                                <mat-label>Leave a comment</mat-label>
-                                                <textarea matInput placeholder="Ex. It makes me feel..." [formControl]="CommentCtrl"></textarea>
+                                            <mat-form-field class="example-full-width" appearance="standard" color="accent">
+                                                <mat-label>Комментарий</mat-label>
+                                                <textarea matInput placeholder="" [formControl]="CommentCtrl"></textarea>
                                             </mat-form-field>
                                         </div>
-                                        <div class="select-wrap " *ngIf="(MethodControlCtrl.status && CustomerCtrl.status && CwrWorkPersonalsCtrl.status && CwrWorkEquipmentsCtrl.status && ShownCtrl.status && MadeCtrl.status) == 'INVALID'">
-                                            <div class="report-valid valid">
-                                                <strong> Не все обязательные поля формы заполнены!</strong>
-                                            </div>
-                                        </div>
+
                                     </div>
                                     <div class="button-wrap">
-                                        <button type="button" class="add-button" (click)="RedOnPopup()" [disabled]="(MethodControlCtrl.status && CustomerCtrl.status && CwrWorkPersonalsCtrl.status && CwrWorkEquipmentsCtrl.status && ShownCtrl.status && MadeCtrl.status) == 'INVALID'">
-                              <p class="button-text" style="font-size: 16px;">Редактировать</p>
-                            </button>
+                                        <button mat-raised-button color="accent" (click)="RedOnPopup()" [disabled]="MethodControlCtrl.hasError('required') || CustomerCtrl.hasError('required') || CwrWorkPersonalsCtrl.hasError('required') || CwrWorkEquipmentsCtrl.hasError('required') || ShownCtrl.hasError('required') || MadeCtrl.hasError('required')">
+                                          Редактировать
+                                        </button>
+                                        <mat-error *ngIf="MethodControlCtrl.hasError('required') || CustomerCtrl.hasError('required') || CwrWorkPersonalsCtrl.hasError('required') || CwrWorkEquipmentsCtrl.hasError('required') || ShownCtrl.hasError('required') || MadeCtrl.hasError('required')">
+                                            Не все <strong>обязательные поля</strong> заполнены!
+                                        </mat-error>
                                     </div>
                                 </form>
                             </div>
@@ -147,7 +197,10 @@
 
                 <div class="reports-content" [ngClass]="{cardActive:cardAct2}">
                     <div class="report-content" *ngFor="let card of reportsPers, index as i">
-                        <div class="report-content-text normal">
+                        <div class="report-content-text-number">
+                            <p>{{i+1}}</p>
+                        </div>
+                        <div class="report-content-text normal-width">
                             <p>
                                 <strong> Сотрудники:</strong> <br> {{card.PersonalStatusName}}
                             </p>
@@ -158,16 +211,24 @@
                                 <strong> Комментарий:</strong> <br> {{card.Comment}}
                             </p>
                         </div>
-                        <img src="assets/reports-red.png" class="img_red" (click)="CwrPersonalsRed(i)" alt="">
-                        <img src="assets/delete-black.png" class="img_red" (click)="reportsPers.splice(i, 1)" alt="">
+                        <div class="icon-wrap">
+                            <mat-icon (click)="CwrPersonalsRed(i)" style="cursor: pointer;">edit</mat-icon>
+                            <mat-icon (click)="reportsPers.splice(i, 1)" style="cursor: pointer;">delete</mat-icon>
+                        </div>
                     </div>
-                    <div class="report-content-add" (click)="popupOpen2()"><img src="assets/reports-add.png" class="img-add" alt=""> </div>
+                    <div class="report-content-add" matRipple matRippleColor="rgba(13, 255, 0, 0.1)">
+                        <!-- <img src="assets/reports-add.png" (click)="popupOpen2()" class="img-add" alt="">  -->
+                        <p class="report-content-add-title">Добавить сотрудника</p>
+                        <mat-icon (click)="popupOpen2()" class="img-add">add</mat-icon>
+                    </div>
                 </div>
                 <div class="reports-popup" [ngClass]="{open:popOpenRed2}">
-                    <div class="popup-area" (click)="popupOpenRed2()"></div>
+                    <div class="popup-area" (click)="popupHiddenRed2()"></div>
                     <div class="popup-body">
                         <div class="popup-content">
-                            <a class="popup-close" (click)="popupOpenRed2()">X</a>
+                            <a class="popup-close" (click)="popupCloseRed2()">
+                                <mat-icon class="popup-close-icon">close</mat-icon>
+                            </a>
                             <div class="popup-title">Персонал</div>
                             <div class="form">
                                 <form>
@@ -182,15 +243,18 @@
                                         </div>
                                         <div class="select-wrap area-wrap">
                                             <p class="select-title">Комментарий</p>
-                                            <mat-form-field class="example-full-width" appearance="fill" color="accent">
-                                                <mat-label>Leave a comment</mat-label>
-                                                <textarea matInput placeholder="Ex. It makes me feel..." [formControl]="CommentCtrl2"></textarea>
+                                            <mat-form-field class="example-full-width" appearance="standard" color="accent">
+                                                <mat-label>Комментарий</mat-label>
+                                                <textarea matInput placeholder="" [formControl]="CommentCtrl2"></textarea>
                                             </mat-form-field>
                                         </div>
 
                                     </div>
                                     <div class="button-wrap">
-                                        <button type="button" class="add-button" (click)="RedOnPopup2()"><p class="button-text" style="font-size: 16px;">Редактировать</p> </button>
+                                        <button mat-raised-button color="accent" (click)="RedOnPopup2()" [disabled]="CwrPersonalCtrl.hasError('required') || StatusCtrl.hasError('required')">Редактировать</button>
+                                        <mat-error *ngIf="CwrPersonalCtrl.hasError('required') || StatusCtrl.hasError('required')">
+                                            Не все <strong>обязательные поля</strong> заполнены!
+                                        </mat-error>
                                     </div>
                                 </form>
                             </div>
@@ -199,7 +263,10 @@
                 </div>
                 <div class="reports-content" [ngClass]="{cardActive:cardAct3}">
                     <div class="report-content" *ngFor="let card of reportEquip, index as i">
-                        <div class="report-content-text">
+                        <div class="report-content-text-number">
+                            <p>{{i+1}}</p>
+                        </div>
+                        <div class="report-content-text normal-width">
                             <p>
                                 <strong>Оборудование:</strong> <br> {{card.CwrEquipments}}
                             </p>
@@ -210,17 +277,25 @@
                                 <strong> Комментарий:</strong> <br> {{card.Comment}}
                             </p>
                         </div>
-                        <img src="assets/reports-red.png" class="img_red" (click)="CwrEquipmentsRed(i)" alt="">
-                        <img src="assets/delete-black.png" class="img_red" (click)="reportEquip.splice(i, 1)" alt="">
+                        <div class="icon-wrap">
+                            <mat-icon (click)="CwrEquipmentsRed(i)" style="cursor: pointer;">edit</mat-icon>
+                            <mat-icon (click)="reportEquip.splice(i, 1)" style="cursor: pointer;">delete</mat-icon>
+                        </div>
                     </div>
 
-                    <div class="report-content-add" (click)="popupOpen3()"><img src="assets/reports-add.png" class="img-add" alt=""> </div>
+                    <div class="report-content-add" matRipple matRippleColor="rgba(13, 255, 0, 0.1)">
+                        <!-- <img src="assets/reports-add.png" (click)="popupOpen3()" class="img-add" alt=""> -->
+                        <p class="report-content-add-title">Добавить оборудование</p>
+                        <mat-icon (click)="popupOpen3()" class="img-add">add</mat-icon>
+                    </div>
                 </div>
                 <div class="reports-popup" [ngClass]="{open:popOpenRed3}">
-                    <div class="popup-area" (click)="popupOpenRed3()"></div>
+                    <div class="popup-area" (click)="popupHiddenRed3()"></div>
                     <div class="popup-body">
                         <div class="popup-content">
-                            <a class="popup-close" (click)="popupOpenRed3()">X</a>
+                            <a class="popup-close" (click)="popupCloseRed3()">
+                                <mat-icon class="popup-close-icon">close</mat-icon>
+                            </a>
                             <div class="popup-title">Оборудование</div>
                             <div class="form">
                                 <form>
@@ -237,15 +312,19 @@
                                         </div>
                                         <div class="select-wrap area-wrap">
                                             <p class="select-title">Комментарий</p>
-                                            <mat-form-field class="example-full-width" appearance="fill" color="accent">
-                                                <mat-label>Leave a comment</mat-label>
-                                                <textarea matInput placeholder="Ex. It makes me feel..." [formControl]="CommentCtrl3"></textarea>
+                                            <mat-form-field class="example-full-width" appearance="standard" color="accent">
+                                                <mat-label>Комментарий</mat-label>
+                                                <textarea matInput placeholder="" [formControl]="CommentCtrl3"></textarea>
                                             </mat-form-field>
                                         </div>
 
                                     </div>
                                     <div class="button-wrap">
-                                        <button type="button" class="add-button" (click)="RedOnPopup3()"><p class="button-text" style="font-size: 16px;">Редактировать</p> </button>
+                                        <!-- <button type="button" class="add-button" (click)="RedOnPopup3()"><p class="button-text" style="font-size: 16px;">Редактировать</p> </button> -->
+                                        <button mat-raised-button color="accent" (click)="RedOnPopup3()" [disabled]="CwrEquipmentslCtrl.hasError('required') || StatusEqCtrl.hasError('required')">Редактировать</button>
+                                        <mat-error *ngIf="CwrEquipmentslCtrl.hasError('required') || StatusEqCtrl.hasError('required')">
+                                            Не все <strong>обязательные поля</strong> заполнены!
+                                        </mat-error>
                                     </div>
                                 </form>
                             </div>
@@ -259,13 +338,15 @@
         </div>
 
         <div class="reports-popup" [ngClass]="{open:popOpen}">
-            <div class="popup-area" (click)="popupOpen()"></div>
+            <div class="popup-area" (click)="popupHidden()"></div>
             <div class="popup-body">
                 <div class="popup-content">
-                    <a class="popup-close" (click)="popupOpen()">X</a>
-                    <div class="popup-title">Наименование выполняемых работ</div>
-                    <div class="form" (ngSubmit)='addOnPopup()'>
-                        <form (ngSubmit)='addOnPopup()'>
+                    <a class="popup-close" (click)="popupClose()">
+                        <mat-icon class="popup-close-icon">close</mat-icon>
+                    </a>
+                    <div class="popup-title">Выполняемая работа</div>
+                    <div class="form">
+                        <form>
                             <div class="select-card-wrap">
                                 <div class="select-wrap">
                                     <p class="select-title">Метод НК</p>
@@ -278,8 +359,7 @@
                                 </div>
                                 <div class="select-wrap">
                                     <p class="select-title">Сотрудники</p>
-                                    <app-dropdown-multi [ItemsData]="PersData" [ItemsMultiCtrl]="CwrWorkPersonalsCtrl" [allItemsSize]="pers.length" [placeholder]="'Выберите сотрудников'" (itemSelect)="CwrWorkPersonalsAdd($event)"></app-dropdown-multi>
-
+                                    <app-dropdown-multi [ItemsData]="PersData" [ItemsMultiCtrl]="CwrWorkPersonalsCtrl" [allItemsSize]="PersData.length" (itemSelect)="CwrWorkPersonalsAdd($event)" [placeholder]="'Выберите сотрудников'"></app-dropdown-multi>
                                 </div>
                                 <div class="select-wrap">
                                     <p class="select-title">Оборудование</p>
@@ -288,35 +368,31 @@
                                 </div>
                                 <div class="select-wrap">
                                     <p class="select-title">Предъявлено</p>
-                                    <mat-form-field class="example-full-width" appearance="fill" color="accent">
+                                    <mat-form-field class="example-full-width" appearance="standard" color="accent">
                                         <mat-label>Предъявлено</mat-label>
-                                        <input type="number" matInput placeholder="0" [formControl]="ShownCtrl">
+                                        <input type="text" matInput placeholder="0" [formControl]="ShownCtrl">
                                     </mat-form-field>
                                 </div>
                                 <div class="select-wrap">
                                     <p class="select-title">Сделано</p>
-                                    <mat-form-field class="example-full-width" appearance="fill" color="accent">
+                                    <mat-form-field class="example-full-width" appearance="standard" color="accent">
                                         <mat-label>Сделано</mat-label>
-                                        <input type="number" matInput placeholder="0" [formControl]="MadeCtrl">
+                                        <input type="text" matInput placeholder="0" [formControl]="MadeCtrl">
                                     </mat-form-field>
                                 </div>
                                 <div class="select-wrap area-wrap">
                                     <p class="select-title">Комментарий</p>
-                                    <mat-form-field class="example-full-width" appearance="fill" color="accent">
-                                        <mat-label>Leave a comment</mat-label>
-                                        <textarea matInput placeholder="Ex. It makes me feel..." [formControl]="CommentCtrl"></textarea>
+                                    <mat-form-field class="example-full-width" appearance="standard" color="accent">
+                                        <mat-label>Комментарий</mat-label>
+                                        <textarea class="textarea-height" matInput placeholder="" [formControl]="CommentCtrl"></textarea>
                                     </mat-form-field>
-                                </div>
-                                <div class="select-wrap " *ngIf="(MethodControlCtrl.status && CustomerCtrl.status && CwrWorkPersonalsCtrl.status && CwrWorkEquipmentsCtrl.status && ShownCtrl.status && MadeCtrl.status) == 'INVALID'">
-                                    <div class="report-valid valid">
-                                        <strong> Не все обязательные поля формы заполнены!</strong>
-                                    </div>
                                 </div>
                             </div>
                             <div class="button-wrap">
-                                <button type="button" class="add-button" (click)="addOnPopup()" [disabled]="(MethodControlCtrl.status && CustomerCtrl.status && CwrWorkPersonalsCtrl.status && CwrWorkEquipmentsCtrl.status && ShownCtrl.status && MadeCtrl.status) == 'INVALID'">
-                                  <p class="button-text">Добавить</p>
-                                </button>
+                                <button mat-raised-button color="accent" (click)="addOnPopup()" [disabled]="MethodControlCtrl.hasError('required') || CustomerCtrl.hasError('required') || CwrWorkPersonalsCtrl.hasError('required') || CwrWorkEquipmentsCtrl.hasError('required') || ShownCtrl.hasError('required') || MadeCtrl.hasError('required')">Добавить</button>
+                                <mat-error *ngIf="MethodControlCtrl.hasError('required') || CustomerCtrl.hasError('required') || CwrWorkPersonalsCtrl.hasError('required') || CwrWorkEquipmentsCtrl.hasError('required') || ShownCtrl.hasError('required') || MadeCtrl.hasError('required')">
+                                    Не все <strong>обязательные поля</strong> заполнены!
+                                </mat-error>
                             </div>
                         </form>
                     </div>
@@ -324,13 +400,15 @@
             </div>
         </div>
         <div class="reports-popup" [ngClass]="{open:popOpen2}">
-            <div class="popup-area" (click)="popupOpen2()"></div>
+            <div class="popup-area" (click)="popupHidden2()"></div>
             <div class="popup-body">
                 <div class="popup-content">
-                    <a class="popup-close" (click)="popupOpen2()">X</a>
+                    <a class="popup-close" (click)="popupClose2()">
+                        <mat-icon class="popup-close-icon">close</mat-icon>
+                    </a>
                     <div class="popup-title">Персонал</div>
-                    <div class="form" (ngSubmit)='addOnPopup2() '>
-                        <form (ngSubmit)='addOnPopup2()'>
+                    <div class="form">
+                        <form>
                             <div class="select-card-wrap">
                                 <div class="select-wrap">
                                     <p class="select-title">Сотрудник ФИО </p>
@@ -338,62 +416,80 @@
                                 </div>
                                 <div class="select-wrap">
                                     <p class="select-title">Функции</p>
-                                    <app-dropdown-multi [ItemsData]="StatusData" [ItemsMultiCtrl]="StatusCtrl" [allItemsSize]="status.length" [placeholder]="'Выберите сотрудников'" (itemSelect)="StatusAdd($event)"></app-dropdown-multi>
+                                    <app-dropdown-multi [ItemsData]="StatusData" [ItemsMultiCtrl]="StatusCtrl" [allItemsSize]="status.length" [placeholder]="'Выберите функцию'" (itemSelect)="StatusAdd($event)"></app-dropdown-multi>
                                 </div>
                                 <div class="select-wrap area-wrap">
                                     <p class="select-title">Комментарий</p>
-                                    <mat-form-field class="example-full-width" appearance="fill" color="accent">
-                                        <mat-label>Leave a comment</mat-label>
-                                        <textarea matInput placeholder="Ex. It makes me feel..." [formControl]="CommentCtrl2"></textarea>
+                                    <mat-form-field class="example-full-width" appearance="standard" color="accent">
+                                        <mat-label>Комментарий</mat-label>
+                                        <textarea matInput placeholder="" [formControl]="CommentCtrl2"></textarea>
                                     </mat-form-field>
                                 </div>
 
                             </div>
                             <div class="button-wrap">
-                                <button type="button" class="add-button" (click)="addOnPopup2()"><p class="button-text">Добавить</p> </button>
+                                <!-- <button type="button" class="add-button" (click)="addOnPopup2()"><p class="button-text">Добавить</p> </button> -->
+                                <button mat-raised-button color="accent" (click)="addOnPopup2()" [disabled]="CwrPersonalCtrl.hasError('required') || StatusCtrl.hasError('required')">Добавить</button>
+                                <mat-error *ngIf="CwrPersonalCtrl.hasError('required') || StatusCtrl.hasError('required')">
+                                    Не все <strong>обязательные поля</strong> заполнены!
+                                </mat-error>
                             </div>
+
                         </form>
                     </div>
                 </div>
             </div>
         </div>
         <div class="reports-popup" [ngClass]="{open:popOpen3}">
-            <div class="popup-area" (click)="popupOpen3()"></div>
+            <div class="popup-area" (click)="popupHidden3()"></div>
             <div class="popup-body">
                 <div class="popup-content">
-                    <a class="popup-close" (click)="popupOpen3()">X</a>
+                    <a class="popup-close" (click)="popupClose3()">
+                        <mat-icon class="popup-close-icon">close</mat-icon>
+                    </a>
                     <div class="popup-title">Оборудование</div>
-                    <div class="form" (ngSubmit)='addOnPopup3() '>
-                        <form (ngSubmit)='addOnPopup3()'>
+                    <div class="form">
+                        <form>
                             <div class="select-card-wrap">
                                 <div class="select-wrap">
                                     <p class="select-title">Оборудование</p>
-                                    <app-dropdown-select [ItemsData]="EquipData" [ItemsCtrl]="CwrEquipmentslCtrl" [placeholder]="'Выберите сотрудника'" (itemSelect)="EquipmentAdd($event)"></app-dropdown-select>
+                                    <app-dropdown-select [ItemsData]="EquipData" [ItemsCtrl]="CwrEquipmentslCtrl" [placeholder]="'Выберите оборудование'" (itemSelect)="EquipmentAdd($event)"></app-dropdown-select>
 
                                 </div>
                                 <div class="select-wrap">
                                     <p class="select-title">Статус</p>
-                                    <app-dropdown-select [ItemsData]="StatusEqData" [ItemsCtrl]="StatusEqCtrl" [placeholder]="'Выберите сотрудника'" (itemSelect)="StatusEqAdd($event)"></app-dropdown-select>
+                                    <app-dropdown-select [ItemsData]="StatusEqData" [ItemsCtrl]="StatusEqCtrl" [placeholder]="'Выберите статус'" (itemSelect)="StatusEqAdd($event)"></app-dropdown-select>
 
                                 </div>
                                 <div class="select-wrap area-wrap">
                                     <p class="select-title">Комментарий</p>
-                                    <mat-form-field class="example-full-width" appearance="fill" color="accent">
-                                        <mat-label>Leave a comment</mat-label>
-                                        <textarea matInput placeholder="Ex. It makes me feel..." [formControl]="CommentCtrl3"></textarea>
+                                    <mat-form-field class="example-full-width" appearance="standard" color="accent">
+                                        <mat-label>Комментарий</mat-label>
+                                        <textarea matInput placeholder="" [formControl]="CommentCtrl3"></textarea>
                                     </mat-form-field>
                                 </div>
 
                             </div>
                             <div class="button-wrap">
-                                <button type="button" class="add-button" (click)="addOnPopup3()"><p class="button-text">Добавить</p> </button>
+                                <!-- <button type="button" class="add-button" (click)="addOnPopup3()"><p class="button-text">Добавить</p> </button> -->
+                                <button mat-raised-button color="accent" (click)="addOnPopup3()" [disabled]="CwrEquipmentslCtrl.hasError('required') || StatusEqCtrl.hasError('required')">Добавить</button>
+                                <mat-error *ngIf="CwrEquipmentslCtrl.hasError('required') || StatusEqCtrl.hasError('required')">
+                                    Не все <strong>обязательные поля</strong> заполнены!
+                                </mat-error>
                             </div>
+
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="reports-submit"><button type="submit" class="send-button" (click)="reportSubmit()"><p class="button-text">Отправить</p> </button></div>
+        <div class="reports-submit">
+            <!-- <button type="submit" class="send-button" (click)="reportSubmit()"><p class="button-text">Отправить</p> </button> -->
+            <button mat-raised-button color="accent" class="send-button" (click)="reportSubmit()" [disabled]="LocationCtrl.hasError('required') || ChiefCtrl.hasError('required') || DataReportCtrl.hasError('required') || (reportsCards.length == 0) || (reportsPers.length == 0) || (reportEquip.length == 0)">Отправить</button>
+            <!-- <mat-error *ngIf="LocationCtrl.hasError('required') || ChiefCtrl.hasError('required') || DataReportCtrl.hasError('required')">
+                Не все <strong>обязательные поля</strong> заполнены!
+            </mat-error> -->
+        </div>
     </form>
 
     <div style="padding-bottom:150px;">

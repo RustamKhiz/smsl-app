@@ -1,12 +1,37 @@
 <!-- <button routerLink="/reports/add-report"></button>
 <button routerLink="/reports/list"></button> -->
 
-<div class="reports-title">Все отчеты</div>
-<div class="reports-nav">
+<div class="reports-title">Отчеты</div>
+<!-- <div class="reports-nav">
     <p class="reports-nav-elem active" routerLink="/reports/list">Все отчеты</p>
     <p class="reports-nav-elem"></p>
     <p class="reports-nav-elem"></p>
     <p class="reports-nav-elem"></p>
     <p class="reports-nav-elem" routerLink="/reports/add-report">Добавить +</p>
-</div>
+</div> -->
+
+<!-- <mat-tab-group mat-stretch-tabs class="example-stretched-tabs mat-elevation-z4" style="margin-bottom: 50px;">
+    <mat-tab label="Все отчеты" routerLink="/reports/list">
+        <router-outlet></router-outlet>
+    </mat-tab>
+    <mat-tab label="Second"> Content 2 </mat-tab>
+    <mat-tab label="Third"> Content 3 </mat-tab>
+</mat-tab-group> -->
+
+<!-- <mat-tab-group color="accent">
+    <mat-tab label="Все отчеты" routerLink="/reports/list" style="margin-bottom: 50px;" (click)="navTest()">
+        <router-outlet></router-outlet>
+    </mat-tab>
+    <mat-tab label="Second"> Content 2 </mat-tab>
+    <mat-tab label="Создать новый отчет" routerLink="/reports/add-report">
+        <router-outlet></router-outlet>
+    </mat-tab>
+</mat-tab-group> -->
+
+<nav mat-tab-nav-bar color="accent">
+    <a mat-tab-link (click)="navTest()" [active]="activeTab"> Все отчеты </a>
+    <a mat-tab-link (click)="navTest()" disabled> Статистика </a>
+    <a mat-tab-link (click)="navTest2()" [active]="activeTab2"> Создать новый отчет +</a>
+
+</nav>
 <router-outlet></router-outlet>

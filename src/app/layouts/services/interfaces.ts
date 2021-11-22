@@ -3,8 +3,8 @@ import { PersonalComponent } from "../site-layout/personal/personal.component";
 export interface User {
   UserName: string
   Password: string
-  ConnectionHash: string
-  MyPerson: {
+  ConnectionHash?: string
+  MyPerson?: {
     Personal:{
       AccessLevel: string
       Name: string

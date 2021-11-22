@@ -10,22 +10,36 @@
             <mat-spinner color="accent"></mat-spinner>
         </div>
         <div class="form" *ngIf="!loading">
-            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <form (ngSubmit)="onSubmit()">
 
-                <input type="email" formControlName="UserName" id="UserName" placeholder="Имя пользователя" value="r.khizriev@smsl-nk.ru">
+                <mat-form-field class="form-input" appearance="fill" color="accent">
+                    <mat-label>Email</mat-label>
+                    <input type="email" matInput [formControl]="UserNameCtrl" [errorStateMatcher]="matcher" placeholder="">
+                    <mat-error *ngIf="UserNameCtrl.hasError('email') && !UserNameCtrl.hasError('required')">
+                        Пожалуйста, введите корректный Email
+                    </mat-error>
+                    <mat-error *ngIf="UserNameCtrl.hasError('required')">
+                        Введите <strong>Email!</strong>
+                    </mat-error>
+                </mat-form-field>
 
+                <mat-form-field class="form-input" appearance="fill" color="accent">
+                    <mat-label>Пароль</mat-label>
+                    <input matInput [type]="hide ? 'password' : 'text'" [formControl]='PasswordCtrl' placeholder="">
+                    <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <mat-error *ngIf="PasswordCtrl.hasError('required')">
+                        Введите <strong>пароль!</strong>
+                    </mat-error>
+                </mat-form-field>
 
-                <input type="Password" formControlName='Password' id="Password" placeholder="Пароль" value="EAD22705">
-                <!--                <div class="ckeck-wrap">-->
-                <!--                    <label>-->
-                <!--                        <input type="checkbox" />-->
-                <!--                        <span>Запомнить пароль</span>-->
-                <!--                    </label>-->
-                <!--                </div>-->
-                <button type="submit">Войти</button>
+                <button class="form-button" mat-raised-button color="accent" type="submit">Войти</button>
+
             </form>
 
             <p class="desc">© 2007-{{year}}, ООО «СМСЛ»</p>
+            <!-- <button mat-button (click)="openDialog()">Диалог тест</button> -->
         </div>
     </div>
 </div>

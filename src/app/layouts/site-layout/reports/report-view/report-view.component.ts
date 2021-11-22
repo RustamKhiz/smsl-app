@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { SaveFile } from 'src/app/layouts/services/save-file.service';
 import { environment } from 'src/environments/environment';
@@ -10,7 +11,7 @@ import { environment } from 'src/environments/environment';
 })
 export class ReportViewComponent implements OnInit {
 
-  constructor(private saveFile: SaveFile) { }
+  constructor(private saveFile: SaveFile, private router: Router) { }
 
   reportView = JSON.parse(localStorage.getItem('ReportViewData'))
   displayedColumns = ['№', 'MethodControl', 'Customer.NameRu', 'reportView.CwrWorks.CwrWorkPersonals', 'reportView.CwrWorks.CwrWorkEquipments', 'Shown', 'Made', 'Comment'];
@@ -36,6 +37,9 @@ export class ReportViewComponent implements OnInit {
     //   a.click();
     //   URL.revokeObjectURL(objectUrl);
     // })
+  }
+  arrowBack(){
+    this.router.navigate(['/reports/list'])
   }
   // const linkSource = `${environment.apiUrl}/api/cwr/getfile?id=${this.reportView.CwrFiles[i].Id}`
   // const downloadLink = document.createElement("a");

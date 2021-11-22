@@ -1,20 +1,25 @@
 .title {
-    margin: 170px 0 40px 0;
+    padding: 120px 0 60px 0;
     font-size: 40px;
 }
 
 .input-wrap {
     display: flex;
     flex-direction: column;
-    background: #2B2A29;
+    background: #fff;
+    border: 1px #ffdc69 solid;
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .06), 0 2px 5px 0 rgba(0, 0, 0, .2);
     margin-left: 60px;
-    width: 80%;
+    max-width: 100%;
     border-radius: 5px;
+    height: 500px;
 }
 
 .profile-photo {
-    width: 300px;
+    width: 328px;
+    height: 338px;
     border-radius: 5px;
+    object-fit: cover;
 }
 
 .profile-edit {
@@ -27,22 +32,17 @@
 
 .profle-wrap-flex {
     display: flex;
+    justify-content: space-between;
 }
 
-input {
-    width: 200px;
-    height: 25px;
-    margin: 30px 0 0 60px;
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.profile-info p {
+    padding: 5px;
     font-size: 20px;
-    border-color: #FCC300;
-    border-top: none;
-    border-right: none;
-    border-left: none;
-    color: white;
-}
-
-input:disabled {
-    background: #2B2A29;
-    border-color: #FCC300;
-    color: white;
+    line-height: 1.3;
 }
