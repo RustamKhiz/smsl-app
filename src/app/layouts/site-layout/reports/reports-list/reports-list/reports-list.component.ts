@@ -37,6 +37,7 @@ export class ReportsListComponent implements OnInit, OnDestroy {
   today = new Date (this.now.getTime() - (this.AllMilSec))
   tomorrow = new Date(this.now.getTime() + (1000 * 60 * 60 * 24) - (this.AllMilSec))
   yesterday = new Date(this.now.getTime() - (1000 * 60 * 60 * 24) - (this.AllMilSec))
+  beforeYesterday = new Date(this.now.getTime() - (1000 * 60 * 60 * 24) - (1000 * 60 * 60 * 24) - (this.AllMilSec))
   aSub: Subscription;
   filterSub: Subscription;
   Filter = {
@@ -48,7 +49,7 @@ export class ReportsListComponent implements OnInit, OnDestroy {
     SubLocIds: null
   }
   constructor(private repAll: ReportAll, private dropDown: DropdownMultiComponent, private router: Router, private repGet: ReportGet, private snackBar: MatSnackBar, private repDel: ReportDel) {
-    this.Filter.FromDate = this.yesterday
+    this.Filter.FromDate = this.beforeYesterday
     this.Filter.ToDate = this.today
   }
   UserName: string []=[]
@@ -57,6 +58,8 @@ export class ReportsListComponent implements OnInit, OnDestroy {
   location = JSON.parse(localStorage.getItem('Locations'))
   LocationData: NewDropdown [] = [];
   equipment = JSON.parse(localStorage.getItem('Mashines'))
+  GeneralLocations = JSON.parse(localStorage.getItem('GeneralLocations'))
+
   filterTrueFalse = false;
   loading: boolean = false;
 
@@ -325,9 +328,14 @@ FilterToday(){
   getLength(report){
     return  report.length
   }
+  getLogo(generalLoc){
+    let GeneralLogoLink
+    GeneralLogoLink = this.GeneralLocations.find(x => x.Id == generalLoc)
+    return GeneralLogoLink.Logo
+  }
+
   // this.Filter.FromDate = formatDate(this.today, 'yyyy-MM-dd', 'en-US', '+0530');
   FormatDate(date){
-
     date = formatDate(date, 'dd.MM.yyyy', 'en-US', '+0530');
     // console.log("date", date)
     return date

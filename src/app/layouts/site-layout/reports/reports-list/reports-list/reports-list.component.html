@@ -11,33 +11,29 @@
 
     <div class="reports-filter">
         <p class="reports-filter-title">Фильтры</p>
-        <form>
-            <div class="filter-label-wrap">
-                <label>Выберите дату</label>
-                <app-date-input [startCtrl]="FromDateCtrl" [endCtrl]="ToDateCtrl" (SelectFromDate)="FromDateItem($event)" (SelectToDate)="ToDateItem($event)"></app-date-input>
-                <label>Номер отчёта</label>
-                <mat-form-field class="example-full-width" appearance="fill" color="accent">
-                    <mat-label>Введите номер отчета</mat-label>
-                    <input matInput placeholder="Номер отчета" [formControl]="ReportIdCtrl">
-                </mat-form-field>
-                <label>Ответственный</label>
-                <app-dropdown-multi [ItemsData]="PersData" [ItemsMultiCtrl]="ChiefIdsCtrl" [allItemsSize]="PersData.length" [placeholder]="'Выберите сотрудников'" (itemSelect)="PersFilterIdAdd($event)" style="width: 95%;"></app-dropdown-multi>
-                <label> Локация</label>
-                <app-dropdown-multi [ItemsData]="LocationData" [ItemsMultiCtrl]="SubLocIdsCtrl" [allItemsSize]="location.length" [placeholder]="'Выберите локацию'" (itemSelect)="LocationFilterIdAdd($event)" style="width: 95%;"></app-dropdown-multi>
-                <div class="button-duo-wrap">
-                    <button style="margin-top: 20px; width:115px ;" type="submit" mat-raised-button (click)="FilterSubmit()" color="accent"> Применить </button>
-                    <br>
-                    <button style="margin-top: 20px; width:115px ;" type="button" mat-raised-button (click)="FilterToday()"> Сегодня </button>
-                </div>
-                <div class="button-duo-wrap">
-                    <!-- <button style="margin-top: 20px; width: 115px;" type="button" mat-raised-button (click)="FilterTest()"> С файлами </button> -->
-                    <!-- <br> -->
-                    <button style="margin-top: 20px; width:115px;" type="button" mat-raised-button (click)="FilterReset()" (click)="reportsAll = []"> Сбросить </button>
-                </div>
-
+        <div class="filter-label-wrap">
+            <label>Выберите дату</label>
+            <app-date-input [startCtrl]="FromDateCtrl" [endCtrl]="ToDateCtrl" (SelectFromDate)="FromDateItem($event)" (SelectToDate)="ToDateItem($event)"></app-date-input>
+            <label>Номер отчёта</label>
+            <mat-form-field class="example-full-width" appearance="fill" color="accent">
+                <mat-label>Введите номер отчета</mat-label>
+                <input matInput placeholder="Номер отчета" [formControl]="ReportIdCtrl">
+            </mat-form-field>
+            <label>Ответственный</label>
+            <app-dropdown-multi [ItemsData]="PersData" [ItemsMultiCtrl]="ChiefIdsCtrl" [allItemsSize]="PersData.length" [placeholder]="'Выберите сотрудников'" (itemSelect)="PersFilterIdAdd($event)" style="width: 95%;"></app-dropdown-multi>
+            <label> Локация</label>
+            <app-dropdown-multi [ItemsData]="LocationData" [ItemsMultiCtrl]="SubLocIdsCtrl" [allItemsSize]="location.length" [placeholder]="'Выберите локацию'" (itemSelect)="LocationFilterIdAdd($event)" style="width: 95%;"></app-dropdown-multi>
+            <div class="button-duo-wrap">
+                <button style="margin-top: 20px; width:115px ;" type="submit" mat-raised-button (click)="FilterSubmit()" color="accent"> Применить </button>
+                <br>
+                <button style="margin-top: 20px; width:115px ;" type="button" mat-raised-button (click)="FilterToday()"> Сегодня </button>
             </div>
-
-        </form>
+            <div class="button-duo-wrap">
+                <!-- <button style="margin-top: 20px; width: 115px;" type="button" mat-raised-button (click)="FilterTest()"> С файлами </button> -->
+                <!-- <br> -->
+                <button style="margin-top: 20px; width:115px;" type="button" mat-raised-button (click)="FilterReset()" (click)="reportsAll = []"> Сбросить </button>
+            </div>
+        </div>
     </div>
     <div class="loader" *ngIf="loading">
         <mat-spinner color="accent"></mat-spinner>
@@ -45,7 +41,7 @@
     <div class="reports" *ngIf="!loading">
         <mat-card class="example-card" *ngFor="let report of reportsAll, index as i">
             <div class="reports-card-wrap">
-                <img mat-card-lg-image src="assets/logo_icon.png">
+                <img mat-card-lg-image [src]="getLogo(report.GeneralLocationId)">
                 <mat-card-title-group class="reports-card-title-group">
                     <mat-card-title>
                         <mat-icon> location_on</mat-icon>{{ getSubLockName(report)}} №{{report.Id}}</mat-card-title>

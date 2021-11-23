@@ -31,11 +31,12 @@ export class AppComponent implements OnInit, OnDestroy {
           this.aSub = this.afteraut.afterLog().subscribe(
             (res)=> {
               console.log("afterlog working!")
-              console.log("dataload: ", res)
+              console.log("dataload: load", res)
               // Получаем персонал из afterLog
-              const persData = JSON.stringify(this.afteraut.newPersonals)
-              localStorage.setItem('Personal', persData)
-              this.pers = JSON.parse(localStorage.getItem('Personal'))
+              // const persData = JSON.stringify(this.afteraut.newPersonals)
+              // localStorage.setItem('Personal', persData)
+              // this.pers = JSON.parse(localStorage.getItem('Personal'))
+
               //Получаем оборудование из afterLog
               const MashinData = JSON.stringify(this.afteraut.newMashines)
               localStorage.setItem('Mashines', MashinData)

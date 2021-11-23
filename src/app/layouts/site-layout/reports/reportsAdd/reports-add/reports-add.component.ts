@@ -153,11 +153,14 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       // console.log("LocationData: ",this.LocationData)
       for (let i = 0; i < this.customer.length; i++) {
-        Id = this.customer[i].Id
-        Name = this.customer[i].SmallName
-        Display = true
-        IsSelect = true
-        this.CustomerData.push(new NewDropdown(Id, Name, Display, IsSelect))
+        if (this.customer[i].IsActual == true){
+          Id = this.customer[i].Id
+          Name = this.customer[i].SmallName
+          Display = true
+          IsSelect = true
+          this.CustomerData.push(new NewDropdown(Id, Name, Display, IsSelect))
+        }
+
       }
       // console.log("CustomerData: ",this.CustomerData)
       for (let i = 0; i < this.status.length; i++) {

@@ -8,7 +8,7 @@ export class MaterialService {
     }
 }
 export class OpenSnack {
-  static openSnackBar(message: string, action: string) {
+   openSnackBar(message: string, action: string) {
     S.open(message, action, {
       duration: 3000
     });

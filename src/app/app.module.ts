@@ -31,6 +31,8 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import {MatRippleModule} from '@angular/material/core';
 // import { moment } from 'moment/moment'
 import { MomentDateModule, MomentDateAdapter } from '@angular/material-moment-adapter';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 import { AppComponent } from './app.component';
 import {AutComponent} from './aut/aut.component';
@@ -121,7 +123,9 @@ import { DialogInfoComponent } from './layouts/classes/dialog/dialog-info/dialog
     MatTabsModule,
     InfiniteScrollModule,
     MatRippleModule,
-    MomentDateModule
+    MomentDateModule,
+    MatRadioModule,
+    MatPaginatorModule,
   ],
   providers: [
     {

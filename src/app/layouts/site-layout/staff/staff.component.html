@@ -14,22 +14,36 @@
             <div class="staff-filter">
                 <p>Фильтры</p>
                 <div class="reports-filter">
-                    <form (ngSubmit)="FilterSubmit()">
-                        <p class="reports-filter-desc" style="margin-bottom: 10px; font-size: 15px;">Введите имя:</p>
-                        <div class="filter-label-wrap">
-                            <mat-form-field disabled class="example-full-width" appearance="fill" color="accent">
-                                <mat-label>Введите имя </mat-label>
-                                <input matInput placeholder="Имя" [formControl]="filterName">
-                            </mat-form-field>
-                            <button style="margin-top: 20px;" type="submit" mat-raised-button color="accent" disabled> Применить </button>
+
+                    <p class="reports-filter-desc" style="margin-bottom: 10px; font-size: 15px;">Введите имя:</p>
+                    <div class="filter-label-wrap">
+
+                        <mat-form-field disabled class="example-full-width" appearance="fill" color="accent">
+                            <mat-label>Введите имя </mat-label>
+                            <input matInput placeholder="Имя" [formControl]="filterNameCtrl">
+                        </mat-form-field>
+                        <p class="reports-filter-desc" style="margin-bottom: 10px; font-size: 15px;">Выберите статус сотрудника:</p>
+
+                        <div class="filter-work-status-wrap">
+                            <mat-radio-group class="filter-work-status" aria-label="Select an option" [formControl]="filterStatusCtrl">
+                                <mat-radio-button class="radio" disabled value="Работает">Работает</mat-radio-button>
+                                <mat-radio-button class="radio" disabled value="Уволен">Уволен</mat-radio-button>
+                                <mat-radio-button class="radio" disabled value="Все">Все</mat-radio-button>
+                            </mat-radio-group>
                         </div>
 
-                    </form>
+                        <div class="div">
+                            <button style="margin-top: 20px;" type="submit" (click)="FilterSubmit()" mat-raised-button color="accent"> Применить </button>
+                            <button style="margin-top: 20px; margin-left: 10px;" type="submit" (click)="FilterClear()" mat-raised-button> Сбросить </button>
+                        </div>
+
+                    </div>
+
                 </div>
             </div>
-            <div class="staff" infinite-scroll [infiniteScrollDistance]="scrollDistance" [infiniteScrollThrottle]="throttle" (scrolled)="onScrollDown(0)">
-
-                <mat-card class="example-card" *ngFor="let Personal of staff; index as i">
+            <div class="staff">
+                <!-- infinite-scroll [infiniteScrollDistance]="scrollDistance" [infiniteScrollThrottle]="throttle" (scrolled)="onScrollDown(0)" -->
+                <mat-card class="example-card" *ngFor="let Personal of obs | async; index as i">
                     <mat-card-header>
                         <!-- <div mat-card-avatar class="example-header-image"></div> -->
                         <mat-card-title>{{Personal.Fio}}</mat-card-title>
@@ -48,7 +62,10 @@
                 </mat-card>
 
             </div>
+
         </div>
+        <mat-paginator color="accent" [length]="staff.length" [pageSize]="6" [pageSizeOptions]="[3, 6, 9, 18]" aria-label="Select page">
+        </mat-paginator>
     </mat-tab>
     <mat-tab label="Статистика">
         <p style="text-align: center; margin-top: 90px; font-size: 30px; height: 300px;"> Раздел в разработке</p>
@@ -63,29 +80,3 @@
         <p style="text-align: center; margin-top: 90px; font-size: 30px; height: 300px;"> Раздел в разработке</p>
     </mat-tab>
 </mat-tab-group>
-
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>

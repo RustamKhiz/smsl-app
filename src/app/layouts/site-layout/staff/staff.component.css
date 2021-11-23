@@ -2,7 +2,7 @@
     display: grid;
     grid-template-columns: repeat(3, 300px);
     /* grid-column-gap: 81px; */
-    grid-row-gap: 80px;
+    grid-row-gap: 40px;
     width: 100%;
     justify-content: space-between;
 }
@@ -71,10 +71,24 @@
 
 .example-card {
     border: 1px #FCC300 solid;
+    height: 330px;
 }
 
 .filter-label-wrap {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.filter-work-status-wrap {
+    width: 91%;
+}
+
+.filter-work-status {
+    display: flex;
+    flex-direction: column;
+}
+
+.radio {
+    margin: 5px 0;
 }
