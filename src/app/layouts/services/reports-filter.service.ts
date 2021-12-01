@@ -11,18 +11,18 @@ import {SignalService} from "../services/signalR.services"
     providedIn: 'root'
 })
 
-export class ReportAll {
+export class ReportFilter {
 
   constructor(private http: HttpClient){
   }
   test: any
-  reportAll(filter: Filter){
+  reportFilter(filter: Filter){
     console.log("ReportAll is work!")
     console.log("filter interface: ", filter)
-    return this.http.post<any>(`${environment.apiUrl}/api/cwr/loaddata`, filter)
+    return this.http.post<any>(`${environment.apiUrl}/api/cwr/filter`, filter)
     .pipe(
-      tap(({reportAll})=>{
-          console.log('filter: ', reportAll)
+      tap(({filter})=>{
+          console.log('filter: ', filter)
         }
       )
     )

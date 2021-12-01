@@ -6,6 +6,7 @@ import {tap} from "rxjs/operators"
 import{environment} from "src/environments/environment"
 import {SignalService} from "../services/signalR.services"
 import { afterlogServices } from "./afterlog.services";
+import { Router } from "@angular/router";
 
 @Injectable({
     providedIn: 'root'
@@ -27,7 +28,7 @@ export class AutServices {
     }
 
     aSub: Subscription
-    constructor(private http: HttpClient, private signal: SignalService, private afteraut: afterlogServices){
+    constructor(private http: HttpClient, private signal: SignalService, private afteraut: afterlogServices, private router: Router ){
 
     }
 
@@ -109,6 +110,7 @@ export class AutServices {
     }
 
     getToken(): string {
+      this.JWT = localStorage.getItem('aut-token')
       return this.JWT
     }
     getId(): string {
@@ -121,5 +123,6 @@ export class AutServices {
     logout(){
         this.setToken(null)
         localStorage.clear()
+        this.router.navigate(['/aut'])
     }
 }

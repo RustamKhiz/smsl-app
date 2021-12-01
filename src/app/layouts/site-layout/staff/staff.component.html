@@ -46,16 +46,17 @@
                 <mat-card class="example-card" *ngFor="let Personal of obs | async; index as i">
                     <mat-card-header>
                         <!-- <div mat-card-avatar class="example-header-image"></div> -->
-                        <mat-card-title>{{Personal.Fio}}</mat-card-title>
-                        <mat-card-subtitle>{{Personal.Telephone}}</mat-card-subtitle>
+                        <mat-card-title style="width: 220px;">{{Personal.Fio}}</mat-card-title>
+                        <mat-card-subtitle>{{getPersTel(Personal.Telephone)}}</mat-card-subtitle>
                     </mat-card-header>
-                    <img mat-card-image src="../../../../assets/personal_prifile_icon.png">
+                    <img class="example-card-img" mat-card-image [src]="persLogoLarge(Personal)">
+                    <!-- <img src="../../../../assets/profile.png" alt=""> -->
                     <mat-card-content>
                         <p>
                             {{Personal.EMail}}
                         </p>
                     </mat-card-content>
-                    <mat-divider></mat-divider>
+                    <!-- <mat-divider></mat-divider> -->
                     <mat-card-actions>
                         <button mat-button disabled>Подробнее</button>
                     </mat-card-actions>

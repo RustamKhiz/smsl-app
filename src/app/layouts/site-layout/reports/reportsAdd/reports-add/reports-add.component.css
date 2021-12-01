@@ -387,6 +387,21 @@ textarea {
     justify-content: space-between;
 }
 
+.report-content-text p {
+    word-break: break-word;
+}
+
+.report-content-footer {
+    min-height: 30px;
+    flex-direction: column;
+    margin-bottom: 16px;
+}
+
+.report-content-footer p {
+    font-size: 18px;
+    margin: 7px;
+}
+
 
 /* .report-card {
     width: 450px;

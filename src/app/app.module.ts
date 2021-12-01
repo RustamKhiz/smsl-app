@@ -33,6 +33,9 @@ import {MatRippleModule} from '@angular/material/core';
 import { MomentDateModule, MomentDateAdapter } from '@angular/material-moment-adapter';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatSidenavModule} from '@angular/material/sidenav';
+
+
 
 import { AppComponent } from './app.component';
 import {AutComponent} from './aut/aut.component';
@@ -126,6 +129,7 @@ import { DialogInfoComponent } from './layouts/classes/dialog/dialog-info/dialog
     MomentDateModule,
     MatRadioModule,
     MatPaginatorModule,
+    MatSidenavModule
   ],
   providers: [
     {

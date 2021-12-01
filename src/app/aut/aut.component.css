@@ -1,8 +1,9 @@
 .aut-bg {
     background: white;
     width: 500px;
-    max-height: 710px;
-    min-height: 500px;
+    /* max-height: 710px;
+    min-height: 710px; */
+    height: 600px;
     border: 2px solid #FCC300;
     border-radius: 10px;
     box-sizing: border-box;

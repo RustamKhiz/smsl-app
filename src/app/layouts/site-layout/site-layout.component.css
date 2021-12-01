@@ -152,13 +152,23 @@ ul {
     cursor: pointer;
 }
 
-.openbtn-wrap {
+.open-burger-wrap {
     position: fixed;
     background: #2B2A29;
-    width: 78px;
-    height: 78px;
+    width: 83px;
+    height: 70px;
     left: 0;
     top: 0;
+    z-index: 2;
+}
+
+.openbtn-wrap {
+    position: fixed;
+    /* background: #2B2A29; */
+    width: 78px;
+    height: 78px;
+    left: 271px;
+    top: 20px;
     z-index: 2;
 }
 
@@ -243,7 +253,7 @@ ul {
     transition: 0.3s;
 }
 
-.nav-elem-wrap:hover a {
+.nav-elem-wrap:hover p {
     color: #FCC300;
     transition: 0.3s;
 }
@@ -252,4 +262,52 @@ ul {
 /* .nav-elem-icon:hover {
     color: #FCC300;
     transition: 0.3s;
+} */
+
+.example-sidenav {
+    width: 320px;
+    background: #2B2A29;
+    padding-top: 106px;
+}
+
+.nav-elem-wrap p {
+    padding: 15px 8px 53px 43px;
+    text-decoration: none;
+    font-size: 28px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.close-icon {
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.close-icon:hover {
+    color: #FCC300;
+    transition: 0.3s;
+}
+
+.example-sidenav::-webkit-scrollbar {
+    width: 5px;
+    background-color: #111;
+}
+
+.example-sidenav::-webkit-scrollbar-thumb {
+    border-radius: 1000px;
+    background-color: #FCC300;
+}
+
+.example-sidenav::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    background-color: #2B2A29;
+}
+
+
+/* .example-sidenav {
+    overflow-y: unset;
 } */

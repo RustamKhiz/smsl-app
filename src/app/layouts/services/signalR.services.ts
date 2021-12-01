@@ -6,6 +6,10 @@ import * as signalR from '@microsoft/signalr';
 import {HttpTransportType} from '@microsoft/signalr';
 import {EventDispatcher} from "strongly-typed-events";
 import {afterlogServices} from "./afterlog.services";
+import { AutServices } from './aut.services';
+import { SiteLayoutComponent } from '../site-layout/site-layout.component';
+import { Router } from '@angular/router';
+import { TokenInterseptor } from '../classes/token.interseptor';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +28,7 @@ export class SignalService {
   private SignalHash : string
   private _onUserConnect = new EventDispatcher<string, number>();
   testName: null
-  constructor(private http: HttpClient, private afteraut: afterlogServices ) {
+  constructor(private http: HttpClient, private afteraut: afterlogServices, private router: Router) {
 
 
 
@@ -58,7 +62,7 @@ export class SignalService {
     console.log(this.Id)
     this.connection = new signalR.HubConnectionBuilder()//?user=${this.Id}
       .withUrl( `${environment.apiUrl}/chat?access_token=${this.JWT}&userid=${this.Id}`, { accessTokenFactory: () => this.JWT
-      , transport: HttpTransportType.LongPolling | HttpTransportType.WebSockets
+      , transport: HttpTransportType.LongPolling
       }
 
       ).withAutomaticReconnect(this.reconnectPolicy).build();
@@ -108,7 +112,6 @@ export class SignalService {
     return this.SignalHash;
   }
 
-
   public addTransferChartDataListener = () => {
     this.connection.on('System', (data) => {
       if (data == "Подключен к серверу")
@@ -120,7 +123,14 @@ export class SignalService {
 
     this.connection.on('KeepAlive',  () => {
       console.log('Keep-Alive');
-      this.connection.invoke('ResponseKeepAlive');
+
+      let dontActiveTime = JSON.parse(localStorage.getItem('DontActiveTime'))
+      if (dontActiveTime == null){
+        dontActiveTime = 0
+      }
+
+      this.connection.invoke('ResponseKeepAlive', {"DontActiveTime":dontActiveTime,'Brauser':''});
+
     }
     );
 
@@ -128,6 +138,31 @@ export class SignalService {
       console.log('Debug ' + title + " " + dis);
 
     });
+
+    this.connection.on('TokenAction', (tokenAction) => {
+      console.log("TokenAction", tokenAction)
+      this.disconnect()
+      localStorage.clear()
+      this.router.navigate(['/aut'])
+      // this.aut.logout()
+    })
+
+
+    this.connection.on('RewriteToken',  (Token:string) => {
+      localStorage.setItem('aut-token', Token)
+
+      this.Id = localStorage.getItem('Id');
+      //this.connection.baseUrl = `${environment.apiUrl}/chat?access_token=${Token}&userid=${this.Id}`;
+
+      this.connect();
+
+
+      console.log('RewriteToken: ', Token);
+
+    });
+    this.connection.onclose = (error) => {
+      console.log(error)
+    }
     this.connection.onclose =() =>{
 
     }

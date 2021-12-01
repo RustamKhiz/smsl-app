@@ -8,7 +8,7 @@ import {FormControl} from '@angular/forms';
 @Component({
   selector: 'app-site-layout',
   templateUrl: './site-layout.component.html',
-  styleUrls: ['./site-layout.component.css']
+  styleUrls: ['./site-layout.component.css', './site-layout-media.component.css']
 })
 
 export class SiteLayoutComponent implements OnInit, OnDestroy {

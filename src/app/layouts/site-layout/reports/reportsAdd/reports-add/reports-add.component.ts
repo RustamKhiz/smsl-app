@@ -11,6 +11,7 @@ import { DropdownMultiCloneComponent } from 'src/app/layouts/classes/dropdown-cl
 import { ReportRed } from 'src/app/layouts/services/report-red.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Byte } from '@angular/compiler/src/util';
+import { formatDate } from '@angular/common';
 
 
 
@@ -81,6 +82,18 @@ export class CwrFiles {
   styleUrls: ['./reports-add.component.css']
 })
 export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
+  now = new Date();
+  hours = this.now.getHours() * 60 * 60 * 1000
+  minutes = this.now.getMinutes() * 60 * 1000
+  seconds = this.now.getSeconds() * 1000
+  milsec = this.now.getMilliseconds()
+  AllMilSec = this.hours + this.minutes + this.seconds + this.milsec
+  today = new Date (this.now.getTime() - (this.AllMilSec))
+  tomorrow = new Date(this.now.getTime() + (1000 * 60 * 60 * 24) - (this.AllMilSec))
+  yesterday = new Date(this.now.getTime() - (1000 * 60 * 60 * 24) - (this.AllMilSec))
+  beforeYesterday = new Date(this.now.getTime() - (1000 * 60 * 60 * 24) - (1000 * 60 * 60 * 24) - (this.AllMilSec))
+  TwoDayBeforeYesterday = new Date(this.now.getTime() - (1000 * 60 * 60 * 24) - (1000 * 60 * 60 * 24) - (1000 * 60 * 60 * 24) - (this.AllMilSec))
+
   //получение данных для отчетов
   pers = JSON.parse(localStorage.getItem('Personal'));
   PersData: NewDropdown [] = []; //инициализация общего интервейса
@@ -97,13 +110,14 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
     {Id: 1, Name: "ВИК"},
     {Id: 2, Name: "УЗК"},
     {Id: 3, Name: "ПВК"},
-    {Id: 4, Name: "Мех. испытания"},
-    {Id: 5, Name: "МПД"},
-    {Id: 6, Name: "OK (PMI)"},
-    {Id: 7, Name: "ЭК"},
-    {Id: 8, Name: "Адгезия"},
-    {Id: 9, Name: "Сплошность"},
-    {Id: 10, Name: "Прочее"},
+    {Id: 4, Name: "ЦРК"},
+    {Id: 5, Name: "Мех. испытания"},
+    {Id: 6, Name: "МПД"},
+    {Id: 7, Name: "OK (PMI)"},
+    {Id: 8, Name: "ЭК"},
+    {Id: 9, Name: "Адгезия"},
+    {Id: 10, Name: "Сплошность"},
+    {Id: 11, Name: "Прочее"},
   ]
   MethodData: NewDropdown [] = []; //инициализация общего интервейса
   StatusEq = [
@@ -227,6 +241,9 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
         this.CwrId = this.getRedId
         // this.CwrWorkPersonals = {Id: 0, PersonalId: 0, Fio: "", CwrWorkId: 0}
 
+        this.ShownCount += +this.Shown
+        this.MadeCount += +this.Made
+
         for (let j = 0; j < CwrWorksLoc.CwrWorks[i].CwrWorkPersonals.length; j++) {
           this.CwrWorkPersonals[j] = {Id: 0, PersonalId: CwrWorksLoc.CwrWorks[i].CwrWorkPersonals[j].Personal.Id, Fio: CwrWorksLoc.CwrWorks[i].CwrWorkPersonals[j].Personal.SmalFio, CwrWorkId: 0}
         }
@@ -283,15 +300,19 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
       }
 
       this.ChiefCtrl.setValue(CwrWorksLoc.СhiefUserId)
+      console.log("ChiefCtrl: ", this.ChiefCtrl.value)
+
       this.LocationCtrl.setValue(CwrWorksLoc.SubLocationId)
+      console.log("LocationCtrl: ", this.LocationCtrl.value)
+
       this.DataReportCtrl.setValue(CwrWorksLoc.DataReport)
-      console.log("DataReportCtrl: ", this.DataReportCtrl)
+      console.log("DataReportCtrl: ", this.DataReportCtrl.value)
 
       //конец присвоения данных для режима редактирования
 
 
 
-      this.dropdownSelect.dropCH(this.PersData, this.ChiefCtrl.value, this.ChiefCtrl) //заполнение dropdown элементов ответственного за отчет
+      this.dropdownSelect.dropCH(this.ChiefData, this.ChiefCtrl.value, this.ChiefCtrl) //заполнение dropdown элементов ответственного за отчет
       this.dropdownSelect.dropCH(this.LocationData, this.LocationCtrl.value, this.LocationCtrl) //заполнение dropdown элементов локации
     }, 0)
     } else console.log("ReportIdData is null")
@@ -386,6 +407,10 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
   CommentCtrl: FormControl = new FormControl('')
   //конец объявления контролов для CwrWorks
 
+  //
+  ShownCount: number = 0;
+  MadeCount: number = 0;
+  //
   addOnPopup(){ //метод добавления в CwrWorks
 
     console.log("MethodControl test:", this.MethodControl)
@@ -402,6 +427,9 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
     this.Shown = this.ShownCtrl.value
     this.Made = this.MadeCtrl.value
     this.Comment = this.CommentCtrl.value
+
+    this.ShownCount += +this.Shown
+    this.MadeCount += +this.Made
 
     this.reportsCards.push(new CwrWorks(this.Id, this.MethodControl,this.MethodControlId,this.CustomerId, this.Shown, this.Made, this.CwrId, this.CwrWorkPersonals, this.CwrWorkEquipments, this.Customer, this.PersonalName, this.EquipmentName, this.Comment))
     console.log("this.reportsCards:", this.reportsCards)
@@ -445,14 +473,23 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.CwrWorkPersonals = [{Id: 0, PersonalId: 0, Fio: "", CwrWorkId: 0}]
     this.CwrWorkEquipments = [{Id: 0, EquipmentId: 0, Name: "", CwrWorkId: 0}]
-    this.popupClose()
+    // this.popupClose()
+    this.popOpen = false
     // this.MethodControlCtrl.reset()
     // this.CustomerCtrl.reset()
-    // this.CwrWorkPersonalsCtrl.reset()
-    // this.CwrWorkEquipmentsCtrl.reset()
-    // this.ShownCtrl.reset()
-    // this.MadeCtrl.reset()
-    // this.CommentCtrl.reset()
+    this.CwrWorkPersonalsCtrl.reset()
+    this.CwrWorkEquipmentsCtrl.reset()
+    this.ShownCtrl.reset()
+    this.MadeCtrl.reset()
+    this.CommentCtrl.reset()
+  }
+  CwrWorksDelete(i){
+    console.log("CwrWorks.Shown: ", this.reportsCards[i].Shown)
+    console.log("CwrWorks.Made: ", this.reportsCards[i].Made)
+    console.log("ShownCount: ", this.ShownCount)
+    console.log("MadeCount: ", this.MadeCount)
+    this.ShownCount -= +this.reportsCards[i].Shown
+    this.MadeCount -= +this.reportsCards[i].Made
   }
 
   //начало объявления переменных для CwrPersonals
@@ -646,19 +683,43 @@ aSub: Subscription; //переменная для отписки от стрим
 repAdd: any //переменная для хранения всего отчета перед отправкой
   reportSubmit() {
     this.loading = true //включаем лоадер
+    this.locationId = this.LocationCtrl.value.Id
+    this.СhiefId = this.ChiefCtrl.value.Id
     console.log("locationId: ", this.locationId) //получение locationId в консоль
     console.log("СhiefIdAdd: ", this.СhiefId) //получение СhiefIdAdd в консоль
     console.log(this.DataReportCtrl.value) //получение DataReport в консоль
 
+    let DataReportString = String( formatDate(this.DataReportCtrl.value, 'dd.MM.yyyy', 'en-US') ) + " 02:01:00"
+    let ToDayString = String( formatDate(this.now, 'dd.MM.yyyy HH:mm:ss', 'en-US'))
+    console.log("ToDayString: ", ToDayString)
+    console.log("DataReporString: ", DataReportString)
     for (let i = 0; i < this.reportsCards.length; i++) {
       this.reportsCards[i].Customer = null; // обnullяем все Customer для отправки на сервер
     }
-
     // this.reportsPers[0].Personal = null;
     // this.reportsPers[0].PersonalStatus = null;
+    let CwrWorksLoc = JSON.parse(localStorage.getItem('ReportIdData'))
+    console.log("CwrWorksLoc: ", CwrWorksLoc)
+    if (CwrWorksLoc == null){
+      console.log("ReportIdData is null!!")
+     } else {
+       ToDayString = CwrWorksLoc.DataCreate
+       this.now = CwrWorksLoc.DataCreate
+     }
+    if (CwrWorksLoc == null){
+      CwrWorksLoc = 0
+    }
+    console.log("CwrWorksLoc: ", CwrWorksLoc.DataCreate)
+
+
+    console.log("ToDayString: ", ToDayString)
+    console.log("  this.now: ",   this.now)
+
     const newrep = { // инициализация объекта перед отправкой на сервер
-      Id: this.Id,
-      DataCreate: "2021-09-28T15:19:27.9123256+05:00",
+      Id: CwrWorksLoc.Id,
+      DataCreate: this.now,
+      DataCreateString: ToDayString,
+      DataReportString: DataReportString,
       UserId: JSON.parse(localStorage.getItem("Id")),
       СhiefUserId: this.СhiefId,
       GeneralLocationId: 1,

@@ -117,15 +117,17 @@
 
                         <div class="icon-wrap">
                             <mat-icon (click)="CwrWorksRed(i)" style="cursor: pointer;">edit</mat-icon>
-                            <mat-icon (click)="reportsCards.splice(i, 1)" style="cursor: pointer;">delete</mat-icon>
+                            <mat-icon (click)="CwrWorksDelete(i)" (click)="reportsCards.splice(i, 1)" style="cursor: pointer;">delete</mat-icon>
                         </div>
                     </div>
-                    <!-- <div class="report-card-add" matRipple matRippleColor="rgba(13, 255, 0, 0.1)">
-                        <mat-icon (click)="popupOpen()" class="img-add">add</mat-icon>
-                    </div> -->
+
                     <div class="report-content-add" matRipple matRippleColor="rgba(13, 255, 0, 0.1)">
                         <p class="report-content-add-title">Добавить работу</p>
                         <mat-icon (click)="popupOpen()" class="img-add">add</mat-icon>
+                    </div>
+                    <div class="report-content report-content-footer" *ngIf="reportsCards.length !== 0">
+                        <p><strong>Всего предъявлено: {{ShownCount}}</strong> </p>
+                        <p><strong>Всего сделано: {{MadeCount}}</strong> </p>
                     </div>
                 </div>
                 <div class="reports-popup" [ngClass]="{open:popOpenRed}">

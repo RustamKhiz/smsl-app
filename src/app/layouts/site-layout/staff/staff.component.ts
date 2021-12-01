@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Observable } from 'rxjs';
 import { Personals } from '../../services/interfaces';
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: 'app-staff',
@@ -109,7 +110,25 @@ export class StaffComponent implements OnInit, AfterViewInit, OnDestroy {
       duration: 3000
     });
   }
+  persLogoLarge(pers){
+    let logoAdress;
 
+    if (pers.IsLogo == true){
+      logoAdress = `${environment.apiUrl}/api/personal/logo?id=${pers.Id}&size=middle&base64=false`
+      return logoAdress
+    } else {
+      logoAdress = "../../../../assets/profile.png"
+      return logoAdress
+    }
+  }
+  getPersTel(tel){
+    let telError = "Номер скрыт"
+    if (tel == ""){
+      return telError
+    }else {
+      return tel
+    }
+  }
   ngOnDestroy() {
     if (this.dataSource) {
       this.dataSource.disconnect();

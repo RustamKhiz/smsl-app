@@ -24,37 +24,37 @@ export class TokenInterseptor implements HttpInterceptor , OnInit{
 
     );
   }
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>{
-        if (this.auth.isAuthenticated()){
-            req = req.clone({
-                setHeaders:{
-                    Authorization: 'Bearer ' + this.auth.getToken(),
-                    // Trai ler: this.hash.onHash(),
-                    SignalHash:this.hash.onHash() //this.hash.onHash("hash")
-                }
-            })
-        }
-        return next.handle(req).pipe(
-          catchError((err: HttpErrorResponse) => {
-            console.log("req",req)
-            console.log("err", err)
-            console.log("err.status", err.status)
-            if ((err.status === undefined) || (err.status === 401)) {
-              // при получении 401 от api выходим на авторизацию
-              this.auth.logout();
-              console.log("err.status" + err.status)
-              this.router.navigate(['/aut'],{
-                queryParams:{
-                  authField: true
-                }
-              })
-            } else console.log("err.status", err.status)
-
-            const error = err;
-            return throwError(error);
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>{
+      if (this.auth.isAuthenticated()){
+          req = req.clone({
+              setHeaders:{
+                  Authorization: 'Bearer ' + this.auth.getToken(),
+                  // Trai ler: this.hash.onHash(),
+                  SignalHash:this.hash.onHash() //this.hash.onHash("hash")
+              }
           })
-        )
-    }
+      }
+      return next.handle(req).pipe(
+        catchError((err: HttpErrorResponse) => {
+          console.log("req",req)
+          console.log("err", err)
+          console.log("err.status", err.status)
+          if ((err.status === undefined) || (err.status === 401)) {
+            // при получении 401 от api выходим на авторизацию
+            this.auth.logout();
+            console.log("err.status" + err.status)
+            this.router.navigate(['/aut'],{
+              queryParams:{
+                authField: true
+              }
+            })
+          } else console.log("err.status", err.status)
+
+          const error = err;
+          return throwError(error);
+        })
+      )
+  }
     // private handleAuthError(error: HttpErrorResponse): Observable<any>{
     //   // console.log("of(error)", of(error))
 

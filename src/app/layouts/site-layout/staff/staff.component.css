@@ -42,7 +42,7 @@
 
 .content-flex {
     display: flex;
-    margin-top: 50px;
+    /* margin-top: 50px; */
 }
 
 .staff-filter {
@@ -72,6 +72,9 @@
 .example-card {
     border: 1px #FCC300 solid;
     height: 330px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .filter-label-wrap {
@@ -91,4 +94,12 @@
 
 .radio {
     margin: 5px 0;
+}
+
+.example-card-img {
+    max-height: 159px;
+    width: 137px;
+    object-fit: cover;
+    display: flex;
+    margin: 11px auto;
 }

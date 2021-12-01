@@ -1,8 +1,10 @@
 .hot-filter {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    max-width: 1280px;
+    /* max-width: 1280px;
+    min-width: 600px; */
+    width: 968px;
     height: 33px;
     background: #FFFFFF;
     border: 1px solid #FCC300;
@@ -14,6 +16,16 @@
 .hot-filter p {
     margin-left: 10px;
     margin-right: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.hot-filter strong {
+    margin-right: 5px;
+}
+
+.hot-filter-select {
+    display: flex;
 }
 
 .filter-label-wrap {
@@ -22,6 +34,23 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
+}
+
+.hot-filter-view {
+    display: flex;
+    margin-right: 7px;
+}
+
+.hot-filter-view mat-icon {
+    cursor: pointer;
+}
+
+.Active {
+    color: #FCC300
+}
+
+.ViewList {
+    display: none !important;
 }
 
 .filter-label-wrap label {
@@ -51,7 +80,7 @@
 
 .reports {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     justify-content: flex-end;
 }
 
@@ -331,7 +360,7 @@
 }
 
 .example-card {
-    width: 931px;
+    width: 935px;
     margin-bottom: 15px;
     border: 1px #FCC300 solid;
     display: flex;
@@ -359,7 +388,7 @@
 .reports-card-button-wrap {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: flex-end;
 }
 
@@ -367,4 +396,57 @@
     width: 100%;
     display: flex;
     justify-content: space-evenly;
+}
+
+.card-subtitle-wrap {
+    display: inline;
+    margin-right: 50px;
+}
+
+.reports-card-img {
+    width: 100px;
+    height: 100px;
+}
+
+
+/* .report-context-icon {
+    cursor: pointer;
+    margin: 0 8px;
+}
+
+.report-context-icon-wrap {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+    height: 48px;
+    min-width: unset;
+    min-height: unset;
+} */
+
+
+/* .mat-menu-panel {
+    min-width: unset;
+    min-height: unset;
+} */
+
+.reports-card-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.grid-view-card {
+    width: 444px;
+}
+
+.grid-view-reports {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.reports-card-grid {
+    align-items: flex-start !important;
 }

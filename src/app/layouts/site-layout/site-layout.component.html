@@ -1,135 +1,163 @@
 <div class="wrap-bg">
-    <div class="header-fix">
-        <header>
-            <div class="container">
-                <nav>
-                    <div class="nav-wrapper">
-                        <a routerLink="/site" class="brand-logo"><img src="https://smsl-nk.ru/assets/img/logo_smsl_header_2.png" alt="logo_smsl" class="logo"></a>
-                        <ul class="nav-elem li-box">
-                            <li routerLink="/site">
-                                <a></a>
-                            </li>
 
-                            <button mat-button disabled aria-label="Example icon-button with a menu">
+    <mat-drawer-container class="example-container" autosize>
+        <div id="mySidenav" class="sidenav" [style.width]="slideNav ? '83px' : '320px'" [style.transition]="'0.3s'">
+            <div class="openbtn-wrap" [style.width]="slideNav ? '78px' : '300px'" [style.transition]="'0.3s'">
+                <span class="openbtn" (click)="openNav()" [style.display]="visibleNav ? 'block':'none'">
+                           <span class="burger"> </span><span class="burger"> </span><span class="burger"></span>
+                </span>
+            </div>
+            <div class="closebtn" (click)="openNav()" [style.display]="visibleNav ? 'none':'block'">&times;</div>
+            <div class="navleft-elem">
+                <div class="nav-elem-wrap" routerLink="/site">
+
+                    <mat-icon class="nav-elem-icon">home</mat-icon>
+                    <a>Главная</a></div>
+                <div class="nav-elem-wrap" routerLink="/staff">
+                    <mat-icon class="nav-elem-icon">person</mat-icon><a>Сотрудники</a></div>
+                <div class="nav-elem-wrap" routerLink="/reports/list">
+                    <mat-icon class="nav-elem-icon">event_note</mat-icon><a>Отчеты</a></div>
+                <div class="nav-elem-wrap" routerLink="/equipment">
+                    <mat-icon class="nav-elem-icon">settings_input_component</mat-icon><a>Оборудование</a></div>
+                <div class="nav-elem-wrap" routerLink="messenger">
+                    <mat-icon class="nav-elem-icon">chat</mat-icon><a>Диалоги</a></div>
+                <div class="nav-elem-wrap" routerLink="/cloud">
+                    <mat-icon class="nav-elem-icon">cloud_queue</mat-icon><a>Облако</a></div>
+                <div class="nav-elem-wrap" routerLink="/support">
+                    <mat-icon class="nav-elem-icon">settings</mat-icon><a>Поддержка</a></div>
+            </div>
+        </div>
+        <mat-drawer #drawer class="example-sidenav" mode="over">
+            <div class="openbtn-wrap">
+                <mat-icon class="close-icon" (click)="drawer.close()" s>close</mat-icon>
+
+            </div>
+
+            <div class="navleft-elem">
+                <div class="nav-elem-wrap" (click)="drawer.close()" routerLink="/site">
+                    <mat-icon class="nav-elem-icon">home</mat-icon>
+                    <p>Главная</p>
+                </div>
+                <div class="nav-elem-wrap" (click)="drawer.close()" routerLink="/staff">
+                    <mat-icon class="nav-elem-icon">person</mat-icon>
+                    <p>Сотрудники</p>
+                </div>
+                <div class="nav-elem-wrap" (click)="drawer.close()" routerLink="/reports/list">
+                    <mat-icon class="nav-elem-icon">event_note</mat-icon>
+                    <p>Отчеты</p>
+                </div>
+                <div class="nav-elem-wrap" (click)="drawer.close()" routerLink="/equipment">
+                    <mat-icon class="nav-elem-icon">settings_input_component</mat-icon>
+                    <p>Оборудование</p>
+                </div>
+                <div class="nav-elem-wrap" (click)="drawer.close()" routerLink="messenger">
+                    <mat-icon class="nav-elem-icon">chat</mat-icon>
+                    <p>Диалоги</p>
+                </div>
+                <div class="nav-elem-wrap" (click)="drawer.close()" routerLink="/cloud">
+                    <mat-icon class="nav-elem-icon">cloud_queue</mat-icon>
+                    <p>Облако</p>
+                </div>
+                <div class="nav-elem-wrap" (click)="drawer.close()" routerLink="/support">
+                    <mat-icon class="nav-elem-icon">settings</mat-icon>
+                    <p>Поддержка</p>
+                </div>
+            </div>
+        </mat-drawer>
+
+        <div class="header-fix">
+            <header>
+                <div class="container">
+                    <nav>
+                        <div class="nav-wrapper">
+                            <div class="open-burger-wrap">
+                                <span class="openbtn" (click)="drawer.toggle()">
+                                <span class="burger"> </span><span class="burger"> </span><span class="burger"></span>
+                                </span>
+                            </div>
+
+                            <a routerLink="/site" class="brand-logo"><img src="https://smsl-nk.ru/assets/img/logo_smsl_header_2.png" alt="logo_smsl" class="logo"></a>
+                            <ul class="nav-elem li-box">
+                                <li routerLink="/site">
+                                    <a></a>
+                                </li>
+
+                                <button mat-button disabled aria-label="Example icon-button with a menu">
                               <span>Новости</span>
                             </button>
-                            <button mat-button disabled aria-label="Example icon-button with a menu">
+                                <button mat-button disabled aria-label="Example icon-button with a menu">
                               <span>Задачи</span>
                             </button>
-                            <button mat-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                                <button mat-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                               <span>Профиль</span>
                               <mat-icon>keyboard_arrow_down</mat-icon>
                             </button>
-                            <mat-menu #menu="matMenu">
-                                <button mat-menu-item routerLink="/profile">
-                                <mat-icon>person</mat-icon>
-                                <span>{{UserName}}</span>
-                              </button>
-                                <button mat-menu-item disabled>
-                                <mat-icon>edit</mat-icon>
-                                <span>Редактировать</span>
-                              </button>
-                                <button mat-menu-item (click)="lout()">
-                                <mat-icon>exit_to_app</mat-icon>
-                                <span>Выйти</span>
-                              </button>
-                            </mat-menu>
-                        </ul>
-                        <!-- <div class="dropdown-wrap">
-                            <ul id="dropdown1" class="dropdown-content li-box" [style.transform]="toggle ? 'scaleX(1)' : 'scaleX(0)'" [style.transition]="'0.3s'">
-                                <li routerLink="/profile" class="profile-name"><span class="profile-name-color">{{UserName}}</span></li>
-                                <li routerLink="/site" class="dropdown-cursor">Редактировать</li>
-                                <li routerLink="/site" class="dropdown-cursor" (click)="lout()">Выйти</li>
+                                <mat-menu #menu="matMenu">
+                                    <button mat-menu-item routerLink="/profile">
+                                    <mat-icon>person</mat-icon>
+                                    <span>{{UserName}}</span>
+                                  </button>
+                                    <button mat-menu-item disabled>
+                                    <mat-icon>edit</mat-icon>
+                                    <span>Редактировать</span>
+                                  </button>
+                                    <button mat-menu-item (click)="lout()">
+                                    <mat-icon>exit_to_app</mat-icon>
+                                    <span>Выйти</span>
+                                  </button>
+                                </mat-menu>
                             </ul>
-                        </div> -->
+                        </div>
+                    </nav>
 
-                    </div>
-                </nav>
-                <div id="mySidenav" class="sidenav" [style.width]="slideNav ? '83px' : '320px'" [style.transition]="'0.3s'">
-                    <div class="openbtn-wrap" [style.width]="slideNav ? '78px' : '300px'" [style.transition]="'0.3s'">
-                        <span class="openbtn" (click)="openNav()" [style.display]="visibleNav ? 'block':'none'">
-              <span class="burger"> </span><span class="burger"> </span><span class="burger"></span>
-                        </span>
-                    </div>
-                    <div class="closebtn" (click)="openNav()" [style.display]="visibleNav ? 'none':'block'">&times;</div>
-                    <div class="navleft-elem">
-                        <div class="nav-elem-wrap" routerLink="/site">
 
-                            <mat-icon class="nav-elem-icon">home</mat-icon>
-                            <a>Главная</a></div>
-                        <div class="nav-elem-wrap" routerLink="/staff">
-                            <mat-icon class="nav-elem-icon">person</mat-icon><a>Сотрудники</a></div>
-                        <div class="nav-elem-wrap" routerLink="/reports/list">
-                            <mat-icon class="nav-elem-icon">event_note</mat-icon><a>Отчеты</a></div>
-                        <div class="nav-elem-wrap" routerLink="/equipment">
-                            <mat-icon class="nav-elem-icon">settings_input_component</mat-icon><a>Оборудование</a></div>
-                        <div class="nav-elem-wrap" routerLink="messenger">
-                            <mat-icon class="nav-elem-icon">chat</mat-icon><a>Диалоги</a></div>
-                        <div class="nav-elem-wrap" routerLink="/cloud">
-                            <mat-icon class="nav-elem-icon">cloud_queue</mat-icon><a>Облако</a></div>
-                        <div class="nav-elem-wrap" routerLink="/support">
-                            <mat-icon class="nav-elem-icon">settings</mat-icon><a>Поддержка</a></div>
-                        <!-- <div class="nav-elem-wrap" routerLink="">
-                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div>
-                        <div class="nav-elem-wrap" routerLink="">
-                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div>
-                        <div class="nav-elem-wrap" routerLink="">
-                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div>
-                        <div class="nav-elem-wrap" routerLink="">
-                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div>
-                        <div class="nav-elem-wrap" routerLink="">
-                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div>
-                        <div class="nav-elem-wrap" routerLink="">
-                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div>
-                        <div class="nav-elem-wrap" routerLink="">
-                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div>
-                        <div class="nav-elem-wrap" routerLink="">
-                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div>
-                        <div class="nav-elem-wrap" routerLink="">
-                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div>
-                        <div class="nav-elem-wrap" routerLink="">
-                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div>
-                        <div class="nav-elem-wrap" routerLink="">
-                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div>
-                        <div class="nav-elem-wrap" routerLink="">
-                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div>
-                        <div class="nav-elem-wrap" routerLink="">
-                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div>
-                        <div class="nav-elem-wrap" routerLink="">
-                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div>
-                        <div class="nav-elem-wrap" routerLink="">
-                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div>
-                        <div class="nav-elem-wrap" routerLink="">
-                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div>
-                        <div class="nav-elem-wrap" routerLink="">
-                            <div class="icon-border"><img src="assets/home.png" class="navicon-left"></div><a>Поддержка</a></div> -->
-                    </div>
+                    <!-- <div id="mySidenav" class="sidenav" [style.width]="slideNav ? '83px' : '320px'" [style.transition]="'0.3s'">
+                        <div class="openbtn-wrap" [style.width]="slideNav ? '78px' : '300px'" [style.transition]="'0.3s'">
+                            <span class="openbtn" (click)="openNav()" [style.display]="visibleNav ? 'block':'none'">
+                           <span class="burger"> </span><span class="burger"> </span><span class="burger"></span>
+                            </span>
+                        </div>
+                        <div class="closebtn" (click)="openNav()" [style.display]="visibleNav ? 'none':'block'">&times;</div>
+                        <div class="navleft-elem">
+                            <div class="nav-elem-wrap" routerLink="/site">
+
+                                <mat-icon class="nav-elem-icon">home</mat-icon>
+                                <a>Главная</a></div>
+                            <div class="nav-elem-wrap" routerLink="/staff">
+                                <mat-icon class="nav-elem-icon">person</mat-icon><a>Сотрудники</a></div>
+                            <div class="nav-elem-wrap" routerLink="/reports/list">
+                                <mat-icon class="nav-elem-icon">event_note</mat-icon><a>Отчеты</a></div>
+                            <div class="nav-elem-wrap" routerLink="/equipment">
+                                <mat-icon class="nav-elem-icon">settings_input_component</mat-icon><a>Оборудование</a></div>
+                            <div class="nav-elem-wrap" routerLink="messenger">
+                                <mat-icon class="nav-elem-icon">chat</mat-icon><a>Диалоги</a></div>
+                            <div class="nav-elem-wrap" routerLink="/cloud">
+                                <mat-icon class="nav-elem-icon">cloud_queue</mat-icon><a>Облако</a></div>
+                            <div class="nav-elem-wrap" routerLink="/support">
+                                <mat-icon class="nav-elem-icon">settings</mat-icon><a>Поддержка</a></div>
+                        </div>
+                    </div> -->
+
+
+
+
+
                 </div>
-            </div>
-        </header>
-    </div>
-    <div class="content-wrap" (click)="closeNav()">
-        <div class="container">
-            <router-outlet></router-outlet>
-            <!-- <div class="json-test">
-                <div class="table-wrap">
-                    <table class="table_col">
-                        <colgroup>
-                            <col>
-                        </colgroup>
-                        <tr *ngFor="let Personal of pers; index as i">
-                            <th>{{i+1}}</th>
-                            <td>{{Personal.Id}}</td>
-                            <td>{{Personal.Name}}</td>
-                            <td>{{Personal.Bithday}}</td>
-                            <td>{{Personal.EMail}}</td>
-                            <td>{{Personal.Telephone}}</td>
-                        </tr>
 
-                    </table>
-                </div>
-            </div> -->
+            </header>
         </div>
-    </div>
+        <div class="content-wrap" (click)="closeNav()">
+            <div class="container">
+
+
+                <!-- <button type="button" style="margin-top: 100px;" mat-button (click)="drawer.toggle()">
+                  Toggle sidenav
+                </button> -->
+                <router-outlet></router-outlet>
+
+            </div>
+        </div>
+
+    </mat-drawer-container>
 
 </div>

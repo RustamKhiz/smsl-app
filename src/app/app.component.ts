@@ -5,7 +5,7 @@ import { afterlogServices } from './layouts/services/afterlog.services';
 import { AutServices } from './layouts/services/aut.services';
 import { Mashines, Personals } from './layouts/services/interfaces';
 import { SignalService } from './layouts/services/signalR.services';
-
+//require('angular-activity-monitor')
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -17,8 +17,42 @@ export class AppComponent implements OnInit, OnDestroy {
   }
   pers: Personals[]
   mashin: Mashines[]
-  aSub: Subscription;
+  aSub: Subscription
+
+  popLoader = true
+  loading = false; //переменная для лоадера
+
+  DontActiveTime: number = 0
+
+  Action(){
+    let timeout = 3000;
+    let lastActiveTimestamp = 0;
+    let userIsActive = false;
+    this.DontActiveTime = 0;
+    window.addEventListener('mousemove', this.active);
+    window.addEventListener('keypress', this.active);
+    window.addEventListener('click', this.active);
+
+    setInterval(this.checkUserIsActive, 1000);
+
+    this.active();
+
+
+
+  }
+  checkUserIsActive() {
+    this.DontActiveTime += 1
+    // console.log(this.DontActiveTime,"DontActiveTime")
+    localStorage.setItem('DontActiveTime', JSON.stringify(this.DontActiveTime))
+  }
+  active() {
+    this.DontActiveTime = 0
+   // console.log(this.DontActiveTime,"DontActiveTime")
+  }
   ngOnInit(){
+
+    this.Action()
+    this.loading = true
     const potentialToken = localStorage.getItem('aut-token')
     const potentialHash = localStorage.getItem('ConnectionHash')
     if (potentialToken !== null){
@@ -27,15 +61,16 @@ export class AppComponent implements OnInit, OnDestroy {
       this.signal.onConnect.subscribe((c, n) => {
           console.log(`AutServices ${c} hash ${n} `)
           localStorage.setItem('ConnectionHash', c)
+
           //Получение всех данных
           this.aSub = this.afteraut.afterLog().subscribe(
             (res)=> {
               console.log("afterlog working!")
               console.log("dataload: load", res)
               // Получаем персонал из afterLog
-              // const persData = JSON.stringify(this.afteraut.newPersonals)
-              // localStorage.setItem('Personal', persData)
-              // this.pers = JSON.parse(localStorage.getItem('Personal'))
+              const persData = JSON.stringify(this.afteraut.newPersonals)
+              localStorage.setItem('Personal', persData)
+              this.pers = JSON.parse(localStorage.getItem('Personal'))
 
               //Получаем оборудование из afterLog
               const MashinData = JSON.stringify(this.afteraut.newMashines)
@@ -50,10 +85,14 @@ export class AppComponent implements OnInit, OnDestroy {
               //Получаем Locations из afterlog
               const LocationsData = JSON.stringify(this.afteraut.newLocactions)
               localStorage.setItem('Locations', LocationsData)
+              this.loading = false
+
           },
             (error) => {
               console.log("afterlog dont work")
               console.log("error:",error)
+              this.loading = false
+
             },()=> {
               console.log("subscribe complite")
             }
@@ -63,8 +102,11 @@ export class AppComponent implements OnInit, OnDestroy {
     } else{
       this.aut.logout()
       this.router.navigate(['/aut'])
+      this.loading = false
     }
     //else location.reload()
+    this.loading = false
+
   }
   ngOnDestroy(){
     if(this.aSub){

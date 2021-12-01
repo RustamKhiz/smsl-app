@@ -40,7 +40,7 @@ export class AutComponent implements OnInit, OnDestroy {
 
   }
   loading: boolean = false;
-  UserNameCtrl: FormControl = new FormControl(null, [Validators.required, Validators.email])
+  UserNameCtrl: FormControl = new FormControl(null, [Validators.required])
   PasswordCtrl: FormControl =new FormControl (null, [Validators.required])
   ngOnInit(){
   //  this.openDialog()
