@@ -450,3 +450,30 @@
 .reports-card-grid {
     align-items: flex-start !important;
 }
+
+.test {
+    /* background: #176387; */
+    /* color: #fff; */
+    font-size: 25px;
+    border: 2px solid #4edb2b;
+    box-shadow: 0px 0px 7px 0px rgba(78, 219, 43, 0.42);
+    opacity: 0;
+    /*Элемент полностью прозрачный (невидимый)*/
+    transition: 1s;
+    /*Скорость перехода состояния элемента*/
+    animation: show 2s 1;
+    /* Указываем название анимации, её время и количество повторов*/
+    animation-fill-mode: forwards;
+    /* Чтобы элемент оставался в конечном состоянии анимации */
+    animation-delay: 0.5s;
+    /* Задержка перед началом */
+}
+
+@keyframes show {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

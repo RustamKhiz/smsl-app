@@ -75,9 +75,12 @@ export class ReportsListComponent implements OnInit, OnDestroy {
   dataSource: MatTableDataSource<ReportsAll>
 
   ConnectToPagginList(){
+
+    this.reportsAll.reverse()
     this.dataSource = new MatTableDataSource<ReportsAll>(this.reportsAll);
     this.changeDetectorRef.detectChanges();
     this.dataSource.paginator = this.paginator;
+
     this.obs = this.dataSource.connect();
   }
   //paginator__________end
@@ -141,19 +144,12 @@ export class ReportsListComponent implements OnInit, OnDestroy {
             } else {
               this.openSnackBar(`Найдено отчётов: ${this.reportsAll.length}` , "Ok")
             }
-            console.log("this.reportsAll: ", this.reportsAll)
-            this.dateReportSort(this.reportsAll)
-            console.log("this.reportsAll: ", this.reportsAll)
+            this.reportsAll.sort((a, b) => {
+              return moment(a.DataReport).toDate().getTime() > moment(b.DataReport).toDate().getTime() ? 1 : -1;
+            })
             this.ConnectToPagginList()
 
-            // for (let i = 0; i < this.reportsAll.length; i++) {
-            //   for (let j = 0; j < this.pers.length; j++) {
-            //     if (this.reportsAll[i].UserId == this.pers[j].Id){
-            //       this.UserName = this.pers[j].Fio
-            //     }
-            //   }
-            // console.log("test:", this.UserName)
-            // }
+
           },
           (error) => {
             console.log("Filter don`t work!")
@@ -171,26 +167,15 @@ export class ReportsListComponent implements OnInit, OnDestroy {
 
 }
   dateReportSort(report){
-
-    for (let i = 0; i < report.length; i++) {
-      // console.log("report[i].DataReport: ", report[i].DataReport)
-      // console.log(report[i].DataReport.substring(8, 10));
-
-      // dateReport = new Date(report[i].DataReport.getTime())
-      // let count;
-      // if (moment(report[i].DataReport).toDate() < moment(report[i+1].DataReport).toDate()){
-
-      // }
-
-    }
-    // console.log("report", report)
     report.sort((a, b) => {
       moment(a.DataReport).toDate().getTime() > moment(b.DataReport).toDate().getTime() ? 1 : -1
-
     })
+    report.reverse()
     console.log("report: ", report)
+    return report
   }
   FilterSubmit(){
+    localStorage.removeItem('newRepParam')
     this.loading = true;
 
     let ChiefIdsList: any [] = []
@@ -226,9 +211,9 @@ export class ReportsListComponent implements OnInit, OnDestroy {
       console.log("!")
       this.loading = false;
       this.openSnackBar("Фильтр не может быть пустым!", "Ok")
-    } else if ((this.Filter.FromDate == null) && (this.Filter.SubLocIds !== null)) {
-      this.loading = false;
-      this.openSnackBar(`Для начала выберите дату` , "Ok")
+    // } else if ((this.Filter.FromDate == null) && (this.Filter.SubLocIds !== null)) {
+    //   this.loading = false;
+    //   this.openSnackBar(`Для начала выберите дату` , "Ok")
     } else {
       console.log("!!")
       this.filterSub = this.repFilter.reportFilter(this.Filter).subscribe(
@@ -271,46 +256,48 @@ export class ReportsListComponent implements OnInit, OnDestroy {
     }
   }
 
-FilterToday(){
-  this.loading = true;
-  this.Filter = {
-    ReportId: 0,
-    FromDate: this.TwoDayBeforeYesterday,
-    ToDate: this.today,
-    ChiefIds: null,
-    GeneralLocIds: null,
-    SubLocIds: null
+  FilterToday(){
+    localStorage.removeItem('newRepParam')
+    this.loading = true;
+    this.Filter = {
+      ReportId: 0,
+      FromDate: this.TwoDayBeforeYesterday,
+      ToDate: this.today,
+      ChiefIds: null,
+      GeneralLocIds: null,
+      SubLocIds: null
+    }
+
+    this.aSub = this.repFilter.reportFilter(this.Filter).subscribe(
+      (AllData) => {
+        console.log("Filter today is work!", AllData)
+        console.log("AllData:", AllData)
+        const reportData = JSON.stringify(AllData)
+        localStorage.setItem('ReportAll', reportData)
+        this.reportsAll = JSON.parse(localStorage.getItem('ReportAll'))
+
+        // const PesonalStatuses = JSON.stringify(AllData.CwrPesonalStatuses)
+        // localStorage.setItem('PesonalStatuses', PesonalStatuses)
+        if (this.reportsAll.length == 0){
+          console.log("reportsAll == undefined!!!")
+          this.openSnackBar("За сегодня ни одного отчета не найдено", "Ok")
+          localStorage.removeItem('ReportAll')
+        } else {
+          this.openSnackBar(`Найдено отчётов: ${this.reportsAll.length}` , "Ok")
+        }
+        // this.dateReportSort(this.reportsAll)
+        this.ConnectToPagginList()
+        this.loading = false;
+      },
+      (error) => {
+        console.log("Filter don`t work!")
+        this.loading = false;
+      }
+    )
   }
 
-  this.aSub = this.repFilter.reportFilter(this.Filter).subscribe(
-    (AllData) => {
-      console.log("Filter today is work!", AllData)
-      console.log("AllData:", AllData)
-      const reportData = JSON.stringify(AllData)
-      localStorage.setItem('ReportAll', reportData)
-      this.reportsAll = JSON.parse(localStorage.getItem('ReportAll'))
-
-      const PesonalStatuses = JSON.stringify(AllData.CwrPesonalStatuses)
-      localStorage.setItem('PesonalStatuses', PesonalStatuses)
-      if (this.reportsAll.length == 0){
-        console.log("reportsAll == undefined!!!")
-        this.openSnackBar("За сегодня ни одного отчета не найдено", "Ok")
-        localStorage.removeItem('ReportAll')
-      } else {
-        this.openSnackBar(`Найдено отчётов: ${this.reportsAll.length}` , "Ok")
-      }
-      this.dateReportSort(this.reportsAll)
-      this.ConnectToPagginList()
-      this.loading = false;
-    },
-    (error) => {
-      console.log("Filter don`t work!")
-      this.loading = false;
-    }
-  )
-}
-
   FilterReset(){
+    localStorage.removeItem('newRepParam')
     localStorage.removeItem('ReportAll')
     this.FromDateCtrl.reset()
     this.ToDateCtrl.reset()
@@ -482,13 +469,26 @@ FilterToday(){
   }
   reportDelSub: Subscription
 
-  ReportDel(){
-
+  ReportDel(i){
       this.reportDelSub = this.repDel.repDel(this.reportId, this.reportItem).subscribe(
         () => {
           console.log("Удаление прошло успешно!")
+          // localStorage.removeItem('newRepParam')
+          // console.log("Удаление прошло успешно!", i)
           this.openSnackBar("Удаление прошло успешно", "Ok")
           this.repDeleteWind = false
+          this.reportsAll.reverse()
+          this.reportsAll.splice(i, 1)
+          // let RepAllList: [] = JSON.parse(localStorage.getItem('ReportAll'))
+          // RepAllList.reverse()
+          // RepAllList.splice(i, 1)
+          // console.log("RepAllList", RepAllList)
+          localStorage.setItem('ReportAll', JSON.stringify(this.reportsAll))
+          this.dataSource = new MatTableDataSource<ReportsAll>(this.reportsAll);
+          this.changeDetectorRef.detectChanges();
+          this.dataSource.paginator = this.paginator;
+
+          this.obs = this.dataSource.connect();
         },
         () => {
           console.log("Ошибка удаления отчёта!")
@@ -511,6 +511,14 @@ FilterToday(){
   // reportViewList(){
   //   this.viewList = !this.viewList
   // }
+  newReportView(i){
+    let newRepParam = JSON.parse(localStorage.getItem('newRepParam'))
+    if ((i == 0) && (newRepParam == 1) ){
+      return true
+    } else {
+      return false
+    }
+  }
   ngOnDestroy(){
     if(this.aSub){
       this.aSub.unsubscribe()
@@ -521,5 +529,7 @@ FilterToday(){
     if (this.reportRedSub){
       this.reportRedSub.unsubscribe()
     }
+    localStorage.removeItem('newRepParam')
+
   }
 }

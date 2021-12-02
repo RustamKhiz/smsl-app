@@ -30,7 +30,7 @@
         </ng-container>
 
         <ng-container matColumnDef="reportView.CwrWorks.CwrWorkEquipments">
-            <th mat-header-cell *matHeaderCellDef style="padding-left: 16px;"> Оборудование </th>
+            <th mat-header-cell *matHeaderCellDef style="padding-left: 16px; padding-right: 220px;"> Оборудование </th>
             <td mat-cell *matCellDef="let element, index as i" style="padding-left: 16px;"> <span *ngFor="let equip of reportView.CwrWorks[i].CwrWorkEquipments, index as j">{{equip.Equipment.FullName + " " + equip.Equipment.Name + " " + equip.Equipment.Number + "; "}}<br> </span> </td>
         </ng-container>
         <ng-container matColumnDef="Shown">

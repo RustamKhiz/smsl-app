@@ -61,25 +61,27 @@
         </div>
 
         <div class="reports" *ngIf="!loading" [ngClass]="{ViewList:!viewList}">
-            <mat-card class="example-card" *ngFor="let report of obs | async, index as i">
-                <div class="reports-card-wrap">
-                    <img class="reports-card-img" mat-card-lg-image [src]="getLogo(report.GeneralLocationId)">
-                    <mat-card-title-group class="reports-card-title-group">
-                        <mat-card-title style="line-height: 1.2;">
-                            <mat-icon> location_on</mat-icon>{{ getSubLockName(report)}} №{{report.Id}}</mat-card-title>
-                        <mat-card-title style="font-size: 18px;">
+            <mat-card class="example-card" *ngFor="let report of obs | async, index as i" [ngClass]="{test: newReportView(i)}">
+                <div class="new-report-check">
+                    <div class="reports-card-wrap">
+                        <img class="reports-card-img" mat-card-lg-image [src]="getLogo(report.GeneralLocationId)">
+                        <mat-card-title-group class="reports-card-title-group">
+                            <mat-card-title style="line-height: 1.2;">
+                                <mat-icon> location_on</mat-icon>{{ getSubLockName(report)}} №{{report.Id}}</mat-card-title>
+                            <mat-card-title style="font-size: 18px;">
 
-                        </mat-card-title>
+                            </mat-card-title>
 
-                        <mat-card-subtitle>{{getChiedName(report)}} от {{FormatDate(report.DataReport)}}</mat-card-subtitle>
-                        <!-- <div class="card-subtitle-wrap"> -->
-                        <mat-card-subtitle class="card-subtitle-wrap"><strong>Работ: </strong> {{getLength(report.CwrWorks)}}</mat-card-subtitle>
-                        <mat-card-subtitle class="card-subtitle-wrap"><strong>Персонал: </strong> {{getLength(report.CwrPersonals)}}</mat-card-subtitle>
-                        <mat-card-subtitle class="card-subtitle-wrap"><strong>Оборудование: </strong> {{getLength(report.CwrEquipments)}}</mat-card-subtitle>
-                        <mat-card-subtitle class="card-subtitle-wrap"><strong>Файлов в отчёте: </strong> {{getLength(report.CwrFiles)}}</mat-card-subtitle>
-                        <!-- </div> -->
+                            <mat-card-subtitle>{{getChiedName(report)}} от {{FormatDate(report.DataReport)}}</mat-card-subtitle>
+                            <!-- <div class="card-subtitle-wrap"> -->
+                            <mat-card-subtitle class="card-subtitle-wrap"><strong>Работ: </strong> {{getLength(report.CwrWorks)}}</mat-card-subtitle>
+                            <mat-card-subtitle class="card-subtitle-wrap"><strong>Персонал: </strong> {{getLength(report.CwrPersonals)}}</mat-card-subtitle>
+                            <mat-card-subtitle class="card-subtitle-wrap"><strong>Оборудование: </strong> {{getLength(report.CwrEquipments)}}</mat-card-subtitle>
+                            <mat-card-subtitle class="card-subtitle-wrap"><strong>Файлов в отчёте: </strong> {{getLength(report.CwrFiles)}}</mat-card-subtitle>
+                            <!-- </div> -->
 
-                    </mat-card-title-group>
+                        </mat-card-title-group>
+                    </div>
                 </div>
                 <mat-card-content class="reports-card-button-wrap">
                     <div>
@@ -148,8 +150,11 @@
                 </mat-card-content>
             </mat-card>
         </div>
-        <mat-paginator color="accent" [length]="reportsAll.length" [pageSize]="4" [pageSizeOptions]="[2, 4, 6, 8]" aria-label="Select page">
-        </mat-paginator>
+        <div class="paginator" *ngIf="reportsAll.length > 0">
+            <mat-paginator color="accent" [length]="reportsAll.length" [pageSize]="4" [pageSizeOptions]="[2, 4, 6, 8]" aria-label="Select page">
+            </mat-paginator>
+        </div>
+
     </div>
 </div>
 <div class="reports-popup" [ngClass]="{open:repDeleteWind}">
@@ -162,7 +167,7 @@
                     <p>Это действие нельзя будет отменить</p>
                 </mat-card-content>
                 <mat-card-actions style="display: flex; justify-content: space-between;">
-                    <button mat-flat-button color="accent" (click)="ReportDel()" (click)="reportsAll.splice(i, 1)">Да</button>
+                    <button mat-flat-button color="accent" (click)="ReportDel(i)">Да</button>
                     <button mat-flat-button color="warn" (click)="repDeleteWind = false">Нет</button>
                 </mat-card-actions>
             </mat-card>

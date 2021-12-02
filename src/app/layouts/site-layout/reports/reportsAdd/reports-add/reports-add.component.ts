@@ -677,22 +677,17 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log("reportFile: ", this.reportFile)
       }, false);
     }
-}
+  }
 
-aSub: Subscription; //переменная для отписки от стрима при отправке данных
-repAdd: any //переменная для хранения всего отчета перед отправкой
+  aSub: Subscription; //переменная для отписки от стрима при отправке данных
+  repAdd: any //переменная для хранения всего отчета перед отправкой
   reportSubmit() {
     this.loading = true //включаем лоадер
     this.locationId = this.LocationCtrl.value.Id
     this.СhiefId = this.ChiefCtrl.value.Id
-    console.log("locationId: ", this.locationId) //получение locationId в консоль
-    console.log("СhiefIdAdd: ", this.СhiefId) //получение СhiefIdAdd в консоль
-    console.log(this.DataReportCtrl.value) //получение DataReport в консоль
+    let DataReportString = String( formatDate(this.DataReportCtrl.value, 'dd.MM.yyyy', 'en-US') ) + " 02:01:00" //Правильно форматируем дату в отчете перед отправкой
+    let ToDayString = String( formatDate(this.now, 'dd.MM.yyyy HH:mm:ss', 'en-US')) //Правильно форматируем сегодняшнюю дату в отчет
 
-    let DataReportString = String( formatDate(this.DataReportCtrl.value, 'dd.MM.yyyy', 'en-US') ) + " 02:01:00"
-    let ToDayString = String( formatDate(this.now, 'dd.MM.yyyy HH:mm:ss', 'en-US'))
-    console.log("ToDayString: ", ToDayString)
-    console.log("DataReporString: ", DataReportString)
     for (let i = 0; i < this.reportsCards.length; i++) {
       this.reportsCards[i].Customer = null; // обnullяем все Customer для отправки на сервер
     }
@@ -702,18 +697,13 @@ repAdd: any //переменная для хранения всего отчет
     console.log("CwrWorksLoc: ", CwrWorksLoc)
     if (CwrWorksLoc == null){
       console.log("ReportIdData is null!!")
-     } else {
+     } else {//работа с датами при редактировании отчёта
        ToDayString = CwrWorksLoc.DataCreate
        this.now = CwrWorksLoc.DataCreate
      }
     if (CwrWorksLoc == null){
-      CwrWorksLoc = 0
+      CwrWorksLoc = 0 //обнуление id отчета при создании нового
     }
-    console.log("CwrWorksLoc: ", CwrWorksLoc.DataCreate)
-
-
-    console.log("ToDayString: ", ToDayString)
-    console.log("  this.now: ",   this.now)
 
     const newrep = { // инициализация объекта перед отправкой на сервер
       Id: CwrWorksLoc.Id,
@@ -740,14 +730,20 @@ repAdd: any //переменная для хранения всего отчет
       this.aSub = this.rep.reportAdd(this.repAdd).subscribe( //добавление
         (pers)=>{
           console.log('Отчет отправлен!', pers)
-          localStorage.removeItem('ReportAll')
+          // localStorage.removeItem('ReportAll')
           this.openSnackBar("Отчет успешно создан!", "Ok")
+          const newRepParam = 1
+          localStorage.setItem('newRepParam', JSON.stringify(newRepParam))
           this.router.navigate(['/reports/list'])
+          let RepAllList: any [] = JSON.parse(localStorage.getItem('ReportAll'))
+          RepAllList.push(pers)
+          console.log("RepAllList", RepAllList)
+          localStorage.setItem('ReportAll', JSON.stringify(RepAllList))
           this.loading = false
         },
         error => {
           this.openSnackBar("Ошибка отправки отчета, проверьте правильность введенных данных", "Ok")
-          console.log('Ошибка отправки формы отчета: ')
+          // console.log('Ошибка отправки формы отчета: ')
           this.loading = false
         }
       )
