@@ -1,0 +1,14 @@
+@media screen and (max-width: 600px) {
+    .aut-bg {
+        border: unset;
+        box-shadow: unset;
+    }
+    .title {
+        font-size: 21px;
+    }
+    .aur-wrap {
+        /* align-items: flex-start; */
+        height: 550px;
+        overflow: hidden;
+    }
+}

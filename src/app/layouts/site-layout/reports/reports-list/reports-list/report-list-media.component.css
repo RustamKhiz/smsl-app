@@ -1,1 +1,66 @@
-@media screen and (max-width: 992px) {}
+@media screen and (max-width: 600px) {
+    .reports-filter {
+        margin-right: 0;
+        display: none;
+    }
+    .hot-filter {
+        display: none;
+    }
+    .reports {
+        display: none;
+    }
+    .mobile {
+        display: block;
+    }
+    .loader-flex {
+        display: flex;
+        justify-content: center;
+        margin: 0px 0px;
+    }
+    .example-card {
+        width: 90%;
+        /* height: 400px; */
+    }
+    .mat-card-title {
+        font-size: 17px;
+        display: flex;
+    }
+    .reports-card-title-group {
+        margin-left: 0;
+        display: block;
+    }
+    .reports-card-img {
+        width: 65px;
+        height: 65px;
+        position: relative;
+        top: 0;
+        left: 0;
+    }
+    .reports-card-wrap {
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+    .mat-card-subtitle {
+        margin-bottom: 0;
+    }
+    .card-subtitle-wrap {
+        margin-right: 0;
+    }
+    .reports-text-wrap {
+        display: flex;
+        flex-direction: column;
+    }
+    .cdk-overlay-pane {
+        left: 182px !important;
+    }
+    .loader {
+        display: none;
+    }
+    .filter-mobile {
+        display: block;
+    }
+    .mat-paginator {
+        background: rgb(252, 252, 252);
+    }
+}

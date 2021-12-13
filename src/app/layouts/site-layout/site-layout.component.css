@@ -307,6 +307,14 @@ ul {
     background-color: #2B2A29;
 }
 
+.mobile-menu-wrap {
+    display: none;
+}
+
+.mobile-menu-open {
+    display: none;
+}
+
 
 /* .example-sidenav {
     overflow-y: unset;

@@ -314,6 +314,10 @@
     margin: 164px 388px;
 }
 
+.loader-flex {
+    display: none;
+}
+
 .reports-popup {
     position: fixed;
     width: 100%;
@@ -476,4 +480,16 @@
     100% {
         opacity: 1;
     }
+}
+
+.filter-mobile {
+    display: none;
+}
+
+.mat-paginator {
+    background: rgb(252, 252, 252);
+}
+
+.mobile {
+    display: none;
 }

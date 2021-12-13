@@ -39,6 +39,8 @@ export class CwrPersonals{
               public Personal: string,
               public CwrStatusFromPersonals: [{ Id: number, CwrStatusId: number, CwrPersonalId: number, DisplayName: string}],
               public PersonalStatus: string,
+              public ForTabPerStatusId: number,
+              public ForTabPerStatusName: string,
               public PersonalStatusName: string,
               public Comment?: string
   ){}
@@ -79,7 +81,7 @@ export class CwrFiles {
 @Component({
   selector: 'app-reports-add',
   templateUrl: './reports-add.component.html',
-  styleUrls: ['./reports-add.component.css']
+  styleUrls: ['./reports-add.component.css', 'reports-add-media.component.css']
 })
 export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
   now = new Date();
@@ -105,6 +107,8 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
   CustomerData: NewDropdown [] = []; //инициализация общего интервейса
   status = JSON.parse(localStorage.getItem('PesonalStatuses'))
   StatusData: NewDropdown [] = []; //инициализация общего интервейса
+  statusWork = JSON.parse(localStorage.getItem('PesonalStatusesWork'))
+  StatusDataWork: NewDropdown [] = []; //инициализация общего интервейса
   Method = [
     {Id: 0, Name: "РК"},
     {Id: 1, Name: "ВИК"},
@@ -139,11 +143,14 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
       let IsSelect
       for (let i = 0; i < this.pers.length; i++) {
         if (this.pers[i].StatusWork !== "Уволен"){
-          Id = this.pers[i].Id
-          Name = this.pers[i].Name + " " + this.pers[i].LastName
-          Display = true
-          IsSelect = false
-          this.PersData.push(new NewDropdown(Id, Name, Display, IsSelect))
+          if(this.pers[i].Company.IsSMSL == true){
+            Id = this.pers[i].Id
+            Name = this.pers[i].LastName + " " + this.pers[i].Name
+            Display = true
+            IsSelect = false
+            this.PersData.push(new NewDropdown(Id, Name, Display, IsSelect))
+          }
+
         }
       }
       // console.log("PersData: ",this.PersData)
@@ -177,6 +184,14 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
 
       }
       // console.log("CustomerData: ",this.CustomerData)
+      for (let i = 0; i < this.statusWork.length; i++) {
+        Id = this.statusWork[i].Id
+        Name = this.statusWork[i].DisplayName
+        Display = true
+        IsSelect = true
+        this.StatusDataWork.push(new NewDropdown(Id, Name, Display, IsSelect))
+      }
+      console.log("StatusDataWork: ",this.StatusDataWork)
       for (let i = 0; i < this.status.length; i++) {
         Id = this.status[i].Id
         Name = this.status[i].DisplayName
@@ -203,12 +218,15 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
       // console.log("StatusEqData: ",this.StatusEqData)
       for (let i = 0; i < this.pers.length; i++) {
         if (this.pers[i].StatusWork !== "Уволен"){
-          Id = this.pers[i].Id
-          Name = this.pers[i].Name + " " + this.pers[i].LastName
-          Display = true
-          IsSelect = false
-          // let ChiefObj = this.pers.find(x => x.Id == report.SubLocationId)
-          this.ChiefData.push(new NewDropdown(Id, Name, Display, IsSelect))
+          if(this.pers[i].Company.IsSMSL == true){
+            Id = this.pers[i].Id
+            Name = this.pers[i].LastName + " " + this.pers[i].Name
+            Display = true
+            IsSelect = false
+            // let ChiefObj = this.pers.find(x => x.Id == report.SubLocationId)
+            this.ChiefData.push(new NewDropdown(Id, Name, Display, IsSelect))
+          }
+
         }
 
       }
@@ -271,8 +289,13 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
         for (let j = 0; j < CwrWorksLoc.CwrPersonals[i].CwrStatusFromPersonals.length; j++) {
           this.CwrStatusFromPersonals[j] = { Id: 0, CwrStatusId: CwrWorksLoc.CwrPersonals[i].CwrStatusFromPersonals[j].CwrPesonalStatus.Id, CwrPersonalId: 0, DisplayName: CwrWorksLoc.CwrPersonals[i].CwrStatusFromPersonals[j].CwrPesonalStatus.DisplayName}
         }
+        this.ForTabPerStatusId = CwrWorksLoc.CwrPersonals[i].ForTabPerStatusId;
+        let ForTabPerStatusNameFind = this.statusWork.find(x => x.Id == this.ForTabPerStatusId)
+        console.log("ForTabPerStatusNameFind: ", ForTabPerStatusNameFind)
+        this.ForTabPerStatusName = ForTabPerStatusNameFind.DisplayName
+        console.log("ForTabPerStatusName: ", this.ForTabPerStatusName)
         this.Comment2 = CwrWorksLoc.CwrPersonals[i].Comment
-        this.reportsPers.push(new CwrPersonals(this.Id, this.PersonalId, this.CwrId, this.Personal, this.CwrStatusFromPersonals, this.PersonalStatus, this.PersonalStatusName, this.Comment2))
+        this.reportsPers.push(new CwrPersonals(this.Id, this.PersonalId, this.CwrId, this.Personal, this.CwrStatusFromPersonals, this.PersonalStatus, this.ForTabPerStatusId, this.ForTabPerStatusName, this.PersonalStatusName, this.Comment2))
         this.CwrStatusFromPersonals = []
       }
       for (let i = 0; i < CwrWorksLoc.CwrEquipments.length; i++) {
@@ -310,7 +333,7 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
 
       //конец присвоения данных для режима редактирования
 
-
+      console.log("reportsPers: ", this.reportsPers)
 
       this.dropdownSelect.dropCH(this.ChiefData, this.ChiefCtrl.value, this.ChiefCtrl) //заполнение dropdown элементов ответственного за отчет
       this.dropdownSelect.dropCH(this.LocationData, this.LocationCtrl.value, this.LocationCtrl) //заполнение dropdown элементов локации
@@ -438,6 +461,8 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
       this.PersonalId = this.CwrWorkPersonalsItem[i]
       this.PersonalStatusName = this.CwrWorkPersonalsItemFio[i]
       this.CwrStatusFromPersonals = [{ Id: 0, CwrStatusId: 4, CwrPersonalId: 0, DisplayName: "Проведение контроля"}]
+      this.ForTabPerStatusId = 18;
+      this.ForTabPerStatusName = "Работа"
       console.log("CwrStatusFromPersonals", this.CwrStatusFromPersonals)
 
       let countCheck = 0; //счетчик при проверке повторяющегося персонала
@@ -447,7 +472,7 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
       if (countCheck == 0){
-        this.reportsPers.push(new CwrPersonals(this.Id, this.PersonalId, this.CwrId, this.Personal, this.CwrStatusFromPersonals, this.PersonalStatus, this.PersonalStatusName))
+        this.reportsPers.push(new CwrPersonals(this.Id, this.PersonalId, this.CwrId, this.Personal, this.CwrStatusFromPersonals, this.PersonalStatus, this.ForTabPerStatusId, this.ForTabPerStatusName, this.PersonalStatusName))
         countCheck = 0
       }
       console.log("this.reportsPers:", this.reportsPers)
@@ -522,8 +547,10 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   Personal: string = "";
   PersonalStatus: string = "";
-  PersonalId = 0
-  CwrStatusFromPersonals: any = [{ Id: 0, CwrStatusId: 0, CwrPersonalId: 0, DisplayName: ""}]
+  ForTabPerStatusId = 0;
+  ForTabPerStatusName: string = "";
+  PersonalId = 0;
+  CwrStatusFromPersonals: any = [{ Id: 0, CwrStatusId: 0, CwrPersonalId: 0, DisplayName: ""}];
   Comment2?: string = "";
 
   PersonalStatusName: string = ""; //временная переменная, удалить
@@ -534,24 +561,37 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
   //начало объявления контролов для CwrPersonals
   CwrPersonalCtrl: FormControl = new FormControl('', Validators.required);
   StatusCtrl: FormControl = new FormControl('', Validators.required);
+  StatusWorkCtrl: FormControl = new FormControl('', Validators.required);
   CommentCtrl2: FormControl = new FormControl('');
   //конец объявления контролов для CwrPersonals
 
   addOnPopup2(){ //метод добавления в CwrPersonals
+    console.log('this.StatusWorkCtrl.value: ', this.StatusWorkCtrl.value)
     this.CwrStatusFromPersonals = [{Id: 0, CwrStatusId: 0, CwrPersonalId: 0, DisplayName: ""}]
-    for (let i = 0; i < this.StatusCtrl.value.length; i++) {
-      this.CwrStatusFromPersonals[i] = { Id: 0, CwrStatusId: this.StatusCtrl.value[i].Id, CwrPersonalId: 0, DisplayName: this.StatusCtrl.value[i].Name}
+    // this.CwrStatusFromPersonals = [null];
+    if (this.StatusCtrl.value !== null){
+      for (let i = 0; i < this.StatusCtrl.value.length; i++) {
+        this.CwrStatusFromPersonals[i] = { Id: 0, CwrStatusId: this.StatusCtrl.value[i].Id, CwrPersonalId: 0, DisplayName: this.StatusCtrl.value[i].Name}
+      }
+    } else {
+      this.CwrStatusFromPersonals = null;
     }
-    console.log("CwrStatusFromPersonals", this.CwrStatusFromPersonals )
 
+    console.log("CwrStatusFromPersonals", this.CwrStatusFromPersonals )
+    // if ((this.CwrStatusFromPersonals.CwrStatusId == 0) && (this.CwrStatusFromPersonals.DisplayName == "")){
+    //   this.CwrStatusFromPersonals = null;
+    // }
+    this.ForTabPerStatusId = this.StatusWorkCtrl.value.Id
+    this.ForTabPerStatusName = this.StatusWorkCtrl.value.Name
     this.PersonalStatusName = this.PersonalAddName
     this.PersonalId = this.PersonalAddId
     this.Comment2 = this.CommentCtrl2.value
 
-    this.reportsPers.push(new CwrPersonals(this.Id, this.PersonalId, this.CwrId, this.Personal, this.CwrStatusFromPersonals, this.PersonalStatus, this.PersonalStatusName, this.Comment2))
+    this.reportsPers.push(new CwrPersonals(this.Id, this.PersonalId, this.CwrId, this.Personal, this.CwrStatusFromPersonals, this.PersonalStatus, this.ForTabPerStatusId, this.ForTabPerStatusName, this.PersonalStatusName, this.Comment2))
     console.log("this.reportsPers:", this.reportsPers)
 
     this.popupClose2()
+    console.log('this.StatusWorkCtrl.value: ', this.StatusWorkCtrl.value)
 
   }
 
@@ -848,6 +888,8 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
       this.PersonalId = this.CwrWorkPersonalsItem[i]
       this.PersonalStatusName = this.CwrWorkPersonalsItemFio[i]
       this.CwrStatusFromPersonals = [{ Id: 0, CwrStatusId: 4, CwrPersonalId: 0, DisplayName: "Проведение контроля"}]
+      this.ForTabPerStatusId = 18
+      this.ForTabPerStatusName = "Работа"
       console.log("CwrStatusFromPersonals", this.CwrStatusFromPersonals)
 
       let countCheck = 0; //счетчик при проверке повторяющегося персонала
@@ -857,7 +899,7 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
       if (countCheck == 0){
-        this.reportsPers.push(new CwrPersonals(this.Id, this.PersonalId, this.CwrId, this.Personal, this.CwrStatusFromPersonals, this.PersonalStatus, this.PersonalStatusName))
+        this.reportsPers.push(new CwrPersonals(this.Id, this.PersonalId, this.CwrId, this.Personal, this.CwrStatusFromPersonals, this.PersonalStatus, this.ForTabPerStatusId,this.ForTabPerStatusName , this.PersonalStatusName))
         countCheck = 0
       }
 
@@ -898,6 +940,9 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
     this.CwrPersonalCtrl.setValue(this.reportsPers[this.CwrPersonalsRedItemi].PersonalId)
     this.dropdownSelect.dropCH(this.PersData, this.CwrPersonalCtrl.value, this.CwrPersonalCtrl)
 
+    this.StatusWorkCtrl.setValue(this.reportsPers[this.CwrPersonalsRedItemi].ForTabPerStatusId)
+    this.dropdownSelect.dropCH(this.StatusDataWork, this.StatusWorkCtrl.value, this.StatusWorkCtrl)
+
     let countStatus: number []=[]
     for (let j = 0; j < this.reportsPers[this.CwrPersonalsRedItemi].CwrStatusFromPersonals.length; j++) {
       countStatus.push(this.reportsPers[this.CwrPersonalsRedItemi].CwrStatusFromPersonals[j].CwrStatusId)
@@ -907,19 +952,30 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
     this.CommentCtrl2.setValue(this.reportsPers[this.CwrPersonalsRedItemi].Comment)
     console.log("i: ", i)
   }
+
+
   RedOnPopup2(){ //метод редактирования CwrPersonals
     console.log("i: ", this.CwrPersonalsRedItemi)
     this.reportsPers[this.CwrPersonalsRedItemi].CwrStatusFromPersonals = [{Id: 0, CwrStatusId: 0, CwrPersonalId: 0, DisplayName: ""}]
+    console.log('this.StatusCtrl.value: ', this.StatusCtrl.value)
+    if (this.StatusCtrl.value.length !== 0){
     for (let j = 0; j < this.StatusCtrl.value.length; j++) {
-      // this.reportsPers[this.CwrPersonalsRedItemi].CwrStatusFromPersonals[j] = {Id: 0, CwrStatusId: 0, CwrPersonalId: 0, DisplayName: ""}
-      this.reportsPers[this.CwrPersonalsRedItemi].CwrStatusFromPersonals[j] = {Id: 0, CwrStatusId: this.StatusCtrl.value[j].Id, CwrPersonalId: 0, DisplayName: this.StatusCtrl.value[j].Name}
+        this.reportsPers[this.CwrPersonalsRedItemi].CwrStatusFromPersonals[j] = {Id: 0, CwrStatusId: this.StatusCtrl.value[j].Id, CwrPersonalId: 0, DisplayName: this.StatusCtrl.value[j].Name}
+      }
+     } else {
+      this.reportsPers[this.CwrPersonalsRedItemi].CwrStatusFromPersonals.splice(0, this.reportsPers[this.CwrPersonalsRedItemi].CwrStatusFromPersonals.length);
     }
+
 
     console.log("PersonalAddName: ", this.PersonalAddName)
     console.log("CwrPersonalCtrl: ",this.CwrPersonalCtrl.value)
+    this.reportsPers[this.CwrPersonalsRedItemi].ForTabPerStatusId = this.StatusWorkCtrl.value.Id
+    this.reportsPers[this.CwrPersonalsRedItemi].ForTabPerStatusName = this.StatusWorkCtrl.value.Name
     this.reportsPers[this.CwrPersonalsRedItemi].PersonalStatusName = this.CwrPersonalCtrl.value.Name
     this.reportsPers[this.CwrPersonalsRedItemi].PersonalId = this.CwrPersonalCtrl.value.Id
     this.reportsPers[this.CwrPersonalsRedItemi].Comment = this.CommentCtrl2.value
+
+    console.log("this.reportsPers: ", this.reportsPers)
 
     this.popupCloseRed2()
   }
@@ -1031,6 +1087,8 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
     this.popOpen2 = false
     this.CwrPersonalCtrl.reset()
     this.StatusCtrl.reset()
+    // this.StatusWorkCtrl.reset()
+    this.StatusWorkCtrl.setValue('')
     this.CommentCtrl2.reset()
   }
   popupHidden2(){
@@ -1081,12 +1139,16 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
     this.popOpenRed2 = false
     this.CwrPersonalCtrl.reset()
     this.StatusCtrl.reset()
+    // this.StatusWorkCtrl.reset()
+    this.StatusWorkCtrl.setValue('')
     this.CommentCtrl2.reset()
   }
   popupHiddenRed2(){
     this.popOpenRed2 = false
     this.CwrPersonalCtrl.reset()
     this.StatusCtrl.reset()
+    // this.StatusWorkCtrl.reset()
+    this.StatusWorkCtrl.setValue('')
     this.CommentCtrl2.reset()
   }
 

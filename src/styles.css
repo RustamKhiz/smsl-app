@@ -130,9 +130,13 @@ body {
 }
 
 .mat-select-panel {
-    max-width: 400px !important;
+    max-width: 300px !important;
 }
 
 .mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {
     background: unset;
+}
+
+.mat-drawer {
+    overflow-x: hidden;
 }

@@ -134,8 +134,24 @@ export class ReportsListComponent implements OnInit, OnDestroy {
             localStorage.setItem('ReportAll', reportData)
             this.reportsAll = JSON.parse(localStorage.getItem('ReportAll'))
 
-            const PesonalStatuses = JSON.stringify(AllData.CwrPesonalStatuses)
-            localStorage.setItem('PesonalStatuses', PesonalStatuses)
+            let PesonalStatusesWork: any [] = [];
+            let PesonalStatuses: any [] = [];
+            for (let i = 0; i < AllData.CwrPesonalStatuses.length; i++) {
+              if (AllData.CwrPesonalStatuses[i].IsWork == true){
+                PesonalStatusesWork.push(AllData.CwrPesonalStatuses[i])
+              } else {
+                PesonalStatuses.push(AllData.CwrPesonalStatuses[i])
+              }
+            }
+            console.log("PesonalStatusesWork: ", PesonalStatusesWork)
+            console.log("PesonalStatuses: ", PesonalStatuses)
+
+            const PesonalStatusesWorkC = JSON.stringify(PesonalStatusesWork)
+            localStorage.setItem('PesonalStatusesWork', PesonalStatusesWorkC)
+
+            const PesonalStatusesC = JSON.stringify(PesonalStatuses)
+            localStorage.setItem('PesonalStatuses', PesonalStatusesC)
+
             this.loading = false;
 
             if (this.reportsAll.length == 0){
@@ -518,6 +534,10 @@ export class ReportsListComponent implements OnInit, OnDestroy {
     } else {
       return false
     }
+  }
+  filterMobileCheck: boolean = false;
+  filterMobileOpen(){
+    this.filterMobileCheck = true
   }
   ngOnDestroy(){
     if(this.aSub){

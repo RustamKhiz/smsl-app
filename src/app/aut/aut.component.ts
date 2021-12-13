@@ -22,7 +22,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 @Component({
   selector: 'app-aut',
   templateUrl: './aut.component.html',
-  styleUrls: ['./aut.component.css']
+  styleUrls: ['./aut.component.css', 'aut-media.component.css']
 })
 
 

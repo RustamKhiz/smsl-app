@@ -82,13 +82,13 @@
                                     <a></a>
                                 </li>
 
-                                <button mat-button disabled aria-label="Example icon-button with a menu">
+                                <button class="news" mat-button disabled aria-label="Example icon-button with a menu">
                               <span>Новости</span>
                             </button>
-                                <button mat-button disabled aria-label="Example icon-button with a menu">
+                                <button class="task" mat-button disabled aria-label="Example icon-button with a menu">
                               <span>Задачи</span>
                             </button>
-                                <button mat-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                                <button class="profile" mat-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                               <span>Профиль</span>
                               <mat-icon>keyboard_arrow_down</mat-icon>
                             </button>
@@ -153,7 +153,9 @@
                 <!-- <button type="button" style="margin-top: 100px;" mat-button (click)="drawer.toggle()">
                   Toggle sidenav
                 </button> -->
+
                 <router-outlet></router-outlet>
+
 
             </div>
         </div>

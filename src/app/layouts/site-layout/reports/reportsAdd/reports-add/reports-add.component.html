@@ -206,8 +206,11 @@
                             <p>
                                 <strong> Сотрудники:</strong> <br> {{card.PersonalStatusName}}
                             </p>
+                            <p>
+                                <strong> Рабочий день:</strong> <br> {{card.ForTabPerStatusName}}
+                            </p>
                             <p class="report-content-pers">
-                                <strong> Функции:</strong> <span *ngFor="let status of reportsPers[i].CwrStatusFromPersonals, index as j">{{[j+1] + ". " + status.DisplayName}}</span>
+                                <strong> Функции:</strong> <span *ngFor="let status of reportsPers[i].CwrStatusFromPersonals, index as j">{{[j+1] + ". " + status?.DisplayName}}</span>
                             </p>
                             <p>
                                 <strong> Комментарий:</strong> <br> {{card.Comment}}
@@ -240,9 +243,17 @@
                                             <app-dropdown-select [ItemsData]="PersData" [ItemsCtrl]="CwrPersonalCtrl" [placeholder]="'Выберите сотрудника'" (itemSelect)="PersonalAdd($event)"></app-dropdown-select>
                                         </div>
                                         <div class="select-wrap">
+
+                                        </div>
+                                        <div class="select-wrap">
+                                            <p class="select-title">Рабочий день</p>
+                                            <app-dropdown-select [ItemsData]="StatusDataWork" [ItemsCtrl]="StatusWorkCtrl" [placeholder]="'Выберите статус'" (itemSelect)="StatusAdd($event)"></app-dropdown-select>
+                                        </div>
+                                        <div class="select-wrap">
                                             <p class="select-title">Функции</p>
                                             <app-dropdown-multi [ItemsData]="StatusData" [ItemsMultiCtrl]="StatusCtrl" [allItemsSize]="status.length" [placeholder]="'Выберите функцию'" (itemSelect)="StatusAdd($event)"></app-dropdown-multi>
                                         </div>
+
                                         <div class="select-wrap area-wrap">
                                             <p class="select-title">Комментарий</p>
                                             <mat-form-field class="example-full-width" appearance="standard" color="accent">
@@ -253,8 +264,8 @@
 
                                     </div>
                                     <div class="button-wrap">
-                                        <button mat-raised-button color="accent" (click)="RedOnPopup2()" [disabled]="CwrPersonalCtrl.hasError('required') || StatusCtrl.hasError('required')">Редактировать</button>
-                                        <mat-error *ngIf="CwrPersonalCtrl.hasError('required') || StatusCtrl.hasError('required')">
+                                        <button mat-raised-button color="accent" (click)="RedOnPopup2()" [disabled]="(StatusWorkCtrl.value.Name == 'Работа') && (CwrPersonalCtrl.hasError('required') || StatusCtrl.hasError('required'))">Редактировать</button>
+                                        <mat-error *ngIf="(StatusWorkCtrl.value.Name == 'Работа') && (CwrPersonalCtrl.hasError('required') || StatusCtrl.hasError('required'))">
                                             Не все <strong>обязательные поля</strong> заполнены!
                                         </mat-error>
                                     </div>
@@ -334,7 +345,14 @@
                     </div>
                 </div>
 
-
+                <div class="reports-tab-file-wrap file-mobile">
+                    <p class="reports-tab-file-title">Файлы: </p>
+                    <div class="reports-tab-file">
+                        <p class="file-item" *ngFor="let file of reportFile, index as i">{{[i+1] + ". " + file.OriginalName}}<span><mat-icon (click)="reportFile.splice(i, 1)" style="cursor: pointer;">delete</mat-icon> </span> </p>
+                        <label class="file-add" for="file"><button type="button" mat-raised-button style="pointer-events: none;"> Добавить файл <mat-icon> attach_file</mat-icon></button></label>
+                        <input type="file" id="file" hidden (change)="fileChange($event)" multiple placeholder="Upload file" accept=".pdf,.doc,.docx,.png,.jpg,.xlsx,.xls">
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -417,9 +435,29 @@
                                     <app-dropdown-select [ItemsData]="PersData" [ItemsCtrl]="CwrPersonalCtrl" [placeholder]="'Выберите сотрудника'" (itemSelect)="PersonalAdd($event)"></app-dropdown-select>
                                 </div>
                                 <div class="select-wrap">
-                                    <p class="select-title">Функции</p>
+
+                                </div>
+                                <div class="select-wrap">
+                                    <p class="select-title">Рабочий день <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                                      <mat-icon>help_outline</mat-icon>
+                                    </button>
+                                        <mat-menu #menu="matMenu">
+                                            <p style="padding: 4px 18px;"> Статус рабочего дня для табеля. </p>
+                                        </mat-menu>
+                                    </p>
+                                    <app-dropdown-select [ItemsData]="StatusDataWork" [ItemsCtrl]="StatusWorkCtrl" [placeholder]="'Выберите статус'" (itemSelect)="StatusAdd($event)"></app-dropdown-select>
+                                </div>
+                                <div class="select-wrap">
+                                    <p class="select-title">Функции <button mat-icon-button [matMenuTriggerFor]="menu2" aria-label="Example icon-button with a menu">
+                                      <mat-icon>help_outline</mat-icon>
+                                    </button>
+                                        <mat-menu #menu2="matMenu">
+                                            <p style="padding: 4px 18px;"> Функции, выполняемые сотрудником, во время рабочего дня. </p>
+                                        </mat-menu>
+                                    </p>
                                     <app-dropdown-multi [ItemsData]="StatusData" [ItemsMultiCtrl]="StatusCtrl" [allItemsSize]="status.length" [placeholder]="'Выберите функцию'" (itemSelect)="StatusAdd($event)"></app-dropdown-multi>
                                 </div>
+
                                 <div class="select-wrap area-wrap">
                                     <p class="select-title">Комментарий</p>
                                     <mat-form-field class="example-full-width" appearance="standard" color="accent">
@@ -431,8 +469,8 @@
                             </div>
                             <div class="button-wrap">
                                 <!-- <button type="button" class="add-button" (click)="addOnPopup2()"><p class="button-text">Добавить</p> </button> -->
-                                <button mat-raised-button color="accent" (click)="addOnPopup2()" [disabled]="CwrPersonalCtrl.hasError('required') || StatusCtrl.hasError('required')">Добавить</button>
-                                <mat-error *ngIf="CwrPersonalCtrl.hasError('required') || StatusCtrl.hasError('required')">
+                                <button mat-raised-button color="accent" (click)="addOnPopup2()" [disabled]="(StatusWorkCtrl.value.Name == 'Работа') && (CwrPersonalCtrl.hasError('required') || StatusCtrl.hasError('required') || StatusWorkCtrl.hasError('required'))">Добавить</button>
+                                <mat-error *ngIf="(StatusWorkCtrl.value.Name == 'Работа') && (CwrPersonalCtrl.hasError('required') || StatusCtrl.hasError('required') || StatusWorkCtrl.hasError('required'))">
                                     Не все <strong>обязательные поля</strong> заполнены!
                                 </mat-error>
                             </div>

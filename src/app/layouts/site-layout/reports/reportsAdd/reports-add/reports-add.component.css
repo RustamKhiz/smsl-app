@@ -402,6 +402,14 @@ textarea {
     margin: 7px;
 }
 
+.reports-tab-file {
+    max-width: 100% !important;
+}
+
+.file-mobile {
+    display: none;
+}
+
 
 /* .report-card {
     width: 450px;

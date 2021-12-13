@@ -1,0 +1,39 @@
+@media screen and (max-width: 600px) {
+    /* .news-wrap {
+        display: none;
+    } */
+    .major-wrap {
+        display: none;
+    }
+    .mobile-menu-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .mobile-menu-wrap p {
+        font-size: 25px;
+        margin-bottom: 30px;
+    }
+    .mobile-menu-wrap span {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+    .mobile-menu-open {
+        display: block;
+    }
+    .mobile {
+        display: block;
+    }
+    .news-fix {
+        position: relative;
+        left: 0;
+        top: 35px;
+    }
+    .news-wrap {
+        margin-left: 0;
+        width: 320px;
+    }
+    .news-date {
+        font-size: 13px;
+    }
+}

@@ -1,0 +1,14 @@
+@media screen and (max-width: 600px) {
+    /* .container {
+        width: 300px;
+    } */
+    .stats {
+        display: none;
+    }
+    .reports-title {
+        font-size: 35px;
+    }
+    .mat-tab-header {
+        margin-bottom: 15px;
+    }
+}

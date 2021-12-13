@@ -150,6 +150,65 @@
                 </mat-card-content>
             </mat-card>
         </div>
+
+        <!-- ___________ReportMobile -->
+        <button class="filter-mobile" mat-raised-button color="accent" style="margin-bottom: 15px;" (click)="filterMobileOpen()">Фильтры</button>
+        <div class="reports mobile" *ngIf="!loading" [ngClass]="{ViewList:!viewList}">
+            <mat-card class="example-card" *ngFor="let report of obs | async, index as i" [ngClass]="{test: newReportView(i)}">
+                <div class="new-report-check">
+                    <div class="reports-card-wrap">
+
+                        <mat-card-title-group class="reports-card-title-group">
+
+                            <mat-card-title style="line-height: 1.2;">
+                                <img class="reports-card-img" mat-card-lg-image [src]="getLogo(report.GeneralLocationId)">
+                                <div style="margin-left: 12px;">
+                                    <mat-icon> location_on</mat-icon>{{ getSubLockName(report)}} №{{report.Id}}
+                                    <mat-card-subtitle style="padding-top: 9px;">{{getChiedName(report)}} от {{FormatDate(report.DataReport)}}</mat-card-subtitle>
+                                </div>
+                            </mat-card-title>
+                            <!-- <div class="card-subtitle-wrap"> -->
+                            <div class="reports-text-wrap">
+                                <mat-card-subtitle class="card-subtitle-wrap"><strong>Работ: </strong>
+                                    <span>{{getLength(report.CwrWorks)}}</span>
+                                </mat-card-subtitle>
+                                <mat-card-subtitle class="card-subtitle-wrap"><strong>Персонал: </strong>
+                                    <span>{{getLength(report.CwrPersonals)}}</span>
+                                </mat-card-subtitle>
+                                <mat-card-subtitle class="card-subtitle-wrap"><strong>Оборудование: </strong>
+                                    <span>{{getLength(report.CwrEquipments)}}</span>
+                                </mat-card-subtitle>
+                                <mat-card-subtitle class="card-subtitle-wrap"><strong>Файлов в отчёте: </strong>
+                                    <span>{{getLength(report.CwrFiles)}}</span>
+                                </mat-card-subtitle>
+                            </div>
+                            <!-- </div> -->
+
+                        </mat-card-title-group>
+                        <div class="button-wrap">
+                            <button mat-raised-button color="accent" (click)="ReportView(i)">Подробнее</button>
+                        </div>
+                    </div>
+                </div>
+                <mat-card-content class="reports-card-button-wrap">
+                    <div>
+                        <button mat-icon-button class="reports-card-button" [matMenuTriggerFor]="beforeMenu" *ngIf="AccessLevelCheck(report)"><mat-icon >more_vert</mat-icon></button>
+                        <mat-menu #beforeMenu="matMenu" xPosition="before" class="report-context-menu">
+                            <button mat-menu-item (click)="NavigateToRepRed(i)">
+                              <mat-icon class="report-context-icon" >edit</mat-icon>
+                              <span>Редактировать</span>
+                            </button>
+                            <button mat-menu-item (click)="popupDelOpen(report.Id, report, i)">
+                              <mat-icon class="report-context-icon" >delete</mat-icon>
+                              <span>Удалить</span>
+                            </button>
+                        </mat-menu>
+                    </div>
+
+                </mat-card-content>
+            </mat-card>
+        </div>
+
         <div class="paginator" *ngIf="reportsAll.length > 0">
             <mat-paginator color="accent" [length]="reportsAll.length" [pageSize]="4" [pageSizeOptions]="[2, 4, 6, 8]" aria-label="Select page">
             </mat-paginator>
@@ -171,6 +230,41 @@
                     <button mat-flat-button color="warn" (click)="repDeleteWind = false">Нет</button>
                 </mat-card-actions>
             </mat-card>
+        </div>
+    </div>
+</div>
+<!-- FilterMobile -->
+<div class="loader-flex" *ngIf="loading">
+    <mat-spinner color="accent"></mat-spinner>
+</div>
+<div class="reports-popup " [ngClass]="{open:filterMobileCheck}">
+    <div class="popup-area" (click)="filterMobileCheck = false"></div>
+    <div class="popup-body">
+        <div class="reports-filter mobile">
+            <p class="reports-filter-title">Фильтры</p>
+            <div class="filter-label-wrap">
+                <label>Выберите дату</label>
+                <app-date-input [startCtrl]="FromDateCtrl" [endCtrl]="ToDateCtrl" (SelectFromDate)="FromDateItem($event)" (SelectToDate)="ToDateItem($event)"></app-date-input>
+                <label>Номер отчёта</label>
+                <mat-form-field class="example-full-width" appearance="fill" color="accent">
+                    <mat-label>Введите номер отчета</mat-label>
+                    <input matInput placeholder="Номер отчета" [formControl]="ReportIdCtrl">
+                </mat-form-field>
+                <label>Ответственный</label>
+                <app-dropdown-multi [ItemsData]="PersData" [ItemsMultiCtrl]="ChiefIdsCtrl" [allItemsSize]="PersData.length" [placeholder]="'Выберите сотрудников'" (itemSelect)="PersFilterIdAdd($event)" style="width: 95%;"></app-dropdown-multi>
+                <label> Локация</label>
+                <app-dropdown-multi [ItemsData]="LocationData" [ItemsMultiCtrl]="SubLocIdsCtrl" [allItemsSize]="LocationData.length" [placeholder]="'Выберите локацию'" (itemSelect)="LocationFilterIdAdd($event)" style="width: 95%;"></app-dropdown-multi>
+                <div class="button-duo-wrap">
+                    <button style="margin-top: 20px; width:115px ;" type="submit" mat-raised-button (click)="FilterSubmit()" (click)="filterMobileCheck = false" color="accent"> Применить </button>
+                    <br>
+                    <button style="margin-top: 20px; width:115px ;" type="button" mat-raised-button (click)="FilterToday()" (click)="filterMobileCheck = false"> Сегодня </button>
+                </div>
+                <div class="button-duo-wrap">
+                    <!-- <button style="margin-top: 20px; width: 115px;" type="button" mat-raised-button (click)="FilterTest()"> С файлами </button> -->
+                    <!-- <br> -->
+                    <button style="margin-top: 20px; width:115px;" type="button" mat-raised-button (click)="FilterReset()" (click)="reportsAll = []" (click)="filterMobileCheck = false"> Сбросить </button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
