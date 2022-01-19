@@ -378,6 +378,9 @@
 
 .reports-card-title-group {
     margin-left: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 .reports-card-wrap img {
@@ -405,6 +408,31 @@
 .card-subtitle-wrap {
     display: inline;
     margin-right: 50px;
+    min-width: 105px;
+    margin-bottom: 5px;
+}
+
+.file-icon {
+    font-size: 25px;
+    position: absolute;
+    transform: rotate( 0.92turn);
+    top: 74px;
+    cursor: pointer;
+}
+
+.file-load-menu {
+    padding: 10px;
+    display: flex;
+}
+
+.file-load-menu p {
+    padding-right: 5px;
+}
+
+.file-load-menu-icon {
+    position: relative;
+    top: -4px;
+    cursor: pointer;
 }
 
 .reports-card-img {
@@ -453,25 +481,57 @@
 
 .reports-card-grid {
     align-items: flex-start !important;
+    flex-direction: column;
 }
 
-.test {
-    /* background: #176387; */
-    /* color: #fff; */
+.reports-card-title-grid {
+    line-height: 1.2;
+    display: flex;
+}
+
+.reports-card-title-grid p {
+    padding-left: 20px;
+}
+
+.button-grid {
+    position: absolute;
+    bottom: 30px;
+    right: 10px;
+}
+
+.reports-card-title-grid span {
+    display: block;
+    font-size: 15px;
+    color: #a59e9e;
+}
+
+.report-content-grid {
+    display: flex;
+}
+
+.report-content-grid-elems {
+    padding-right: 40px;
+}
+
+.mat-card-subtitle {
+    color: #000;
+}
+
+.file-icon-grid {
+    top: 206px;
+}
+
+
+/* .test {
     font-size: 25px;
     border: 2px solid #4edb2b;
     box-shadow: 0px 0px 7px 0px rgba(78, 219, 43, 0.42);
     opacity: 0;
-    /*Элемент полностью прозрачный (невидимый)*/
     transition: 1s;
-    /*Скорость перехода состояния элемента*/
     animation: show 2s 1;
-    /* Указываем название анимации, её время и количество повторов*/
     animation-fill-mode: forwards;
-    /* Чтобы элемент оставался в конечном состоянии анимации */
     animation-delay: 0.5s;
-    /* Задержка перед началом */
-}
+} */
 
 @keyframes show {
     0% {

@@ -29,7 +29,6 @@ export class TokenInterseptor implements HttpInterceptor , OnInit{
           req = req.clone({
               setHeaders:{
                   Authorization: 'Bearer ' + this.auth.getToken(),
-                  // Trai ler: this.hash.onHash(),
                   SignalHash:this.hash.onHash() //this.hash.onHash("hash")
               }
           })
@@ -39,7 +38,7 @@ export class TokenInterseptor implements HttpInterceptor , OnInit{
           console.log("req",req)
           console.log("err", err)
           console.log("err.status", err.status)
-          if ((err.status === undefined) || (err.status === 401)) {
+          if (err.status === 401) {
             // при получении 401 от api выходим на авторизацию
             this.auth.logout();
             console.log("err.status" + err.status)
@@ -48,7 +47,15 @@ export class TokenInterseptor implements HttpInterceptor , OnInit{
                 authField: true
               }
             })
-          } else console.log("err.status", err.status)
+          } else if ((err.status === 500) || (err.status === 0) ){
+            console.log("err.status" + err.status)
+            this.auth.logout();
+            this.router.navigate(['/aut'],{
+              queryParams:{
+                unkhowError: true
+              }
+            })
+          }
 
           const error = err;
           return throwError(error);

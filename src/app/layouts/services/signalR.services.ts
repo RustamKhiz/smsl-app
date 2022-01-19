@@ -10,6 +10,7 @@ import { AutServices } from './aut.services';
 import { SiteLayoutComponent } from '../site-layout/site-layout.component';
 import { Router } from '@angular/router';
 import { TokenInterseptor } from '../classes/token.interseptor';
+import { NewAlertComponent } from '../classes/new-alert/new-alert.component';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ import { TokenInterseptor } from '../classes/token.interseptor';
 
 
 export class SignalService {
-  private connection!: signalR.HubConnection;
+  public connection!: signalR.HubConnection;
   OneMinuteReconnectPolicy: any;
   reconnectPolicy:any ;
   private JWT : string
@@ -28,7 +29,7 @@ export class SignalService {
   private SignalHash : string
   private _onUserConnect = new EventDispatcher<string, number>();
   testName: null
-  constructor(private http: HttpClient, private afteraut: afterlogServices, private router: Router) {
+  constructor(  private http: HttpClient, private afteraut: afterlogServices, private router: Router) {
 
 
 
@@ -57,9 +58,9 @@ export class SignalService {
       logging: signalR.LogLevel.Trace,
       accessToken: this.JWT
     };
-    console.log(this.JWT)
-    console.log(localStorage.getItem('Id'))
-    console.log(this.Id)
+    // console.log(this.JWT)
+    // console.log(localStorage.getItem('Id'))
+    // console.log(this.Id)
     this.connection = new signalR.HubConnectionBuilder()//?user=${this.Id}
       .withUrl( `${environment.apiUrl}/chat?access_token=${this.JWT}&userid=${this.Id}`, { accessTokenFactory: () => this.JWT
       , transport: HttpTransportType.LongPolling
@@ -71,7 +72,7 @@ export class SignalService {
 
     this.connection.onreconnected(()=>{
       this.SignalHash = this.connection.connectionId ? this.connection.connectionId :"";
-      console.log("reconnected " + this.SignalHash);
+      // console.log("reconnected " + this.SignalHash);
 
       this._onConnect.dispatch(this.SignalHash, 0);
 
@@ -79,9 +80,10 @@ export class SignalService {
 
     this.connection
       .start()
-      .then(() => { console.log('Connection started')
+      .then(() => {
+        console.log('Connection started')
           this.SignalHash = this.connection.connectionId ? this.connection.connectionId :"";
-          console.log(this.SignalHash);
+          // console.log(this.SignalHash);
           this._onConnect.dispatch(this.SignalHash, 0);
           this.addTransferChartDataListener();
 
@@ -135,7 +137,7 @@ export class SignalService {
     );
 
     this.connection.on('Debug',  (title:string, dis: string) => {
-      console.log('Debug ' + title + " " + dis);
+      // console.log('Debug ' + title + " " + dis);
 
     });
 
@@ -147,6 +149,19 @@ export class SignalService {
       // this.aut.logout()
     })
 
+    // this.connection.on('CwrAlert', (NewReport) => {
+    //   console.log("CwrAlert", NewReport)
+    //   if (NewReport.action == "NewReport"){
+    //     let title = "Новый отчет!"
+    //     let number = NewReport.id
+    //     let subTitle = JSON.parse(localStorage.getItem('Locations')).find(x => x.Id == NewReport.subLocationId).Name
+    //     let desc = JSON.parse(localStorage.getItem('Personal')).find(x => x.Id == NewReport.userId).SmalFio
+    //     let alertObj = {title: title, number: number, subTitle: subTitle, desc: desc, logo: ""}
+    //     localStorage.setItem('alert',  JSON.stringify(alertObj))
+    //     // this.alert.addToAlert(title, number, subTitle, desc)
+    //   }
+
+    // })
 
     this.connection.on('RewriteToken',  (Token:string) => {
       localStorage.setItem('aut-token', Token)

@@ -50,18 +50,17 @@ export class SiteLayoutComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
     if (localStorage.getItem('reloadItem') !== null){
-      location.reload()
+      // location.reload()
       localStorage.removeItem('reloadItem')
     }
 
     this.UserName = this.userData.MyPerson.Personal.EMail
     this.toggle = !this.toggle;
-    console.log("TEST NGONINIT")
 
     //вызов get запрса на получение всех данных
     // this.afteraut.afterLog()
 
-     setTimeout(s =>{
+    //  setTimeout(s =>{
       // this.aSub = this.afteraut.afterLog().subscribe(
       //   (res)=> {
       //     console.log("afterlog working!")
@@ -93,9 +92,9 @@ export class SiteLayoutComponent implements OnInit, OnDestroy {
       // )
       // complete().this.afteraut.afterLog().unsubscribe();
 
-    },3000);
-    this.pers = JSON.parse(localStorage.getItem('Personal'))
-    this.mashin = JSON.parse(localStorage.getItem('Mashines'))
+    // },3000);
+    // this.pers = JSON.parse(localStorage.getItem('Personal'))
+    // this.mashin = JSON.parse(localStorage.getItem('Mashines'))
   }
   ngOnDestroy(){
     if(this.aSub){

@@ -11,6 +11,8 @@ import {afterlogServices} from "../layouts/services/afterlog.services";
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
+import { SignalService } from '../layouts/services/signalR.services';
+import { AppComponent } from '../app.component';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -36,18 +38,23 @@ export class AutComponent implements OnInit, OnDestroy {
   afterSub: Subscription
   test: string
   matcher = new MyErrorStateMatcher();
-  constructor(private aut: AutServices, private router: Router, private route: ActivatedRoute, private afteraut: afterlogServices, private snackBar: MatSnackBar, public dialog: MatDialog){
+  constructor(private aut: AutServices, private router: Router, private route: ActivatedRoute, private afteraut: afterlogServices, private snackBar: MatSnackBar, public dialog: MatDialog, private signal: SignalService, private appCom: AppComponent){
 
   }
   loading: boolean = false;
   UserNameCtrl: FormControl = new FormControl(null, [Validators.required])
-  PasswordCtrl: FormControl =new FormControl (null, [Validators.required])
+  PasswordCtrl: FormControl = new FormControl(null, [Validators.required])
   ngOnInit(){
   //  this.openDialog()
 
     this.route.queryParams.subscribe( (params: Params)  => {
       if (params['accessDenied']){
         this.openSnackBar("Для начала авторизуйтесь в системе", "Ok")
+      }
+    })
+    this.route.queryParams.subscribe( (params: Params) => {
+      if (params['unkhowError']){
+        this.openSnackBar("Неизвестная ошибка сервера, попробуйте позже", "Ok")
       }
     })
   }
@@ -72,21 +79,69 @@ export class AutComponent implements OnInit, OnDestroy {
     }
     this.aSub = this.aut.login(formData).subscribe(
        (User) => {
-        this.loading = false;
-        console.log("Данные пользователя: ", User)
+
+        // console.log("Данные пользователя: ", User)
         const userData = JSON.stringify(User)
         localStorage.setItem('UserData', userData)
-        console.log("AccessLevel: ", User.MyPerson.Personal.AccessLevel)
+        // console.log("AccessLevel: ", User.MyPerson.Personal.AccessLevel)
         const userAccessLevel = JSON.stringify(User.MyPerson.Personal.AccessLevel)
         localStorage.setItem('AccessLevel', userAccessLevel)
-        this.router.navigate(['/site'])
+
         localStorage.setItem('reloadItem', "1")
+
+        // ________________
+        this.signal.connect();
+        this.signal.onConnect.subscribe((c, n) => {
+            // console.log(`AutServices ${c} hash ${n} `)
+            localStorage.setItem('ConnectionHash', c)
+            this.aSub = this.afteraut.afterLog().subscribe(
+              (res)=> {
+
+                // console.log("afterlog working!")
+                console.log("dataload: ", res)
+                // Получаем персонал из afterLog
+                const persData = JSON.stringify(this.afteraut.newPersonals)
+                localStorage.setItem('Personal', persData)
+                //Получаем оборудование из afterLog
+                const MashinData = JSON.stringify(this.afteraut.newMashines)
+                localStorage.setItem('Mashines', MashinData)
+                //Получаем заказчиков из afterlog
+                const CustomersData = JSON.stringify(this.afteraut.newCustomers)
+                localStorage.setItem('Customers', CustomersData)
+                //Получаем GeneralLocations из afterlog
+                const GeneralLocationsData = JSON.stringify(this.afteraut.newGeneralLocations)
+                localStorage.setItem('GeneralLocations', GeneralLocationsData)
+                //Получаем Locations из afterlog
+                const LocationsData = JSON.stringify(this.afteraut.newLocactions)
+                localStorage.setItem('Locations', LocationsData)
+                //Получаем config
+                const Config = JSON.stringify(this.afteraut.config)
+                localStorage.setItem('Config', Config)
+                localStorage.setItem('MethodControl', JSON.stringify(this.appCom.Method))
+                localStorage.setItem('PesonalStatuses', JSON.stringify(this.appCom.PesonalStatuses))
+                localStorage.setItem('PesonalStatusesWork', JSON.stringify(this.appCom.PesonalStatusesWork))
+
+                this.loading = false;
+                this.router.navigate(['/site'])
+            },
+              (error) => {
+                // console.log("afterlog dont work")
+                // console.log("error:",error)
+              },()=> {
+                // console.log("subscribe complite")
+              }
+            )
+          }
+        )
+
+          // _________________________________
+
 
         },
        error => {
          this.loading = false;
          this.openSnackBar("Неверный логин или пароль", "Ok")
-         console.warn(error)
+        //  console.warn(error)
        },
        () => {
 

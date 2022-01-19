@@ -359,3 +359,44 @@ export interface NewDropdown{
   Display: boolean,
   IsSelect: boolean
   }
+export interface NearbyReport{
+  ChiefWorkReport: any,
+  Next: {
+    Id: number,
+    СhiefUserId: number,
+    GeneralLocationId: number,
+    DataReport: string
+  },
+  Prev: {
+    Id: number,
+    СhiefUserId: number,
+    GeneralLocationId: number,
+    DataReport: string
+  },
+  IsNext: boolean,
+  IsPrev: boolean
+}
+export interface Alert{
+  title: string,
+  number: number,
+  subTitle: string,
+  desc: string,
+  logo: string
+}
+export interface Config {
+  Id: number,
+  GroupName: string,
+  Name: string,
+  Value: string,
+  UserId: string
+}
+`public partial class AngularUserProp
+{
+
+    public int Id { get; set; }
+    public string GroupName { get; set; }
+    public string Name { get; set; }
+    public string Value { get; set; }
+    public int UserId { get; set; }
+
+}`

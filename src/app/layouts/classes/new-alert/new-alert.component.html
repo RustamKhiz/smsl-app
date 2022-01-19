@@ -1,0 +1,27 @@
+<div class="alert-container">
+    <div class="alert-item" *ngFor="let alert of example, index as i">
+        <div class="content">
+            <div class="wrap">
+                <div class="logo">
+                    <!-- <img [src]="exampleLogo" alt=""> -->
+                    <mat-icon class="logo-icon">event_note</mat-icon>
+                </div>
+                <div class="text">
+                    <p class="title" (click)="openAlert(alert.number)" (click)="closeAlert(i)">
+                        {{alert.title + " № " + alert.number}}
+                    </p>
+                    <p class="subtitle">
+                        {{alert.subTitle}}
+                    </p>
+                    <p class="desc">
+                        {{alert.desc}}
+                    </p>
+                </div>
+            </div>
+            <div class="button-wrap">
+                <mat-icon class="icon" (click)="closeAlert(i)">close</mat-icon>
+                <!-- <button mat-flat-button (click)="openAlert(alert.number)" color="accent">Открыть</button> -->
+            </div>
+        </div>
+    </div>
+</div>

@@ -76,6 +76,6 @@ form {
 }
 
 ::ng-deep snack-bar-container {
-    color: white !important;
-    background: red !important;
+    /* color: white !important;
+    background: red !important; */
 }

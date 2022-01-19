@@ -17,5 +17,8 @@ export class ReportGet{
   repGet(Id): Observable<{}>{
     return this.http.get<{}>(`${environment.apiUrl}/api/cwr/getreport/id=${Id}`)
   }
+  repGetNearby(Id){
+    return this.http.get(`${environment.apiUrl}/api/cwr/getreport?id=${Id}&nearby=true`)
+  }
 
 }

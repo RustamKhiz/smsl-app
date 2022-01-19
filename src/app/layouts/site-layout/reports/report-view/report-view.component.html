@@ -1,223 +1,219 @@
-<mat-icon (click)="arrowBack()" style="cursor: pointer;">arrow_back</mat-icon>
-<p class="reports-title" style="display: inline; padding-left: 5px;">Отчет № {{reportView.Id}}</p>
+<div class="title-wrap">
 
-<p class="title"> Проконтролировано </p>
-<div class="example-container mat-elevation-z8">
-    <table mat-table [dataSource]="reportView.CwrWorks">
-
-        <!-- Position Column -->
-        <ng-container matColumnDef="№">
-            <th mat-header-cell *matHeaderCellDef> № </th>
-            <td mat-cell *matCellDef="let element, index as i"> {{i+1}} </td>
-        </ng-container>
-
-        <!-- Name Column -->
-        <ng-container matColumnDef="MethodControl">
-            <th mat-header-cell *matHeaderCellDef> Метод </th>
-            <td mat-cell *matCellDef="let element"> {{element.MethodControl}} </td>
-        </ng-container>
-
-        <!-- Weight Column -->
-        <ng-container matColumnDef="Customer.NameRu">
-            <th mat-header-cell *matHeaderCellDef> Заказчик </th>
-            <td mat-cell *matCellDef="let element"> {{element.Customer.NameRu}} </td>
-        </ng-container>
-
-        <!-- Symbol Column -->
-        <ng-container matColumnDef="reportView.CwrWorks.CwrWorkPersonals">
-            <th mat-header-cell *matHeaderCellDef> Персонал </th>
-            <td mat-cell *matCellDef="let element, index as i"> <span *ngFor="let pers of reportView.CwrWorks[i].CwrWorkPersonals, index as j">{{pers.Personal.SmalFio + "; "}} <br> </span> </td>
-        </ng-container>
-
-        <ng-container matColumnDef="reportView.CwrWorks.CwrWorkEquipments">
-            <th mat-header-cell *matHeaderCellDef style="padding-left: 16px; padding-right: 220px;"> Оборудование </th>
-            <td mat-cell *matCellDef="let element, index as i" style="padding-left: 16px;"> <span *ngFor="let equip of reportView.CwrWorks[i].CwrWorkEquipments, index as j">{{equip.Equipment.FullName + " " + equip.Equipment.Name + " " + equip.Equipment.Number + "; "}}<br> </span> </td>
-        </ng-container>
-        <ng-container matColumnDef="Shown">
-            <th mat-header-cell *matHeaderCellDef style="padding-left: 16px;"> Предьявленно </th>
-            <td mat-cell *matCellDef="let element" style="padding-left: 16px;"> {{element.Shown}} </td>
-        </ng-container>
-        <ng-container matColumnDef="Made">
-            <th mat-header-cell *matHeaderCellDef> Сделано </th>
-            <td mat-cell *matCellDef="let element"> {{element.Made}} </td>
-        </ng-container>
-        <ng-container matColumnDef="Comment">
-            <th mat-header-cell *matHeaderCellDef> Комментарий </th>
-            <td mat-cell *matCellDef="let element"> {{element.Comment}} </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+    <p class="reports-title" style="display: inline; padding-left: 5px;">
+        <mat-icon (click)="arrowBack()" style="cursor: pointer;">arrow_back</mat-icon>Отчет № {{reportView.Id + ", " + getSubLockName(reportView) }}
+        <span class="chief-name"> {{getChiedName(reportView) + ", от " + FormatDate(reportView.DataReport)}} </span>
+    </p>
+    <div class="reports-button-navigate">
+        <button style="margin-right: 22px;" [disabled]="!nearbyReport.IsPrev" [matTooltip]="nearbyPrevTooltip()" (click)="prevReport()" mat-mini-fab color="accent" aria-label="Example icon button with a plus one icon">
+        <mat-icon>navigate_before</mat-icon>
+      </button>
+        <button mat-mini-fab color="accent" [disabled]="!nearbyReport.IsNext" [matTooltip]="nearbyNextTooltip()" matTooltip="Info about the action" (click)="nextReport()" aria-label="Example icon button with a plus one icon">
+        <mat-icon>navigate_next</mat-icon>
+      </button>
+    </div>
 </div>
 
-<p class="title"> Персонал на объекте </p>
-<div class="example-container mat-elevation-z8">
-    <table mat-table [dataSource]="reportView.CwrPersonals">
+<mat-tab-group mat-align-tabs="center" appearance="fill" color="accent">
+    <mat-tab label="Отчет">
+        <mat-accordion multi>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Работы:
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        <span style="margin-right: 5px;"> Предьявленно: {{getShown()}}, </span>
 
-        <ng-container matColumnDef="№">
-            <th mat-header-cell *matHeaderCellDef style="width: 30px;"> № </th>
-            <td mat-cell *matCellDef="let element, index as i"> {{i+1}} </td>
-        </ng-container>
+                        <span> Сделано: {{getMade()}}  </span>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div *ngFor="let methodNK of actualMethodNk">
+                    <p *ngIf="methodNK.counter != 0">
+                        {{methodNK.Name + " — " + methodNK.counterShown + " / " + methodNK.counterMade}}
+                    </p>
+                </div>
+                <p>Всего людей — {{reportView.CwrPersonals.length}}</p>
+                <p>Всего оборудования — {{reportView.CwrEquipments.length}}</p>
+            </mat-expansion-panel>
+            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Люди:
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        Всего людей задействовано: {{reportView.CwrPersonals.length}}
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div *ngFor="let persStatus of actualStatusWork">
+                    <p *ngIf="persStatus.counter != 0">
+                        <span>{{persStatus.Name + " — " + persStatus.counter}} </span>
+                    </p>
+                </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Оборудование:
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        Всего оборудования задействовано: {{reportView.CwrEquipments.length}}
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <p *ngIf="eqWorkCount != 0">Исправно — {{eqWorkCount}}</p>
+                <p *ngIf="eqDontWorkCount != 0">Не исправно — {{eqDontWorkCount}}</p>
+                <p *ngIf="eqEmptyWorkCount != 0">Отсутствует — {{eqEmptyWorkCount}}</p>
+            </mat-expansion-panel>
+        </mat-accordion>
 
-        <ng-container matColumnDef="Personal.Fio">
-            <th mat-header-cell *matHeaderCellDef> ФИО </th>
-            <td mat-cell *matCellDef="let element"> {{element.Personal.SmalFio}} </td>
-        </ng-container>
+        <p class="title"> Прикрепленные файлы </p>
+        <div class="example-container mat-elevation-z8" *ngIf="reportView.CwrFiles.length != 0">
+            <table mat-table [dataSource]="reportView.CwrFiles">
 
-        <ng-container matColumnDef="CwrStatusFromPersonals">
-            <th mat-header-cell *matHeaderCellDef> Выполняемая функция </th>
-            <td mat-cell *matCellDef="let element, index as i"> <span *ngFor="let status of reportView.CwrPersonals[i].CwrStatusFromPersonals">  {{status.CwrPesonalStatus.DisplayName + "; "}} <br>  </span> </td>
-        </ng-container>
+                <ng-container matColumnDef="№">
+                    <th mat-header-cell *matHeaderCellDef> № </th>
+                    <td mat-cell *matCellDef="let element, index as i"> {{i+1}} </td>
+                </ng-container>
 
-        <ng-container matColumnDef="Comment">
-            <th mat-header-cell *matHeaderCellDef> Комментарий </th>
-            <td mat-cell *matCellDef="let element"> {{element.Comment}} </td>
-        </ng-container>
+                <ng-container matColumnDef="DisplayName">
+                    <th mat-header-cell *matHeaderCellDef> Имя </th>
+                    <td mat-cell *matCellDef="let element"> {{element.DisplayName}} </td>
+                </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns2; sticky: true"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
-    </table>
-</div>
+                <!-- <ng-container matColumnDef="Size" >
+                    <th mat-header-cell *matHeaderCellDef> Размер </th>
+                    <td mat-cell *matCellDef="let element"> Неизвестно </td>
+                </ng-container> -->
 
-<p class="title"> Оборудование на объекте </p>
-<div class="example-container mat-elevation-z8">
-    <table mat-table [dataSource]="reportView.CwrEquipments">
+                <ng-container matColumnDef="Save">
+                    <th mat-header-cell *matHeaderCellDef> Скачать </th>
+                    <td mat-cell disabled *matCellDef="let element, index as i">
+                        <button mat-button [disabled]="element.FullPath == ''" (click)="SaveFile(i)" style="min-width: 0; padding: 0 5px;"><mat-icon>save_alt</mat-icon></button>
 
-        <ng-container matColumnDef="№">
-            <th mat-header-cell *matHeaderCellDef style="width: 30px;"> № </th>
-            <td mat-cell *matCellDef="let element, index as i"> {{i+1}} </td>
-        </ng-container>
+                    </td>
+                </ng-container>
 
-        <ng-container matColumnDef="Equipment">
-            <th mat-header-cell *matHeaderCellDef> Название </th>
-            <td mat-cell *matCellDef="let element"> {{element.Equipment.FullName + " " + element.Equipment.Name + " " + element.Equipment.Number}} </td>
-        </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns4; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns4;"></tr>
+            </table>
+        </div>
+        <div class="file-empty" *ngIf="reportView.CwrFiles.length == 0">
+            <span>Файлы отсутствуют</span>
+        </div>
+    </mat-tab>
+    <mat-tab label="Проконтролировано">
+        <!-- <p class="title"> Проконтролировано </p> -->
+        <div class="example-container mat-elevation-z8">
+            <table mat-table [dataSource]="reportView.CwrWorks" matSort>
 
-        <ng-container matColumnDef="Status">
-            <th mat-header-cell *matHeaderCellDef> Состояние </th>
-            <td mat-cell *matCellDef="let element"> {{element.Status}} </td>
-        </ng-container>
+                <!-- Position Column -->
+                <ng-container matColumnDef="№">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> № </th>
+                    <td mat-cell *matCellDef="let element, index as i"> {{i+1}} </td>
+                </ng-container>
 
-        <ng-container matColumnDef="Comment">
-            <th mat-header-cell *matHeaderCellDef> Комментарий </th>
-            <td mat-cell *matCellDef="let element"> {{element.Comment}} </td>
-        </ng-container>
+                <!-- Name Column -->
+                <ng-container matColumnDef="MethodControl">
+                    <th mat-header-cell *matHeaderCellDef> Метод </th>
+                    <td mat-cell *matCellDef="let element"> {{element.MethodControl}} </td>
+                </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns3; sticky: true"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns3;"></tr>
-    </table>
-</div>
-<p class="title"> Прикрепленные файлы </p>
-<div class="example-container mat-elevation-z8">
-    <table mat-table [dataSource]="reportView.CwrFiles">
+                <!-- Weight Column -->
+                <ng-container matColumnDef="Customer.NameRu">
+                    <th mat-header-cell *matHeaderCellDef> Заказчик </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Customer.NameRu}} </td>
+                </ng-container>
 
-        <ng-container matColumnDef="№">
-            <th mat-header-cell *matHeaderCellDef> № </th>
-            <td mat-cell *matCellDef="let element, index as i"> {{i+1}} </td>
-        </ng-container>
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="reportView.CwrWorks.CwrWorkPersonals">
+                    <th mat-header-cell *matHeaderCellDef> Персонал </th>
+                    <td mat-cell *matCellDef="let element, index as i"> <span *ngFor="let pers of reportView.CwrWorks[i].CwrWorkPersonals, index as j">{{pers.Personal.SmalFio + "; "}} <br> </span> </td>
+                </ng-container>
 
-        <ng-container matColumnDef="DisplayName">
-            <th mat-header-cell *matHeaderCellDef> Имя </th>
-            <td mat-cell *matCellDef="let element"> {{element.DisplayName}} </td>
-        </ng-container>
+                <ng-container matColumnDef="reportView.CwrWorks.CwrWorkEquipments">
+                    <th mat-header-cell *matHeaderCellDef style="padding-left: 16px; padding-right: 220px;"> Оборудование </th>
+                    <td mat-cell *matCellDef="let element, index as i" style="padding-left: 16px;"> <span *ngFor="let equip of reportView.CwrWorks[i].CwrWorkEquipments, index as j">{{equip.Equipment.FullName + " " + equip.Equipment.Name + " " + equip.Equipment.Number + "; "}}<br> </span> </td>
+                </ng-container>
+                <ng-container matColumnDef="Shown">
+                    <th mat-header-cell *matHeaderCellDef style="padding-left: 16px;"> Предьявленно </th>
+                    <td mat-cell *matCellDef="let element" style="padding-left: 16px;"> {{element.Shown}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Made">
+                    <th mat-header-cell *matHeaderCellDef> Сделано </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Made}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Comment">
+                    <th mat-header-cell *matHeaderCellDef> Комментарий </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Comment}} </td>
+                </ng-container>
 
-        <ng-container matColumnDef="Size">
-            <th mat-header-cell *matHeaderCellDef> Размер </th>
-            <td mat-cell *matCellDef="let element"> Неизвестно </td>
-        </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+    </mat-tab>
+    <mat-tab label="Персонал на объекте">
+        <!-- <p class="title"> Персонал на объекте </p> -->
+        <div class="example-container mat-elevation-z8">
+            <table mat-table [dataSource]="reportView.CwrPersonals">
 
-        <ng-container matColumnDef="Save">
-            <th mat-header-cell *matHeaderCellDef> Скачать </th>
-            <td mat-cell disabled *matCellDef="let element, index as i">
-                <button mat-button [disabled]="element.FullPath == ''" (click)="SaveFile(i)" style="min-width: 0; padding: 0 5px;"><mat-icon>save_alt</mat-icon></button>
+                <ng-container matColumnDef="№">
+                    <th mat-header-cell *matHeaderCellDef style="width: 30px;"> № </th>
+                    <td mat-cell *matCellDef="let element, index as i"> {{i+1}} </td>
+                </ng-container>
 
-            </td>
-        </ng-container>
+                <ng-container matColumnDef="Personal.Fio">
+                    <th mat-header-cell *matHeaderCellDef> ФИО </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Personal.SmalFio}} </td>
+                </ng-container>
+                <ng-container matColumnDef="CwrStatusFromPersonalsWork">
+                    <th mat-header-cell *matHeaderCellDef> Рабочий день </th>
+                    <td mat-cell *matCellDef="let element, index as i"> {{getStatusWork(element.ForTabPerStatusId)}}</td>
+                </ng-container>
+                <ng-container matColumnDef="CwrStatusFromPersonals">
+                    <th mat-header-cell *matHeaderCellDef> Выполняемая функция </th>
+                    <td mat-cell *matCellDef="let element, index as i"> <span *ngFor="let status of reportView.CwrPersonals[i].CwrStatusFromPersonals">  {{status.CwrPesonalStatus.DisplayName + "; "}} <br>  </span> </td>
+                </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns4; sticky: true"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns4;"></tr>
-    </table>
-</div>
-<br>
-<br>
-<br>
-<br>
-<br>
-<!-- <p class="title"> Проконтролировано </p>
-<table class="table_dark">
-    <tr>
-        <th>№</th>
-        <th>Метод</th>
-        <th>Заказчик</th>
-        <th>Персонал</th>
-        <th>Оборудование</th>
-        <th>Предьявленно</th>
-        <th>Проконтролированно</th>
-        <th>Комментарий</th>
-    </tr>
-    <tr *ngFor="let report of reportView.CwrWorks, index as i">
-        <td>{{i+1}}</td>
-        <td>{{report.MethodControl}}</td>
-        <td>{{report.Customer.NameRu}}</td>
-        <td> <span *ngFor="let pers of reportView.CwrWorks[i].CwrWorkPersonals, index as j">{{pers.Personal.Fio + "; "}} </span> </td>
-        <td> <span *ngFor="let equip of reportView.CwrWorks[i].CwrWorkEquipments, index as j">{{equip.Equipment.FullName + " " + equip.Equipment.Number + "; "}} </span> </td>
-        <td>{{report.Shown}}</td>
-        <td>{{report.Made}}</td>
-        <td>{{report.Comment}}</td>
-    </tr>
-</table>
-<br>
-<p class="title"> Персонал на объекте </p>
-<table class="table_dark">
-    <tr>
-        <th>№</th>
-        <th>ФИО</th>
-        <th>Выполняемая функция</th>
-        <th>Комментарий</th>
-    </tr>
-    <tr *ngFor="let report of reportView.CwrPersonals, index as i">
-        <td>{{i+1}}</td>
-        <td>{{report.Personal.Fio}}</td>
-        <td> <span *ngFor="let status of reportView.CwrPersonals[i].CwrStatusFromPersonals"> {{status.CwrPesonalStatus.DisplayName + "; "}} </span> </td>
-        <td>{{report.Comment}}</td>
+                <ng-container matColumnDef="Comment">
+                    <th mat-header-cell *matHeaderCellDef> Комментарий </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Comment}} </td>
+                </ng-container>
 
-    </tr>
-</table>
-<br>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns2; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+            </table>
+        </div>
+    </mat-tab>
+    <mat-tab label="Оборудование на объекте">
+        <!-- <p class="title"> Оборудование на объекте </p> -->
+        <div class="example-container mat-elevation-z8">
+            <table mat-table [dataSource]="reportView.CwrEquipments">
 
-<p class="title"> Оборудование на объекте </p>
-<table class="table_dark">
-    <tr>
-        <th>№</th>
-        <th>Название</th>
-        <th>Состояние</th>
-        <th>Комментарий</th>
-    </tr>
-    <tr *ngFor="let report of reportView.CwrEquipments, index as i">
-        <td>{{i+1}}</td>
-        <td>{{report.Equipment.FullName + " " + report.Equipment.Number}}</td>
-        <td>{{report.Status}}</td>
-        <td>{{report.Comment}}</td>
+                <ng-container matColumnDef="№">
+                    <th mat-header-cell *matHeaderCellDef style="width: 30px;"> № </th>
+                    <td mat-cell *matCellDef="let element, index as i"> {{i+1}} </td>
+                </ng-container>
 
-    </tr>
-</table>
+                <ng-container matColumnDef="Equipment">
+                    <th mat-header-cell *matHeaderCellDef> Название </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Equipment.FullName + " " + element.Equipment.Name + " " + element.Equipment.Number}} </td>
+                </ng-container>
 
-<p class="title"> Прикрепленные файлы </p>
-<table class="table_dark">
-    <tr>
-        <th>№</th>
-        <th>Имя</th>
-        <th>Размер</th>
-        <th>Скачать</th>
-    </tr>
-    <tr *ngFor="let report of reportView.CwrFiles, index as i">
-        <td>{{i+1}}</td>
-        <td>{{report.OriginalName}}</td>
-        <td>Неизвестно</td>
-        <td>
-            <mat-icon (click)="SaveFile(i)" style="cursor: pointer;">save_alt</mat-icon>
-        </td>
+                <ng-container matColumnDef="Status">
+                    <th mat-header-cell *matHeaderCellDef> Состояние </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Status}} </td>
+                </ng-container>
 
-    </tr>
-</table> -->
+                <ng-container matColumnDef="Comment">
+                    <th mat-header-cell *matHeaderCellDef> Комментарий </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Comment}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns3; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns3;"></tr>
+            </table>
+        </div>
+    </mat-tab>
+</mat-tab-group>
+<app-loader-popup [loading]="loader"></app-loader-popup>

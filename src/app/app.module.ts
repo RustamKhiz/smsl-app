@@ -34,8 +34,8 @@ import { MomentDateModule, MomentDateAdapter } from '@angular/material-moment-ad
 import {MatRadioModule} from '@angular/material/radio';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSidenavModule} from '@angular/material/sidenav';
-
-
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 import { AppComponent } from './app.component';
 import {AutComponent} from './aut/aut.component';
@@ -65,6 +65,8 @@ import { DialogDeleteComponent } from './layouts/classes/dialog/dialog-delete/di
 import { CloudComponent } from './layouts/site-layout/cloud/cloud.component';
 import { SupportComponent } from './layouts/site-layout/support/support.component';
 import { DialogInfoComponent } from './layouts/classes/dialog/dialog-info/dialog-info.component';
+import {LoaderPopupComponent} from './layouts/classes/loader/loader-popup/loader-popup.component';
+import { NewAlertComponent } from './layouts/classes/new-alert/new-alert.component'
 
 @NgModule({
   declarations: [
@@ -92,7 +94,9 @@ import { DialogInfoComponent } from './layouts/classes/dialog/dialog-info/dialog
     DialogDeleteComponent,
     CloudComponent,
     SupportComponent,
-    DialogInfoComponent
+    DialogInfoComponent,
+    LoaderPopupComponent,
+    NewAlertComponent
   ],
   imports: [
     BrowserModule,
@@ -129,7 +133,9 @@ import { DialogInfoComponent } from './layouts/classes/dialog/dialog-info/dialog
     MomentDateModule,
     MatRadioModule,
     MatPaginatorModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatExpansionModule,
+    MatTooltipModule
   ],
   providers: [
     {

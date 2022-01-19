@@ -13,10 +13,11 @@ export class afterlogServices{
   public newCustomers: any;
   public newGeneralLocations: any
   public newLocactions: any
+  public config: any
   constructor(private http: HttpClient) {
   }
-  afterLog(): Observable<{Personals:string, Mashines: string, Customers: string, GeneralLocations: string, Locactions: string}>{
-    return this.http.get<{Personals:string, Mashines: string, Customers: string, GeneralLocations: string, Locactions: string}>(`${environment.apiUrl}/api/baseapp/dataload`)
+  afterLog(): Observable<{Personals:string, Mashines: string, Customers: string, GeneralLocations: string, Locactions: string, AngularUserProps: string}>{
+    return this.http.get<{Personals:string, Mashines: string, Customers: string, GeneralLocations: string, Locactions: string, AngularUserProps: string}>(`${environment.apiUrl}/api/baseapp/dataload`)
 
       .pipe(
         tap(({Personals})=>{
@@ -36,8 +37,11 @@ export class afterlogServices{
           this.newGeneralLocations = GeneralLocations;
         }),
         tap(({Locactions})=>{
-          console.log("Первое получение Locactions", Locactions)
+          // console.log("Первое получение Locactions", Locactions)
           this.newLocactions = Locactions
+        }),
+        tap(({AngularUserProps}) => {
+          this.config = AngularUserProps
         })
       )
 

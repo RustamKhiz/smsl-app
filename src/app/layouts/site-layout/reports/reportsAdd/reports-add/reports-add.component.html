@@ -469,8 +469,8 @@
                             </div>
                             <div class="button-wrap">
                                 <!-- <button type="button" class="add-button" (click)="addOnPopup2()"><p class="button-text">Добавить</p> </button> -->
-                                <button mat-raised-button color="accent" (click)="addOnPopup2()" [disabled]="(StatusWorkCtrl.value.Name == 'Работа') && (CwrPersonalCtrl.hasError('required') || StatusCtrl.hasError('required') || StatusWorkCtrl.hasError('required'))">Добавить</button>
-                                <mat-error *ngIf="(StatusWorkCtrl.value.Name == 'Работа') && (CwrPersonalCtrl.hasError('required') || StatusCtrl.hasError('required') || StatusWorkCtrl.hasError('required'))">
+                                <button mat-raised-button color="accent" (click)="addOnPopup2()" [disabled]="personalValidation()">Добавить</button>
+                                <mat-error *ngIf="(StatusWorkCtrl.value.Name == 'Работа') || (CwrPersonalCtrl.hasError('required') || StatusCtrl.hasError('required') || StatusWorkCtrl.hasError('required'))">
                                     Не все <strong>обязательные поля</strong> заполнены!
                                 </mat-error>
                             </div>
@@ -524,11 +524,8 @@
             </div>
         </div>
         <div class="reports-submit">
-            <!-- <button type="submit" class="send-button" (click)="reportSubmit()"><p class="button-text">Отправить</p> </button> -->
             <button mat-raised-button color="accent" class="send-button" (click)="reportSubmit()" [disabled]="LocationCtrl.hasError('required') || ChiefCtrl.hasError('required') || DataReportCtrl.hasError('required') || (reportsCards.length == 0) || (reportsPers.length == 0) || (reportEquip.length == 0)">Отправить</button>
-            <!-- <mat-error *ngIf="LocationCtrl.hasError('required') || ChiefCtrl.hasError('required') || DataReportCtrl.hasError('required')">
-                Не все <strong>обязательные поля</strong> заполнены!
-            </mat-error> -->
+
         </div>
     </form>
 
@@ -538,11 +535,6 @@
     </div>
 </div>
 
-<!-- <div class="loader-wrap">
-    <div class="loader-area">
-
-    </div>
-</div> -->
 <div class="reports-popup" [ngClass]="{open:popLoader}" *ngIf="loading">
     <div class="popup-area"></div>
     <div class="popup-body">
@@ -551,14 +543,3 @@
         </div>
     </div>
 </div>
-
-
-<!-- <mat-form-field appearance="fill">
-    <mat-label>Message</mat-label>
-    <input matInput value="Disco party!" #message>
-</mat-form-field>
-
-<mat-form-field appearance="fill">
-    <mat-label>Action</mat-label>
-    <input matInput value="Dance" #action>
-</mat-form-field> -->

@@ -106,23 +106,24 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
   customer = JSON.parse(localStorage.getItem('Customers'))
   CustomerData: NewDropdown [] = []; //инициализация общего интервейса
   status = JSON.parse(localStorage.getItem('PesonalStatuses'))
-  StatusData: NewDropdown [] = []; //инициализация общего интервейса
+  StatusData: NewDropdown [] = [{Id: 0, Name: "", Display: false, IsSelect: false}]; //инициализация общего интервейса
   statusWork = JSON.parse(localStorage.getItem('PesonalStatusesWork'))
   StatusDataWork: NewDropdown [] = []; //инициализация общего интервейса
-  Method = [
-    {Id: 0, Name: "РК"},
-    {Id: 1, Name: "ВИК"},
-    {Id: 2, Name: "УЗК"},
-    {Id: 3, Name: "ПВК"},
-    {Id: 4, Name: "ЦРК"},
-    {Id: 5, Name: "Мех. испытания"},
-    {Id: 6, Name: "МПД"},
-    {Id: 7, Name: "OK (PMI)"},
-    {Id: 8, Name: "ЭК"},
-    {Id: 9, Name: "Адгезия"},
-    {Id: 10, Name: "Сплошность"},
-    {Id: 11, Name: "Прочее"},
-  ]
+  Method = JSON.parse(localStorage.getItem('MethodControl'))
+  // [
+  //   {Id: 0, Name: "РК"},
+  //   {Id: 1, Name: "ВИК"},
+  //   {Id: 2, Name: "УЗК"},
+  //   {Id: 3, Name: "ПВК"},
+  //   {Id: 4, Name: "ЦРК"},
+  //   {Id: 5, Name: "Мех. испытания"},
+  //   {Id: 6, Name: "МПД"},
+  //   {Id: 7, Name: "OK (PMI)"},
+  //   {Id: 8, Name: "ЭК"},
+  //   {Id: 9, Name: "Адгезия"},
+  //   {Id: 10, Name: "Сплошность"},
+  //   {Id: 11, Name: "Прочее"},
+  // ]
   MethodData: NewDropdown [] = []; //инициализация общего интервейса
   StatusEq = [
     {Id: 0, Name: "Исправен"},
@@ -143,13 +144,13 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
       let IsSelect
       for (let i = 0; i < this.pers.length; i++) {
         if (this.pers[i].StatusWork !== "Уволен"){
-          if(this.pers[i].Company.IsSMSL == true){
+          // if((this.pers[i].Company.IsSMSL == true) || (this.pers[i].Company.Id == 9)){
             Id = this.pers[i].Id
             Name = this.pers[i].LastName + " " + this.pers[i].Name
             Display = true
             IsSelect = false
             this.PersData.push(new NewDropdown(Id, Name, Display, IsSelect))
-          }
+          // }
 
         }
       }
@@ -218,14 +219,14 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
       // console.log("StatusEqData: ",this.StatusEqData)
       for (let i = 0; i < this.pers.length; i++) {
         if (this.pers[i].StatusWork !== "Уволен"){
-          if(this.pers[i].Company.IsSMSL == true){
+          // if(this.pers[i].Company.IsSMSL == true){
             Id = this.pers[i].Id
             Name = this.pers[i].LastName + " " + this.pers[i].Name
             Display = true
             IsSelect = false
             // let ChiefObj = this.pers.find(x => x.Id == report.SubLocationId)
             this.ChiefData.push(new NewDropdown(Id, Name, Display, IsSelect))
-          }
+          // }
 
         }
 
@@ -254,13 +255,16 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         }
         this.CustomerId = CwrWorksLoc.CwrWorks[i].CustomerId
-        this.Shown = JSON.parse(CwrWorksLoc.CwrWorks[i].Shown)
-        this.Made = JSON.parse(CwrWorksLoc.CwrWorks[i].Made)
+
+        let shownReplace = CwrWorksLoc.CwrWorks[i].Shown.replace(/[^0-9,.]/g, ' ');
+        let madeReplace = CwrWorksLoc.CwrWorks[i].Made.replace(/[^0-9,.]/g, ' ');
+        this.Shown = CwrWorksLoc.CwrWorks[i].Shown
+        this.Made = CwrWorksLoc.CwrWorks[i].Made
         this.CwrId = this.getRedId
         // this.CwrWorkPersonals = {Id: 0, PersonalId: 0, Fio: "", CwrWorkId: 0}
 
-        this.ShownCount += +this.Shown
-        this.MadeCount += +this.Made
+        this.ShownCount += parseFloat(shownReplace.replace(',','.').replace(' ',''))
+        this.MadeCount += parseFloat(madeReplace.replace(',','.').replace(' ',''))
 
         for (let j = 0; j < CwrWorksLoc.CwrWorks[i].CwrWorkPersonals.length; j++) {
           this.CwrWorkPersonals[j] = {Id: 0, PersonalId: CwrWorksLoc.CwrWorks[i].CwrWorkPersonals[j].Personal.Id, Fio: CwrWorksLoc.CwrWorks[i].CwrWorkPersonals[j].Personal.SmalFio, CwrWorkId: 0}
@@ -744,7 +748,8 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
     if (CwrWorksLoc == null){
       CwrWorksLoc = 0 //обнуление id отчета при создании нового
     }
-
+    //получение GeneralLoc
+    let generalLoc = this.location.find( x => x.Id == this.locationId).GeneralLocationId
     const newrep = { // инициализация объекта перед отправкой на сервер
       Id: CwrWorksLoc.Id,
       DataCreate: this.now,
@@ -752,7 +757,7 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
       DataReportString: DataReportString,
       UserId: JSON.parse(localStorage.getItem("Id")),
       СhiefUserId: this.СhiefId,
-      GeneralLocationId: 1,
+      GeneralLocationId: generalLoc,
       SubLocationId: this.locationId,
       DataReport: this.DataReportCtrl.value,
       Comment: "",
@@ -1011,6 +1016,15 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
       duration: 3000
     });
   }
+
+  //Валидация
+
+  personalValidation(){
+    if (this.CwrPersonalCtrl.errors || this.StatusCtrl.errors || this.StatusWorkCtrl.errors){
+      return true
+    } else return false
+  }
+
   loading = false; //переменная для лоадера
 
   tabsBg = true;

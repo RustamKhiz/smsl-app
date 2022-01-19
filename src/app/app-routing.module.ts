@@ -51,11 +51,11 @@ const routes: Routes = [
         },
         {
           path: 'red-report', component: ReportsRedComponent
-        },
-        {
-          path: 'view-report', component: ReportViewComponent
         }
         ]
+      },
+      {
+        path: 'view-report', component: ReportViewComponent
       },
       {
         path: 'equipment', component: EquipmentComponent
