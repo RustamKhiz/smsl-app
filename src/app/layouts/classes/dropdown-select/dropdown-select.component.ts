@@ -18,6 +18,7 @@ export class DropdownSelectComponent implements OnInit {
   /** control for the selected bank */
   @Input() public ItemsCtrl: FormControl = new FormControl('', Validators.required);
   @Input() public setValue = "абракадабра";
+  @Input() display: boolean = false
   /** control for the MatSelect filter keyword */
   public ItemsFilterCtrl: FormControl = new FormControl();
 
@@ -32,19 +33,8 @@ export class DropdownSelectComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    // set initial selection
-    // this.ItemsCtrl.setValue(this.setValue);
-    // for (let i = 0; i < this.ItemsData.length; i++) {
-    //   if (this.ItemsData[i].Name == this.setValue){
-    //     this.ItemsCtrl.setValue(this.ItemsData[i]);
-    //     console.log("this.ItemsData[i]: ", this.ItemsData[i])
-    //   }
-    // }
 
-    // load the initial bank list
     this.filteredItems.next(this.ItemsData.slice());
-
-    // listen for search field value changes
     this.ItemsFilterCtrl.valueChanges
       .pipe(takeUntil(this._onDestroy))
       .subscribe(() => {
@@ -68,11 +58,6 @@ export class DropdownSelectComponent implements OnInit {
     this.filteredItems
       .pipe(take(1), takeUntil(this._onDestroy))
       .subscribe(() => {
-        // setting the compareWith property to a comparison function
-        // triggers initializing the selection according to the initial value of
-        // the form control (i.e. _initializeSelection())
-        // this needs to be done after the filteredBanks are loaded initially
-        // and after the mat-option elements are available
         this.singleSelect.compareWith = (a: NewDropdown, b: NewDropdown) => a && b && a === b;
       });
   }
@@ -115,23 +100,19 @@ export class DropdownSelectComponent implements OnInit {
     // this.itemFio = ""
     // this.itemFio = event.value.Fio
     // this.FullNameNumber = event.value.FullName + " " + event.value.Number
-    console.log("ItemName: ", this.ItemName)
-    console.log("ItemId: ", this.ItemId)
+    // console.log("ItemName: ", this.ItemName)
+    // console.log("ItemId: ", this.ItemId)
     // console.log("itemFio: ", this.itemFio)
     this.itemSelect.emit({valueName: this.ItemName, valueId: this.ItemId})
   }
 
     dropCH(Data, event, ctrl){
-      // console.log("dropCH")
-      // console.log("this.setValue: ", event)
-      // console.log("Data.length", Data.length)
+
       for (let i = 0; i < Data.length; i++) {
         if (Data[i].Id == event){
           ctrl.setValue(Data[i]);
-          // console.log("Data[i]: ", Data[i])
-          // console.log("Data[i].Name: ", Data[i].Name)
         }
-        // console.log("Data[i]: ", Data[i])
+
       }
 
     }

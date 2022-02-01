@@ -19,7 +19,7 @@ export class DateInputComponent implements OnInit {
   ToDate: string
   DateOnChange(event){
     event.value
-    console.log("event.value", event.value)
+    // console.log("event.value", event.value)
     this.FromDate = ""
     this.ToDate = ""
 
@@ -27,8 +27,8 @@ export class DateInputComponent implements OnInit {
   DataSub(){
     this.FromDate = this.startCtrl.value
     this.ToDate = this.endCtrl.value
-    console.log("date FromDate: ", this.FromDate)
-    console.log("date ToDate: ", this.ToDate)
+    // console.log("date FromDate: ", this.FromDate)
+    // console.log("date ToDate: ", this.ToDate)
     this.SelectFromDate.emit({value: this.FromDate})
     this.SelectToDate.emit({value: this.ToDate})
 

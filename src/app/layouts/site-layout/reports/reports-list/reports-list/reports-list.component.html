@@ -113,7 +113,7 @@
                                         <p> <strong>На выходном: </strong> {{getPersDontWork(report.CwrPersonals)}} </p>
                                     </div>
                                     <div class="card-subtitle-wrap" *ngIf="getEqDontWork(report.CwrEquipments) > 0">
-                                        <p style="color: #fb5b5b;"> <strong>Неисправленно Е. О.: </strong> {{getEqDontWork(report.CwrEquipments)}} </p>
+                                        <p style="color: #fb5b5b;"> <strong>НЕ ИСПРАВНО Е. О.: </strong> {{getEqDontWork(report.CwrEquipments)}} </p>
                                     </div>
                                 </div>
                             </div>
@@ -190,7 +190,7 @@
                                     <mat-card-subtitle><strong>В работе: </strong> {{getPersInWork(report.CwrPersonals)}}</mat-card-subtitle>
                                     <mat-card-subtitle><strong>На выходном: </strong> {{getPersDontWork(report.CwrPersonals)}} </mat-card-subtitle>
                                     <mat-card-subtitle *ngIf="getEqDontWork(report.CwrEquipments) > 0">
-                                        <p style="color: #fb5b5b;"> <strong>Неисправленно Е. О.: </strong> {{getEqDontWork(report.CwrEquipments)}} </p>
+                                        <p style="color: #fb5b5b;"> <strong>НЕ ИСПРАВНО Е. О.: </strong> {{getEqDontWork(report.CwrEquipments)}} </p>
                                     </mat-card-subtitle>
 
                                 </div>

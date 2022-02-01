@@ -71,6 +71,7 @@ export class AutServices {
     }
 
     logout(){
+      console.log('logout')
         this.setToken(null)
         localStorage.clear()
         this.router.navigate(['/aut'])

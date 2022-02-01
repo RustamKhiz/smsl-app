@@ -1,6 +1,6 @@
 <p>
     <mat-form-field color="accent">
-        <mat-select [formControl]="ItemsCtrl" placeholder="{{placeholder}}" #singleSelect (selectionChange)="SelectionOnChange($event)">
+        <mat-select [formControl]="ItemsCtrl" [disabled]="display" placeholder="{{placeholder}}" #singleSelect (selectionChange)="SelectionOnChange($event)">
             <mat-option>
                 <ngx-mat-select-search [formControl]="ItemsFilterCtrl"></ngx-mat-select-search>
             </mat-option>

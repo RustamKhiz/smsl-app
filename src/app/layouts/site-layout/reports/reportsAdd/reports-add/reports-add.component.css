@@ -286,6 +286,11 @@
     margin: 20px 0;
 }
 
+.select-error {
+    display: flex;
+    align-items: flex-end;
+}
+
 .select-title {
     font-size: 20px;
     margin-bottom: 15px;
@@ -361,6 +366,12 @@ textarea {
     display: flex;
     justify-content: end;
     margin-top: 20px;
+    position: sticky;
+    top: 183px;
+}
+
+.sort-sub {
+    top: 117px;
 }
 
 .send-button {

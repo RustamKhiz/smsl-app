@@ -18,25 +18,29 @@ export interface User {
 }
 
 export interface Personals{
-  Id: string
-  Fio: string
-  Bithday: string
-  Gender: string
-  Adress: string
-  Telephone: string
-  EMail: string
-  DefId: string
-  Organization: string
-  Position: string
-  Location: string
-  StatusWork: string
-  Inn: string
-  Snils: string
-  GenPass: string
-  Name: string
-  LastName: string
-  MidName: string
-  IsOnline: boolean
+  Personals: [{
+    Id: number,
+    Fio: string,
+    SmalFio: string,
+    Bithday: string,
+    Gender: string,
+    Adress: string,
+    Telephone: string,
+    EMail: string,
+    DefId: string,
+    Organization: string,
+    Position: string,
+    Location: string,
+    StatusWork: string,
+    Inn: string,
+    Snils: string,
+    GenPass: string,
+    Name: string,
+    LastName: string,
+    MidName: string,
+    IsOnline: boolean
+  }]
+
 }
 export interface Mashines{
   Наименование: string
@@ -51,6 +55,22 @@ export interface Mashines{
   Производитель: string
   СтранаПроизводства: string
 }
+
+export interface Locations{
+  Locations: [{
+    Actual: number,
+    DataBaseName: string,
+    Description: string,
+    GeneralLocationId: number,
+    HashId: string,
+    Id: number,
+    Name: string,
+    SmallName: string,
+    WeatherId: string,
+    WeatherName: string
+  }]
+}
+
 export interface NameComplWorks{
   Method: string
   Customer: string
@@ -60,64 +80,7 @@ export interface NameComplWorks{
   Made: string
   Comment: string
 }
-export interface Report2 {
-  DataReport: string,
-  Comment?: string,
-  GeneralLocation: {
-      DisplayName: string
-  },
-  CwrWorks:
-      {
-          MethodControl: string
-          Customer: {
-              NameRu: string
-          }
-          Shown: number
-          Made: number
-          Comment?: string
-          CwrWorkPersonals:
-              {
-                  Personal: {
-                      Id: number
-                      Fio: string
-                  }
-              }
-          CwrWorkEquipments:
-                {
-                  Equipment: {
-                      Id: number
-                      Name: string
-                      }
-                }
-      },
-  CwrPersonals:
-      {
-          Comment?: string
-          Personal: {
-              Id: number
-              Fio: string
-          },
-          CwrStatusFromPersonals:
-              {
-                  CwrPesonalStatus: {
-                      DisplayName: string
-                      Description?: string
-                      IsWork?: boolean
-                  }
-              }
-      },
-  CwrEquipments:
-      {
-          Status: string
-          Equipment: {
-              Id: number
-              Name: string
-          }
-      },
-  CwrActions?: [],
-  CwrFiles?: [],
 
-}
 export interface Report {
   Id: 0,
   UserId: number,
@@ -198,12 +161,13 @@ export interface ReportsAll{
   SubLocationId: number,
   DataReport: string,
   Comment: string,
-  IsActual: boolean,
+  IsActual?: boolean,
   GeneralLocation: {
     Id: number,
-    DisplayName: string
+    DisplayName: string,
+    Logo: string
   },
-  CwrWorks: {
+  CwrWorks: [{
     Id: number,
     MethodControl: string,
     CustomerId: number,
@@ -214,11 +178,11 @@ export interface ReportsAll{
       Inn: number,
       MapOffice: string
     },
-    Shown: number,
-    Made: number,
+    Shown: string,
+    Made: string,
     Comment: string,
     CwrId: number,
-    CwrWorkPersonals: {
+    CwrWorkPersonals: [{
       Id: number,
       PersonalId: number,
       CwrWorkId: number,
@@ -238,10 +202,10 @@ export interface ReportsAll{
         Name: string,
         LastName: string,
         MidName: string,
-
+        SmalFio: string
       }
-    },
-    CwrWorkEquipments:{
+    }],
+    CwrWorkEquipments:[{
       Id: number,
       EquipmentId: number,
       CwrWorkId: number,
@@ -265,9 +229,9 @@ export interface ReportsAll{
         ProductionCompany: string,
         LandCreate: string
       }
-    }
-  },
-  CwrPersonals:{
+    }]
+  }],
+  CwrPersonals:[{
     Id: number,
     PersonalId: number,
     Comment: string,
@@ -290,7 +254,7 @@ export interface ReportsAll{
       MidName: string,
       SmalFio: string
     },
-    CwrStatusFromPersonals:{
+    CwrStatusFromPersonals:[{
       Id: number,
         CwrStatusId: number,
         CwrPesonalStatus: {
@@ -300,9 +264,10 @@ export interface ReportsAll{
           IsWork: boolean
         },
         CwrPersonalId: number
-    }
-  },
-  CwrEquipments:{
+    }],
+    ForTabPerStatusId: number
+  }],
+  CwrEquipments:[{
     Id: number,
     EquipmentId: number,
     Status: string,
@@ -327,9 +292,22 @@ export interface ReportsAll{
       LandCreate: string
     },
     CwrId: number
-  }
+  }],
   CwrActions: [],
-  CwrFiles: []
+  CwrFiles: [
+    {
+      CwrId: string,
+      DisplayName: string,
+      Ext: string,
+      FileType: string,
+      FullPath: string,
+      Hash: string,
+      Id: number,
+      IsPreveiw: boolean,
+      Length: number,
+      OriginalName: string
+    }
+  ]
 }
 export interface DropDownMultiItem{
   Id: number,
@@ -360,17 +338,19 @@ export interface NewDropdown{
   IsSelect: boolean
   }
 export interface NearbyReport{
-  ChiefWorkReport: any,
+  ChiefWorkReport?: any,
   Next: {
     Id: number,
     СhiefUserId: number,
     GeneralLocationId: number,
+    SubLocationId: number,
     DataReport: string
   },
   Prev: {
     Id: number,
     СhiefUserId: number,
     GeneralLocationId: number,
+    SubLocationId: number,
     DataReport: string
   },
   IsNext: boolean,

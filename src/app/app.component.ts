@@ -155,8 +155,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       );
 
     } else{
-      this.aut.logout()
-      this.router.navigate(['/aut'])
+      // this.aut.logout()
+      // this.router.navigate(['/aut'])
       this.loading = false
     }
     //else location.reload()

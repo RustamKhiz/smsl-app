@@ -230,7 +230,7 @@ ul {
 
 .content-wrap {
     height: 100vh;
-    background: rgb(252, 252, 252);
+    /* background: rgb(252, 252, 252); */
 }
 
 .navleft-elem {

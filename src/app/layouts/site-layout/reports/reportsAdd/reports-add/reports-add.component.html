@@ -25,6 +25,12 @@
                         <input type="file" id="file" hidden (change)="fileChange($event)" multiple placeholder="Upload file" accept=".pdf,.doc,.docx,.png,.jpg,.xlsx,.xls">
                     </div>
                 </div>
+                <div class="reports-submit sort-sub">
+                    <button mat-raised-button color="accent" class="send-button" (click)="sortPers()">Сортировка персонала</button>
+                </div>
+                <div class="reports-submit">
+                    <button mat-raised-button color="accent" class="send-button" (click)="reportSubmit()" [disabled]="LocationCtrl.hasError('required') || ChiefCtrl.hasError('required') || DataReportCtrl.hasError('required') || (reportsCards.length == 0) || (reportsPers.length == 0) || (reportEquip.length == 0)">Отправить</button>
+                </div>
             </div>
 
             <div class="reports-content-wrap">
@@ -46,45 +52,10 @@
                     </div>
                 </div>
                 <div class="reports-content" [ngClass]="{cardActive:cardAct}">
-
-                    <!-- <div class="report-card-wrap" *ngFor="let card of reportsCards, index as i">
-                        <div class="report-card">
-                            <div class="report-card-header">
-                                <div class="report-card-number">
-                                    <p>{{i+1}}</p>
-                                </div>
-                                <p class="report-card-title">
-                                    {{card.MethodControl}}
-                                </p>
-                                <p class="report-card-subtitle">
-                                    {{card.Customer}}
-                                </p>
-                                <div class="icon-edit">
-                                    <mat-icon (click)="CwrWorksRed(i)" style="cursor: pointer;">edit</mat-icon>
-                                </div>
-                            </div>
-                            <div class="report-card-center">
-                                <div class="report-card-center-left">
-                                    <span *ngFor="let pers of reportsCards[i].CwrWorkPersonals, index as j">{{[j+1] + ". " + pers.Fio}}</span>
-                                </div>
-                                <div class="report-card-center-right">
-                                    <span *ngFor="let equip of reportsCards[i].CwrWorkEquipments, index as j">{{[j+1] + ". " + equip.Name }}</span>
-                                </div>
-                            </div>
-                            <div class="report-card-footer">
-
-                                <p>
-                                    <strong>Предъявлено:</strong> {{card.Shown}}
-                                </p>
-                                <p>
-                                    <strong>Сделано:</strong> {{card.Made}}
-                                </p>
-                                <div class="icon-delete">
-                                    <mat-icon (click)="reportsCards.splice(i, 1)" style="cursor: pointer;">delete</mat-icon>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
+                    <div class="report-content-add" matRipple matRippleColor="rgba(13, 255, 0, 0.1)">
+                        <p class="report-content-add-title">Добавить работу</p>
+                        <mat-icon (click)="popupOpen()" class="img-add">add</mat-icon>
+                    </div>
                     <div class="report-content" *ngFor="let card of reportsCards, index as i">
                         <div class="report-content-text-number">
                             <p>{{i+1}}</p>
@@ -121,10 +92,7 @@
                         </div>
                     </div>
 
-                    <div class="report-content-add" matRipple matRippleColor="rgba(13, 255, 0, 0.1)">
-                        <p class="report-content-add-title">Добавить работу</p>
-                        <mat-icon (click)="popupOpen()" class="img-add">add</mat-icon>
-                    </div>
+
                     <div class="report-content report-content-footer" *ngIf="reportsCards.length !== 0">
                         <p><strong>Всего предъявлено: {{ShownCount}}</strong> </p>
                         <p><strong>Всего сделано: {{MadeCount}}</strong> </p>
@@ -198,6 +166,10 @@
                 </div>
 
                 <div class="reports-content" [ngClass]="{cardActive:cardAct2}">
+                    <div class="report-content-add" matRipple matRippleColor="rgba(13, 255, 0, 0.1)">
+                        <p class="report-content-add-title">Добавить сотрудника</p>
+                        <mat-icon (click)="popupOpen2()" class="img-add">add</mat-icon>
+                    </div>
                     <div class="report-content" *ngFor="let card of reportsPers, index as i">
                         <div class="report-content-text-number">
                             <p>{{i+1}}</p>
@@ -221,11 +193,7 @@
                             <mat-icon (click)="reportsPers.splice(i, 1)" style="cursor: pointer;">delete</mat-icon>
                         </div>
                     </div>
-                    <div class="report-content-add" matRipple matRippleColor="rgba(13, 255, 0, 0.1)">
-                        <!-- <img src="assets/reports-add.png" (click)="popupOpen2()" class="img-add" alt="">  -->
-                        <p class="report-content-add-title">Добавить сотрудника</p>
-                        <mat-icon (click)="popupOpen2()" class="img-add">add</mat-icon>
-                    </div>
+
                 </div>
                 <div class="reports-popup" [ngClass]="{open:popOpenRed2}">
                     <div class="popup-area" (click)="popupHiddenRed2()"></div>
@@ -275,6 +243,10 @@
                     </div>
                 </div>
                 <div class="reports-content" [ngClass]="{cardActive:cardAct3}">
+                    <div class="report-content-add" matRipple matRippleColor="rgba(13, 255, 0, 0.1)">
+                        <p class="report-content-add-title">Добавить оборудование</p>
+                        <mat-icon (click)="popupOpen3()" class="img-add">add</mat-icon>
+                    </div>
                     <div class="report-content" *ngFor="let card of reportEquip, index as i">
                         <div class="report-content-text-number">
                             <p>{{i+1}}</p>
@@ -291,16 +263,17 @@
                             </p>
                         </div>
                         <div class="icon-wrap">
-                            <mat-icon (click)="CwrEquipmentsRed(i)" style="cursor: pointer;">edit</mat-icon>
-                            <mat-icon (click)="reportEquip.splice(i, 1)" style="cursor: pointer;">delete</mat-icon>
+                            <div class="edit-check">
+                                <mat-icon (click)="CwrEquipmentsRed(i)" style="cursor: pointer;">edit</mat-icon>
+                            </div>
+
+                            <div class="edit-check" *ngIf="equipDelCheck(card.EquipmentId)">
+                                <mat-icon (click)="reportEquip.splice(i, 1)" style="cursor: pointer;">delete</mat-icon>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="report-content-add" matRipple matRippleColor="rgba(13, 255, 0, 0.1)">
-                        <!-- <img src="assets/reports-add.png" (click)="popupOpen3()" class="img-add" alt=""> -->
-                        <p class="report-content-add-title">Добавить оборудование</p>
-                        <mat-icon (click)="popupOpen3()" class="img-add">add</mat-icon>
-                    </div>
+
                 </div>
                 <div class="reports-popup" [ngClass]="{open:popOpenRed3}">
                     <div class="popup-area" (click)="popupHiddenRed3()"></div>
@@ -315,8 +288,10 @@
                                     <div class="select-card-wrap">
                                         <div class="select-wrap">
                                             <p class="select-title">Оборудование</p>
-                                            <app-dropdown-select [ItemsData]="EquipData" [ItemsCtrl]="CwrEquipmentslCtrl" [placeholder]="'Выберите оборудование'" (itemSelect)="EquipmentAdd($event)"></app-dropdown-select>
-
+                                            <app-dropdown-select [ItemsData]="EquipData" [ItemsCtrl]="CwrEquipmentslCtrl" [display]="!EquipmentDisplay" [placeholder]="'Выберите оборудование'" (itemSelect)="EquipmentAdd($event)"></app-dropdown-select>
+                                            <mat-error *ngIf="validEqualEquip()">
+                                                Оборудование <strong>присутствует</strong> в отчёте!
+                                            </mat-error>
                                         </div>
                                         <div class="select-wrap">
                                             <p class="select-title">Статус</p>
@@ -334,8 +309,8 @@
                                     </div>
                                     <div class="button-wrap">
                                         <!-- <button type="button" class="add-button" (click)="RedOnPopup3()"><p class="button-text" style="font-size: 16px;">Редактировать</p> </button> -->
-                                        <button mat-raised-button color="accent" (click)="RedOnPopup3()" [disabled]="CwrEquipmentslCtrl.hasError('required') || StatusEqCtrl.hasError('required')">Редактировать</button>
-                                        <mat-error *ngIf="CwrEquipmentslCtrl.hasError('required') || StatusEqCtrl.hasError('required')">
+                                        <button mat-raised-button color="accent" (click)="RedOnPopup3()" [disabled]="equipValidation()">Редактировать</button>
+                                        <mat-error *ngIf="equipValidation()">
                                             Не все <strong>обязательные поля</strong> заполнены!
                                         </mat-error>
                                     </div>
@@ -434,8 +409,10 @@
                                     <p class="select-title">Сотрудник ФИО </p>
                                     <app-dropdown-select [ItemsData]="PersData" [ItemsCtrl]="CwrPersonalCtrl" [placeholder]="'Выберите сотрудника'" (itemSelect)="PersonalAdd($event)"></app-dropdown-select>
                                 </div>
-                                <div class="select-wrap">
-
+                                <div class="select-wrap select-error">
+                                    <mat-error *ngIf="validEqualPers()">
+                                        Сотрудник <strong>присутствует</strong> в отчёте!
+                                    </mat-error>
                                 </div>
                                 <div class="select-wrap">
                                     <p class="select-title">Рабочий день <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
@@ -470,7 +447,7 @@
                             <div class="button-wrap">
                                 <!-- <button type="button" class="add-button" (click)="addOnPopup2()"><p class="button-text">Добавить</p> </button> -->
                                 <button mat-raised-button color="accent" (click)="addOnPopup2()" [disabled]="personalValidation()">Добавить</button>
-                                <mat-error *ngIf="(StatusWorkCtrl.value.Name == 'Работа') || (CwrPersonalCtrl.hasError('required') || StatusCtrl.hasError('required') || StatusWorkCtrl.hasError('required'))">
+                                <mat-error *ngIf="personalValidation()">
                                     Не все <strong>обязательные поля</strong> заполнены!
                                 </mat-error>
                             </div>
@@ -494,8 +471,13 @@
                                 <div class="select-wrap">
                                     <p class="select-title">Оборудование</p>
                                     <app-dropdown-select [ItemsData]="EquipData" [ItemsCtrl]="CwrEquipmentslCtrl" [placeholder]="'Выберите оборудование'" (itemSelect)="EquipmentAdd($event)"></app-dropdown-select>
-
+                                    <mat-error *ngIf="validEqualEquip()">
+                                        Оборудование <strong>присутствует</strong> в отчёте!
+                                    </mat-error>
                                 </div>
+                                <!-- <div class="select-wrap select-error">
+
+                                </div> -->
                                 <div class="select-wrap">
                                     <p class="select-title">Статус</p>
                                     <app-dropdown-select [ItemsData]="StatusEqData" [ItemsCtrl]="StatusEqCtrl" [placeholder]="'Выберите статус'" (itemSelect)="StatusEqAdd($event)"></app-dropdown-select>
@@ -512,8 +494,8 @@
                             </div>
                             <div class="button-wrap">
                                 <!-- <button type="button" class="add-button" (click)="addOnPopup3()"><p class="button-text">Добавить</p> </button> -->
-                                <button mat-raised-button color="accent" (click)="addOnPopup3()" [disabled]="CwrEquipmentslCtrl.hasError('required') || StatusEqCtrl.hasError('required')">Добавить</button>
-                                <mat-error *ngIf="CwrEquipmentslCtrl.hasError('required') || StatusEqCtrl.hasError('required')">
+                                <button mat-raised-button color="accent" (click)="addOnPopup3()" [disabled]="equipValidation()">Добавить</button>
+                                <mat-error *ngIf="equipValidation()">
                                     Не все <strong>обязательные поля</strong> заполнены!
                                 </mat-error>
                             </div>
@@ -523,10 +505,9 @@
                 </div>
             </div>
         </div>
-        <div class="reports-submit">
+        <!-- <div class="reports-submit">
             <button mat-raised-button color="accent" class="send-button" (click)="reportSubmit()" [disabled]="LocationCtrl.hasError('required') || ChiefCtrl.hasError('required') || DataReportCtrl.hasError('required') || (reportsCards.length == 0) || (reportsPers.length == 0) || (reportEquip.length == 0)">Отправить</button>
-
-        </div>
+        </div> -->
     </form>
 
     <div style="padding-bottom:150px;">

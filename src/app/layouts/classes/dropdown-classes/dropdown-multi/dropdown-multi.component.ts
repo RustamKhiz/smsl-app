@@ -134,32 +134,32 @@ export class DropdownMultiComponent implements OnInit, OnDestroy, AfterViewInit 
   NameRu: string [] = []
   Name: string [] = []
   SelectionOnChange(event){
-    console.log("event test", event.value)
+    // console.log("event test", event.value)
     this.NumberId = []
     this.Name = []
     for (let i = 0; i < event.value.length; i++) {
       this.NumberId.push(event.value[i].Id)
       this.Name.push(event.value[i].Name)
     }
-    console.log("this.NumberId: ", this.NumberId)
-    console.log("this.Name: ", this.Name)
+    // console.log("this.NumberId: ", this.NumberId)
+    // console.log("this.Name: ", this.Name)
     this.itemSelect.emit({valueId: this.NumberId, valueName: this.Name})
   }
 
   dropCH(Data, event, ctrl){
-    console.log("dropCH")
-    console.log("this.setValue: ", event)
+    // console.log("dropCH")
+    // console.log("this.setValue: ", event)
     // console.log("Data", Data)
     let DataName: NewDropdown [] = []
-    console.log("DataName", DataName)
+    // console.log("DataName", DataName)
     ctrl.setValue('')
-    console.log("test ctrl.setValue: ",ctrl.value )
+    // console.log("test ctrl.setValue: ",ctrl.value )
 
 
     for (let i = 0; i < Data.length; i++) {
       for (let j = 0; j < event.length; j++) {
         if (Data[i].Id == event[j]){
-          console.log("Data[i].Name: ", Data[i] )
+          // console.log("Data[i].Name: ", Data[i] )
           DataName.push(Data[i])
         }
       }
@@ -170,7 +170,7 @@ export class DropdownMultiComponent implements OnInit, OnDestroy, AfterViewInit 
     );
 
 
-    console.log("ctrl: ", ctrl.value)
+    // console.log("ctrl: ", ctrl.value)
   }
 
 

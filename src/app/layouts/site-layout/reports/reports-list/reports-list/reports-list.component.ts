@@ -143,17 +143,21 @@ export class ReportsListComponent implements OnInit, OnDestroy {
       }
     }
 
-    if (localStorage.getItem('ReportAll') == null){ //Если массив в хранилище пустой, то отправляем стартовый запрос
-      // setTimeout(() => { //Задержка для успешной отправки базового фильтра
+    if (localStorage.getItem('ReportAll') == null){ //Если объект в хранилище пустой, то отправляем стартовый запрос
         console.log("this.Filter: ", this.Filter)
         this.aSub = this.repAll.reportAll(this.Filter).subscribe(
           (AllData) => {
             console.log("Filter is work! AllData", AllData)
-            console.log("AllData.ChiefWorkReports:", AllData.ChiefWorkReports)
             //сохраняем полученные отчеты в хранилище
-            const reportData = JSON.stringify(AllData.ChiefWorkReports)
-            localStorage.setItem('ReportAll', reportData)
-            this.reportsAll = JSON.parse(localStorage.getItem('ReportAll'))
+            // const reportData = JSON.stringify(AllData.ChiefWorkReports)
+            // localStorage.setItem('ReportAll', reportData)
+            // this.reportsAll = JSON.parse(localStorage.getItem('ReportAll'))
+
+            //сохраняем фильтр в хранилище
+            localStorage.setItem('ReportAll', JSON.stringify(this.Filter))
+
+            this.reportsAll = AllData.ChiefWorkReports
+
             //Получаем и сохраняем статусы пользователя для создания отчётов
             let PesonalStatusesWork: any [] = [];
             let PesonalStatuses: any [] = [];
@@ -180,7 +184,6 @@ export class ReportsListComponent implements OnInit, OnDestroy {
 
             //уведомляем, если отчетов нет
             if (this.reportsAll.length == 0){
-              console.log("reportsAll == undefined!!!")
               this.openSnackBar("За сегодня ни одного отчета не найдено", "Ok")
             } else {
               this.openSnackBar(`Найдено отчётов: ${this.reportsAll.length}` , "Ok")
@@ -192,16 +195,22 @@ export class ReportsListComponent implements OnInit, OnDestroy {
             this.ConnectToPagginList() // подключаем новые результаты отчета в пагинатор
           },
           (error) => {
-            console.log("Filter don`t work!")
+            this.openSnackBar("Ошибка, перезагрузите страницу", "Ok")
           }
         )
-      // }, 3000)
 
     } else { //Добавляем отчёты из хранилища, если они там есть
-      this.reportsAll = JSON.parse(localStorage.getItem('ReportAll'))
-      this.ConnectToPagginList()
-      this.loading = false;
-      this.openSnackBar(`Последний примененный фильтр. Найдено отчётов: ${this.reportsAll.length} ` , "Ok")
+
+      this.Filter = JSON.parse(localStorage.getItem('ReportAll'))
+
+      this.aSub = this.repAll.reportAll(this.Filter).subscribe(
+        (AllData) => {
+          this.reportsAll = AllData.ChiefWorkReports
+          this.ConnectToPagginList()
+          this.loading = false;
+          this.openSnackBar(`Последний примененный фильтр. Найдено отчётов: ${this.reportsAll.length} ` , "Ok")
+        }
+      )
     }
       //Приминение кофига
       let config = JSON.parse(localStorage.getItem('Config'))
@@ -210,15 +219,18 @@ export class ReportsListComponent implements OnInit, OnDestroy {
         if (configView.Value == "Grid"){
           this.viewList = false
           this.viewGrid = true
+          this.ConnectToPagginList()
         } else {
           this.viewList = true
           this.viewGrid = false
+          this.ConnectToPagginList()
         }
       }
-      console.log("config", configView)
+      // console.log("config", configView)
       let configPaggStep: Config = config.find(x => x.GroupName == "Шаг пагинации")
       if (configPaggStep != undefined){
         this.paginatorPageSize = JSON.parse(configPaggStep.Value)
+        this.ConnectToPagginList()
       }
 
   }
@@ -245,22 +257,25 @@ export class ReportsListComponent implements OnInit, OnDestroy {
     } else {
       SubLocIdsList = null
     }
-    //Проверка дня "от" и "до", если ранвы, то "до" = null
+    //Проверка дня "от" и "до", если ранвы, то "до" = от + 1 день
     if ((this.FromDateCtrl.value != null)&&(this.ToDateCtrl.value != null)){
       if (this.FromDateCtrl.value._d.getTime() == this.ToDateCtrl.value._d.getTime()){
         const newDate = new Date(this.FromDateCtrl.value);
         const result = new Date(newDate.setDate(newDate.getDate() + 1));
-        console.log(result);
+        // console.log(result);
         this.ToDateCtrl.setValue(result)
         // this.ToDateCtrl.setValue(null)
       }
     }
 
+    const newToDate = new Date(this.ToDateCtrl.value)
+    const newToDateData = new Date(newToDate.setDate(newToDate.getDate() + 1))
+
     //Заполняем фильтр перед отправкой на сервер
     this.Filter = {
       ReportId: this.ReportIdCtrl.value,
       FromDate: this.FromDateCtrl.value,
-      ToDate: this.ToDateCtrl.value,
+      ToDate: newToDateData,
       ChiefIds: ChiefIdsList,
       GeneralLocIds: null,
       SubLocIds: SubLocIdsList
@@ -275,26 +290,22 @@ export class ReportsListComponent implements OnInit, OnDestroy {
       } else {
         this.filterSub = this.repFilter.reportFilter(this.Filter).subscribe( //Отправляем запрос
         (FilterData)=>{
-            console.log("FilterSubmit is Submit! Data:", FilterData);
+            // console.log("FilterSubmit is Submit! Data:", FilterData);
               if (FilterData.length > 250){ // Проверка на количество полученных отчётов
                 this.openSnackBar("Вы загружаете слишком много отчетов, выберите меньший диапазон дат", "Ok")
                 } else {
                   //Добавляем отчеты в хранилище
-                  const filterData = JSON.stringify(FilterData)
-                  localStorage.setItem('ReportAll', filterData)
-                  this.reportsAll = JSON.parse(localStorage.getItem('ReportAll'))
+                  const filter = JSON.stringify(this.Filter)
+                  localStorage.setItem('ReportAll', filter)
+                  this.reportsAll = FilterData
                   console.log("reportsAll: ", this.reportsAll)
-
                   if (this.reportsAll.length == 0){ //Проверка есть ли отчёты
-                    console.log("reportsAll == undefined!!!")
                     this.openSnackBar("Ни одного отчета не найдено", "Ok")
                    } else {
                       this.openSnackBar(`Найдено отчётов: ${this.reportsAll.length}` , "Ok")
                     }
                   this.ConnectToPagginList()
-
                   this.SaveControls()
-
                 }
 
               this.loading = false; //отключаем лоадер
@@ -305,8 +316,6 @@ export class ReportsListComponent implements OnInit, OnDestroy {
             },
               () => {
                 this.loading = false;
-                console.log("FilterSubmit is not a Submit!");
-
                 this.openSnackBar("Возникла непредвиденная ошибка, перезагрузите страницу", "Ok")
               }
       )
@@ -353,16 +362,13 @@ export class ReportsListComponent implements OnInit, OnDestroy {
 
     this.aSub = this.repFilter.reportFilter(this.Filter).subscribe(
       (AllData) => {
-        console.log("Filter today is work!", AllData)
-        console.log("AllData:", AllData)
-        const reportData = JSON.stringify(AllData)
+        const reportData = JSON.stringify(this.Filter)
         localStorage.setItem('ReportAll', reportData)
-        this.reportsAll = JSON.parse(localStorage.getItem('ReportAll'))
+        this.reportsAll = AllData
 
         // const PesonalStatuses = JSON.stringify(AllData.CwrPesonalStatuses)
         // localStorage.setItem('PesonalStatuses', PesonalStatuses)
         if (this.reportsAll.length == 0){
-          console.log("reportsAll == undefined!!!")
           this.openSnackBar("За сегодня ни одного отчета не найдено", "Ok")
           localStorage.removeItem('ReportAll')
         } else {
@@ -372,7 +378,7 @@ export class ReportsListComponent implements OnInit, OnDestroy {
         this.loading = false;
       },
       (error) => {
-        console.log("Filter don`t work!")
+        this.openSnackBar("Ошибка, перезагрузите страницу", "Ok")
         this.loading = false;
       }
     )
@@ -394,14 +400,11 @@ export class ReportsListComponent implements OnInit, OnDestroy {
 
   FiterChiefsForDisable = JSON.parse(localStorage.getItem('FiterChiefsForDisable'))
   PersFilterIdAdd($event){ //Получаем список сотрудников
-    console.log("$event PersFilter: ", $event)
     this.FiterChiefsForDisable = JSON.parse(localStorage.getItem('FiterChiefsForDisable'))
     let FilterChiefItem: any [] = [];
     for (let i = 0; i < $event.valueId.length; i++) {
       FilterChiefItem.push(this.FiterChiefsForDisable.find(x => x.Id == $event.valueId[i]))
     }
-    console.log('FilterChiefItem', FilterChiefItem)
-
     for (let i = 0; i < this.LocationData.length; i++) {
       this.LocationData[i].Display = false
     }
@@ -425,14 +428,12 @@ export class ReportsListComponent implements OnInit, OnDestroy {
 
   FiterLocationsForDisable = JSON.parse(localStorage.getItem('FiterLocationsForDisable'))
   LocationFilterIdAdd($event){ //Получаем список Локаций
-    console.log("$event locationFilter: ", $event)
     this.FiterLocationsForDisable = JSON.parse(localStorage.getItem('FiterLocationsForDisable'))
 
     let FilterLockItem: any [] = []
     for (let i = 0; i < $event.valueId.length; i++) {
       FilterLockItem.push(this.FiterLocationsForDisable.find(x => x.Id == $event.valueId[i]))
     }
-    console.log('FilterLockItem', FilterLockItem)
     if (FilterLockItem != undefined){
       for (let i = 0; i < this.PersData.length; i++) {
         for (let k = 0; k < FilterLockItem.length; k++) {
@@ -460,15 +461,11 @@ export class ReportsListComponent implements OnInit, OnDestroy {
 
   FromDateVal = ""
   FromDateItem($event){ //Получаем дату от
-    console.log("$event FromDateItem: ", $event.value)
     this.FromDateVal = $event.value
-    console.log("FromDateVal: ", this.FromDateVal)
   }
   ToDateVal = ""
   ToDateItem($event){ //Получаем дату до
-    console.log("$event ToDateItem: ", $event.value)
     this.ToDateVal = $event.value
-    console.log("ToDateVal: ", this.ToDateVal)
   }
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
@@ -542,7 +539,6 @@ export class ReportsListComponent implements OnInit, OnDestroy {
 
   }
   SaveFile(files){
-    console.log("this.reportView[i].FullPath: ", files.FullPath)
     const linkSource = `${environment.apiUrl}/api/cwr/getfile?id=${files.Id}`
     const downloadLink = document.createElement("a");
     const fileName = files.DisplayName
@@ -604,23 +600,26 @@ export class ReportsListComponent implements OnInit, OnDestroy {
 
     this.reportRedSub = this.repGet.repGet(i).subscribe( //Запрос на получение конкретного отчёта
       (reportIdData)=>{
-        console.log("reportIdData: ", reportIdData)
-        let newReportIdData = JSON.stringify(reportIdData)
+        const newReportIdData = JSON.stringify(reportIdData)
         localStorage.setItem('ReportIdData', newReportIdData)
         this.router.navigate(['/reports/add-report'])
       }
     )
 
   }
-   ReportView(i){ //Открыть конкретный отчёт для просмотра
-    this.reportRedSub = this.repGet.repGetNearby(i).subscribe(
-      (reportIdData)=>{
-        console.log("reportViewData: ", reportIdData)
-        let newReportIdData = JSON.stringify(reportIdData)
-        localStorage.setItem('ReportViewData', newReportIdData)
-        this.router.navigate(['/view-report'])
+   ReportView(id){ //Открыть конкретный отчёт для просмотра
+    // this.reportRedSub = this.repGet.repGetNearby(i).subscribe(
+    //   (reportIdData)=>{
+    //     let newReportIdData = JSON.stringify(reportIdData)
+    //     localStorage.setItem('ReportViewData', newReportIdData)
+    //     this.router.navigate(['/view-report'])
+    //   }
+    // )
+    this.router.navigate(['/view-report'], {
+      queryParams:{
+        id: id
       }
-    )
+    })
   }
 
   //Начало удаления отчета
@@ -642,9 +641,7 @@ export class ReportsListComponent implements OnInit, OnDestroy {
   ReportDel(i){//Метод удаления
       this.reportDelSub = this.repDel.repDel(this.reportId, this.reportItem).subscribe( //Отправка запроса на удаление
         () => {
-          console.log("Удаление прошло успешно!")
           // localStorage.removeItem('newRepParam')
-          // console.log("Удаление прошло успешно!", i)
           this.openSnackBar("Удаление прошло успешно", "Ok")
           this.repDeleteWind = false
           this.reportsAll.reverse()
@@ -652,7 +649,6 @@ export class ReportsListComponent implements OnInit, OnDestroy {
           // let RepAllList: [] = JSON.parse(localStorage.getItem('ReportAll'))
           // RepAllList.reverse()
           // RepAllList.splice(i, 1)
-          // console.log("RepAllList", RepAllList)
           localStorage.setItem('ReportAll', JSON.stringify(this.reportsAll))
           this.dataSource = new MatTableDataSource<ReportsAll>(this.reportsAll);
           this.changeDetectorRef.detectChanges();
@@ -661,7 +657,7 @@ export class ReportsListComponent implements OnInit, OnDestroy {
           this.obs = this.dataSource.connect();
         },
         () => {
-          console.log("Ошибка удаления отчёта!")
+          this.openSnackBar("Ошибка удаления отчёта", "Ok")
         }
       )
 
@@ -678,14 +674,12 @@ export class ReportsListComponent implements OnInit, OnDestroy {
     this.viewList = true
     this.viewGrid = false
     this.ViewConfig.model = "List"
-    console.log("ViewConfig: ", this.ViewConfig)
     this.Config()
   }
   reportViewGrid(){
     this.viewList = false
     this.viewGrid = true
     this.ViewConfig.model = "Grid"
-    console.log("ViewConfig: ", this.ViewConfig)
     this.Config()
   }
   // viewList = false
@@ -711,7 +705,6 @@ export class ReportsListComponent implements OnInit, OnDestroy {
   pageEvent: PageEvent;
   PageEventPag($event){
     this.pageEvent = $event
-    console.log("this.pageEvent: ", this.pageEvent.pageSize)
     let pageCont = JSON.stringify(this.pageEvent.pageSize)
     this.PaggStepConfig.value = pageCont
     const configData = {
@@ -722,7 +715,6 @@ export class ReportsListComponent implements OnInit, OnDestroy {
       UserId: JSON.parse(localStorage.getItem('Id'))
     }
     this.configPost.ConfigPost(configData).subscribe((data) => {
-      console.log("Config is work! data: ", data)
     })
     // document.cookie = `report-paginator-page=${pageCont}`
   }
@@ -736,17 +728,13 @@ export class ReportsListComponent implements OnInit, OnDestroy {
     }
 
     this.configPost.ConfigPost(configData).subscribe((data) => {
-      console.log("Config is work! data: ", data)
       let configData = JSON.parse(localStorage.getItem('Config'))
 
       let configIndex = configData.findIndex(x => x.GroupName == 'Отображение отчёта')
-      console.log('test', configIndex)
 
       configData[configIndex] = data
-      console.log('configData', configData)
     },
     () => {
-      console.log("Config dont work! ")
     }
     )
     // if(document.cookie == "report-view-module=grid"){

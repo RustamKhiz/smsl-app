@@ -26,12 +26,23 @@ export class TokenInterseptor implements HttpInterceptor , OnInit{
   }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>{
       if (this.auth.isAuthenticated()){
+        if (this.hash.onHash() != ""){
           req = req.clone({
-              setHeaders:{
-                  Authorization: 'Bearer ' + this.auth.getToken(),
-                  SignalHash:this.hash.onHash() //this.hash.onHash("hash")
-              }
-          })
+            setHeaders:{
+                Authorization: 'Bearer ' + this.auth.getToken(),
+                SignalHash:this.hash.onHash()
+                //this.hash.onHash("hash")
+            }
+        })
+        } else {
+          req = req.clone({
+            setHeaders:{
+                Authorization: 'Bearer ' + this.auth.getToken(),
+                // SignalHash:this.hash.onHash()
+                //this.hash.onHash("hash")
+            }
+        })
+        }
       }
       return next.handle(req).pipe(
         catchError((err: HttpErrorResponse) => {

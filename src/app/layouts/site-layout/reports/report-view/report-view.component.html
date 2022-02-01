@@ -1,14 +1,17 @@
 <div class="title-wrap">
 
     <p class="reports-title" style="display: inline; padding-left: 5px;">
-        <mat-icon (click)="arrowBack()" style="cursor: pointer;">arrow_back</mat-icon>Отчет № {{reportView.Id + ", " + getSubLockName(reportView) }}
-        <span class="chief-name"> {{getChiedName(reportView) + ", от " + FormatDate(reportView.DataReport)}} </span>
+        <mat-icon (click)="arrowBack()" style="cursor: pointer;">arrow_back</mat-icon>Отчет № {{reportView.Id + ", " + SubLockName }}
+        <span class="chief-name"> {{ChiefName + ", от " + FormatDate(reportView.DataReport)}} </span>
     </p>
+    <div class="div" *ngIf="AccessLevelCheck(reportView)"><button style="" type="submit" mat-raised-button (click)="ReportRed()" color="accent" *ngIf="AccessLevelCheck(reportView)"> Редактировать <mat-icon style="margin-left: 10px;">edit</mat-icon> </button></div>
+
+
     <div class="reports-button-navigate">
-        <button style="margin-right: 22px;" [disabled]="!nearbyReport.IsPrev" [matTooltip]="nearbyPrevTooltip()" (click)="prevReport()" mat-mini-fab color="accent" aria-label="Example icon button with a plus one icon">
+        <button style="margin-right: 22px;" [disabled]="!nearbyReport.IsPrev" [matTooltip]="nearbyPrevAction" (click)="prevReport()" mat-mini-fab color="accent" aria-label="Example icon button with a plus one icon">
         <mat-icon>navigate_before</mat-icon>
       </button>
-        <button mat-mini-fab color="accent" [disabled]="!nearbyReport.IsNext" [matTooltip]="nearbyNextTooltip()" matTooltip="Info about the action" (click)="nextReport()" aria-label="Example icon button with a plus one icon">
+        <button mat-mini-fab color="accent" [disabled]="!nearbyReport.IsNext" [matTooltip]="nearbyNextAction" matTooltip="Info about the action" (click)="nextReport()" aria-label="Example icon button with a plus one icon">
         <mat-icon>navigate_next</mat-icon>
       </button>
     </div>
@@ -67,7 +70,7 @@
         </mat-accordion>
 
         <p class="title"> Прикрепленные файлы </p>
-        <div class="example-container mat-elevation-z8" *ngIf="reportView.CwrFiles.length != 0">
+        <div class="example-container mat-elevation-z8" *ngIf="">
             <table mat-table [dataSource]="reportView.CwrFiles">
 
                 <ng-container matColumnDef="№">
@@ -79,11 +82,6 @@
                     <th mat-header-cell *matHeaderCellDef> Имя </th>
                     <td mat-cell *matCellDef="let element"> {{element.DisplayName}} </td>
                 </ng-container>
-
-                <!-- <ng-container matColumnDef="Size" >
-                    <th mat-header-cell *matHeaderCellDef> Размер </th>
-                    <td mat-cell *matCellDef="let element"> Неизвестно </td>
-                </ng-container> -->
 
                 <ng-container matColumnDef="Save">
                     <th mat-header-cell *matHeaderCellDef> Скачать </th>
@@ -97,37 +95,33 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns4;"></tr>
             </table>
         </div>
-        <div class="file-empty" *ngIf="reportView.CwrFiles.length == 0">
+        <div class="file-empty" *ngIf="">
             <span>Файлы отсутствуют</span>
         </div>
     </mat-tab>
+
     <mat-tab label="Проконтролировано">
-        <!-- <p class="title"> Проконтролировано </p> -->
         <div class="example-container mat-elevation-z8">
             <table mat-table [dataSource]="reportView.CwrWorks" matSort>
 
-                <!-- Position Column -->
                 <ng-container matColumnDef="№">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> № </th>
                     <td mat-cell *matCellDef="let element, index as i"> {{i+1}} </td>
                 </ng-container>
 
-                <!-- Name Column -->
                 <ng-container matColumnDef="MethodControl">
                     <th mat-header-cell *matHeaderCellDef> Метод </th>
                     <td mat-cell *matCellDef="let element"> {{element.MethodControl}} </td>
                 </ng-container>
 
-                <!-- Weight Column -->
                 <ng-container matColumnDef="Customer.NameRu">
                     <th mat-header-cell *matHeaderCellDef> Заказчик </th>
                     <td mat-cell *matCellDef="let element"> {{element.Customer.NameRu}} </td>
                 </ng-container>
 
-                <!-- Symbol Column -->
                 <ng-container matColumnDef="reportView.CwrWorks.CwrWorkPersonals">
                     <th mat-header-cell *matHeaderCellDef> Персонал </th>
-                    <td mat-cell *matCellDef="let element, index as i"> <span *ngFor="let pers of reportView.CwrWorks[i].CwrWorkPersonals, index as j">{{pers.Personal.SmalFio + "; "}} <br> </span> </td>
+                    <td mat-cell *matCellDef="let element, index as i"> <span *ngFor="let pers of reportView.CwrWorks[i].CwrWorkPersonals, index as j ">{{pers.Personal.SmalFio + "; "}} <br> </span> </td>
                 </ng-container>
 
                 <ng-container matColumnDef="reportView.CwrWorks.CwrWorkEquipments">
@@ -153,17 +147,16 @@
         </div>
     </mat-tab>
     <mat-tab label="Персонал на объекте">
-        <!-- <p class="title"> Персонал на объекте </p> -->
         <div class="example-container mat-elevation-z8">
-            <table mat-table [dataSource]="reportView.CwrPersonals">
+            <table mat-table [dataSource]="this.reportView.CwrPersonals">
 
                 <ng-container matColumnDef="№">
-                    <th mat-header-cell *matHeaderCellDef style="width: 30px;"> № </th>
+                    <th mat-header-cell *matHeaderCellDef style="width: 30px;" sortActionDescription="Sort by number"> № </th>
                     <td mat-cell *matCellDef="let element, index as i"> {{i+1}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="Personal.Fio">
-                    <th mat-header-cell *matHeaderCellDef> ФИО </th>
+                    <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by name"> ФИО </th>
                     <td mat-cell *matCellDef="let element"> {{element.Personal.SmalFio}} </td>
                 </ng-container>
                 <ng-container matColumnDef="CwrStatusFromPersonalsWork">
@@ -185,8 +178,9 @@
             </table>
         </div>
     </mat-tab>
+
+
     <mat-tab label="Оборудование на объекте">
-        <!-- <p class="title"> Оборудование на объекте </p> -->
         <div class="example-container mat-elevation-z8">
             <table mat-table [dataSource]="reportView.CwrEquipments">
 

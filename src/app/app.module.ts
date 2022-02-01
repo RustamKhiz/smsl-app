@@ -67,6 +67,7 @@ import { SupportComponent } from './layouts/site-layout/support/support.componen
 import { DialogInfoComponent } from './layouts/classes/dialog/dialog-info/dialog-info.component';
 import {LoaderPopupComponent} from './layouts/classes/loader/loader-popup/loader-popup.component';
 import { NewAlertComponent } from './layouts/classes/new-alert/new-alert.component'
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [
@@ -96,7 +97,7 @@ import { NewAlertComponent } from './layouts/classes/new-alert/new-alert.compone
     SupportComponent,
     DialogInfoComponent,
     LoaderPopupComponent,
-    NewAlertComponent
+    NewAlertComponent,
   ],
   imports: [
     BrowserModule,
@@ -135,7 +136,8 @@ import { NewAlertComponent } from './layouts/classes/new-alert/new-alert.compone
     MatPaginatorModule,
     MatSidenavModule,
     MatExpansionModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatSortModule
   ],
   providers: [
     {

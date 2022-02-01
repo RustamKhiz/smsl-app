@@ -26,7 +26,7 @@ export class SignalService {
   public Id: string
 
   private _onConnect = new EventDispatcher<string, number>();
-  private SignalHash : string
+  private SignalHash : string = ""
   private _onUserConnect = new EventDispatcher<string, number>();
   testName: null
   constructor(  private http: HttpClient, private afteraut: afterlogServices, private router: Router) {

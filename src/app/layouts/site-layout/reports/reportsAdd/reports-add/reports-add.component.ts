@@ -12,6 +12,7 @@ import { ReportRed } from 'src/app/layouts/services/report-red.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Byte } from '@angular/compiler/src/util';
 import { formatDate } from '@angular/common';
+import { ReportGet } from 'src/app/layouts/services/report-get.service';
 
 
 
@@ -36,7 +37,7 @@ export class CwrPersonals{
   constructor(public Id: number,
               public PersonalId: number,
               public CwrId: number,
-              public Personal: string,
+              public Personal: any,
               public CwrStatusFromPersonals: [{ Id: number, CwrStatusId: number, CwrPersonalId: number, DisplayName: string}],
               public PersonalStatus: string,
               public ForTabPerStatusId: number,
@@ -192,7 +193,7 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
         IsSelect = true
         this.StatusDataWork.push(new NewDropdown(Id, Name, Display, IsSelect))
       }
-      console.log("StatusDataWork: ",this.StatusDataWork)
+      // console.log("StatusDataWork: ",this.StatusDataWork)
       for (let i = 0; i < this.status.length; i++) {
         Id = this.status[i].Id
         Name = this.status[i].DisplayName
@@ -279,11 +280,12 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
         this.EquipmentName = ""
         this.Comment = CwrWorksLoc.CwrWorks[i].Comment
         this.reportsCards.push(new CwrWorks(this.Id, this.MethodControl,this.MethodControlId,this.CustomerId, this.Shown, this.Made, this.CwrId, this.CwrWorkPersonals, this.CwrWorkEquipments, this.Customer, this.PersonalName, this.EquipmentName, this.Comment))
-        console.log("this.reportsCards", this.reportsCards)
 
         this.CwrWorkPersonals = [] //ОЧЕНЬ ВАЖНОЕ ОБНУЛЕНИЕ
         this.CwrWorkEquipments = [] //ОЧЕНЬ ВАЖНОЕ ОБНУЛЕНИЕ
       }
+      console.log("this.reportsCards", this.reportsCards)
+
 
       for (let i = 0; i < CwrWorksLoc.CwrPersonals.length; i++) {
         this.Id = CwrWorksLoc.CwrPersonals[i].Id
@@ -293,14 +295,21 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
         for (let j = 0; j < CwrWorksLoc.CwrPersonals[i].CwrStatusFromPersonals.length; j++) {
           this.CwrStatusFromPersonals[j] = { Id: 0, CwrStatusId: CwrWorksLoc.CwrPersonals[i].CwrStatusFromPersonals[j].CwrPesonalStatus.Id, CwrPersonalId: 0, DisplayName: CwrWorksLoc.CwrPersonals[i].CwrStatusFromPersonals[j].CwrPesonalStatus.DisplayName}
         }
-        this.ForTabPerStatusId = CwrWorksLoc.CwrPersonals[i].ForTabPerStatusId;
+        if (CwrWorksLoc.CwrPersonals[i].ForTabPerStatusId == null){
+          this.ForTabPerStatusId == 18
+        } else this.ForTabPerStatusId = CwrWorksLoc.CwrPersonals[i].ForTabPerStatusId;
+        // this.ForTabPerStatusId = CwrWorksLoc.CwrPersonals[i].ForTabPerStatusId;
         let ForTabPerStatusNameFind = this.statusWork.find(x => x.Id == this.ForTabPerStatusId)
-        console.log("ForTabPerStatusNameFind: ", ForTabPerStatusNameFind)
-        this.ForTabPerStatusName = ForTabPerStatusNameFind.DisplayName
-        console.log("ForTabPerStatusName: ", this.ForTabPerStatusName)
+        // console.log("ForTabPerStatusNameFind: ", ForTabPerStatusNameFind)
+        if (ForTabPerStatusNameFind == undefined){
+          this.ForTabPerStatusName = 'Работа'
+        } else this.ForTabPerStatusName = ForTabPerStatusNameFind.DisplayName
+        // this.ForTabPerStatusName = ForTabPerStatusNameFind.DisplayName
+        // console.log("ForTabPerStatusName: ", this.ForTabPerStatusName)
         this.Comment2 = CwrWorksLoc.CwrPersonals[i].Comment
         this.reportsPers.push(new CwrPersonals(this.Id, this.PersonalId, this.CwrId, this.Personal, this.CwrStatusFromPersonals, this.PersonalStatus, this.ForTabPerStatusId, this.ForTabPerStatusName, this.PersonalStatusName, this.Comment2))
         this.CwrStatusFromPersonals = []
+        this.sortPers()
       }
       for (let i = 0; i < CwrWorksLoc.CwrEquipments.length; i++) {
         this.Id = CwrWorksLoc.CwrEquipments[i].Id
@@ -317,7 +326,10 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
         }
 
         this.reportEquip.push(new CwrEquipments(this.Id, this.EquipmentId, this.Status, this.StatusId, this.CwrId, this.CwrEquipments, this.Comment3))
+
       }
+      console.log("this.reportEquip", this.reportEquip)
+
       for (let i = 0; i < CwrWorksLoc.CwrFiles.length; i++) {
         this.Id = CwrWorksLoc.CwrFiles[i].Id
         this.OriginalName = CwrWorksLoc.CwrFiles[i].OriginalName
@@ -347,7 +359,7 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit(){
   }
 
-  constructor(private rep: ReportAdd,  private router: Router, private repRed: ReportRed, private snackBar: MatSnackBar) { }
+  constructor(private rep: ReportAdd,  private router: Router, private repRed: ReportRed, private snackBar: MatSnackBar, private repGet: ReportGet) { }
 
   //начало объявления переменных для CwrWorks
   MethodControl: string = ""
@@ -526,12 +538,21 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
   PersonalAddName: string
   PersonalAdd($event){ //метод получения данных из dropdown
     console.log("$event PersonalAddId: ", $event.valueId)
-    console.log("$event PersonalAddName: ", $event.valueName)
+    for (let i = 0; i < this.reportsPers.length; i++) {
+      if ($event.valueId == this.reportsPers[i].PersonalId){
+        this.CwrPersonalCtrl.setErrors(['equal'])
+      }
+    }
+    // if (this.CwrPersonalCtrl.errors){
+    //   console.log(' this.CwrPersonalCtrl: ',  this.CwrPersonalCtrl)
+    // }
+    // if (this.CwrPersonalCtrl.hasError('equal')){
+    //   console.log(' this.CwrPersonalCtrl: equal',  this.CwrPersonalCtrl)
+    // }
     this.PersonalAddName = ""
     this.PersonalAddName = $event.valueName
     this.PersonalAddId = 0
     this.PersonalAddId = $event.valueId
-    console.log("PersonalAddName: ", this.PersonalAddName)
   }
   StatusItem = []
   StatusItemDisplayName = []
@@ -570,7 +591,6 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
   //конец объявления контролов для CwrPersonals
 
   addOnPopup2(){ //метод добавления в CwrPersonals
-    console.log('this.StatusWorkCtrl.value: ', this.StatusWorkCtrl.value)
     this.CwrStatusFromPersonals = [{Id: 0, CwrStatusId: 0, CwrPersonalId: 0, DisplayName: ""}]
     // this.CwrStatusFromPersonals = [null];
     if (this.StatusCtrl.value !== null){
@@ -582,34 +602,52 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     console.log("CwrStatusFromPersonals", this.CwrStatusFromPersonals )
-    // if ((this.CwrStatusFromPersonals.CwrStatusId == 0) && (this.CwrStatusFromPersonals.DisplayName == "")){
-    //   this.CwrStatusFromPersonals = null;
-    // }
+
     this.ForTabPerStatusId = this.StatusWorkCtrl.value.Id
     this.ForTabPerStatusName = this.StatusWorkCtrl.value.Name
     this.PersonalStatusName = this.PersonalAddName
     this.PersonalId = this.PersonalAddId
     this.Comment2 = this.CommentCtrl2.value
 
-    this.reportsPers.push(new CwrPersonals(this.Id, this.PersonalId, this.CwrId, this.Personal, this.CwrStatusFromPersonals, this.PersonalStatus, this.ForTabPerStatusId, this.ForTabPerStatusName, this.PersonalStatusName, this.Comment2))
-    console.log("this.reportsPers:", this.reportsPers)
+    let equalPers: boolean = false
+
+    if (this.reportsPers.length > 0){
+      for (let i = 0; i < this.reportsPers.length; i++) {
+        if (this.reportsPers[i].PersonalId == this.PersonalId){
+          console.log('незя!!!')
+          this.openSnackBar("Такой пользователь уже добавлен!","ок")
+          equalPers = true
+        }
+      }
+      if (!equalPers){
+        this.reportsPers.push(new CwrPersonals(this.Id, this.PersonalId, this.CwrId, this.Personal, this.CwrStatusFromPersonals, this.PersonalStatus, this.ForTabPerStatusId, this.ForTabPerStatusName, this.PersonalStatusName, this.Comment2))
+        console.log("this.reportsPers:", this.reportsPers)
+      }
+    } else {
+      this.reportsPers.push(new CwrPersonals(this.Id, this.PersonalId, this.CwrId, this.Personal, this.CwrStatusFromPersonals, this.PersonalStatus, this.ForTabPerStatusId, this.ForTabPerStatusName, this.PersonalStatusName, this.Comment2))
+      console.log("this.reportsPers:", this.reportsPers)
+    }
+
+    // this.reportsPers.push(new CwrPersonals(this.Id, this.PersonalId, this.CwrId, this.Personal, this.CwrStatusFromPersonals, this.PersonalStatus, this.ForTabPerStatusId, this.ForTabPerStatusName, this.PersonalStatusName, this.Comment2))
+    // console.log("this.reportsPers:", this.reportsPers)
 
     this.popupClose2()
     console.log('this.StatusWorkCtrl.value: ', this.StatusWorkCtrl.value)
-
   }
 
   //начало объявления переменных для CwrEquipments
   EquipmentsItem: number = 0
   EquipmentsItemFullNameNumber: string = ""
   EquipmentAdd($event){ //метод получения данных из dropdown
-    console.log("$event EquipmentsItem: ", $event.valueId)
-    console.log("$event EquipmentsItemFullNameNumber: ", $event.valueName)
+    for (let i = 0; i < this.reportEquip.length; i++) {
+      if ($event.valueId == this.reportEquip[i].EquipmentId){
+        this.CwrEquipmentslCtrl.setErrors(['equal'])
+      }
+    }
     this.EquipmentsItemFullNameNumber = ""
     this.EquipmentsItemFullNameNumber = $event.valueName
     this.EquipmentsItem = 0
     this.EquipmentsItem = $event.valueId
-    console.log("EquipmentsItemFullNameNumber: ", this.EquipmentsItemFullNameNumber)
   }
 
   StatusEqAdd($event){ //метод получения данных из dropdown
@@ -639,9 +677,28 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
     this.CwrEquipments = this.EquipmentsItemFullNameNumber
     this.EquipmentId = this.EquipmentsItem
     this.Comment3 = this.CommentCtrl3.value
-    // this.Status = ""
-    this.reportEquip.push(new CwrEquipments(this.Id, this.EquipmentId, this.Status, this.StatusId, this.CwrId, this.CwrEquipments, this.Comment3))
-    console.log("reportEquip: ",this.reportEquip)
+
+    let equalEquip: boolean = false
+
+    if (this.reportEquip.length > 0){
+      for (let i = 0; i < this.reportEquip.length; i++) {
+        if (this.reportEquip[i].EquipmentId == this.EquipmentId){
+          console.log('незя!!!')
+          this.openSnackBar("Такое оборудование уже добавлено!","ок")
+          equalEquip = true
+        }
+      }
+      if (!equalEquip){
+        this.reportEquip.push(new CwrEquipments(this.Id, this.EquipmentId, this.Status, this.StatusId, this.CwrId, this.CwrEquipments, this.Comment3))
+        console.log("this.reportEquip:", this.reportEquip)
+      }
+    } else {
+        this.reportEquip.push(new CwrEquipments(this.Id, this.EquipmentId, this.Status, this.StatusId, this.CwrId, this.CwrEquipments, this.Comment3))
+        console.log("this.reportEquip:", this.reportEquip)
+    }
+
+    // this.reportEquip.push(new CwrEquipments(this.Id, this.EquipmentId, this.Status, this.StatusId, this.CwrId, this.CwrEquipments, this.Comment3))
+    // console.log("reportEquip: ",this.reportEquip)
     this.popupClose3();
   }
 
@@ -797,7 +854,9 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
         (repRed) => {
           this.openSnackBar("Отчет отредактирован!", "Ok")
           console.log("Отчет отредактирован! ", repRed)
-          this.router.navigate(['/reports/list'])
+          console.log('repRed.Id: ', repRed.Id)
+          this.ReportView(repRed.Id)
+          // this.router.navigate(['/view-report'])
           this.loading = false
         },
         error => {
@@ -808,7 +867,21 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
       )
     }
   }
-
+  getViewRepSub: Subscription
+  ReportView(reportId){ //Открыть конкретный отчёт для просмотра
+    // this.getViewRepSub = this.repGet.repGetNearby(reportId).subscribe(
+    //   (reportIdData)=>{
+        // let newReportIdData = JSON.stringify(reportIdData)
+        // localStorage.setItem('ReportViewData', newReportIdData)
+        console.log('reportId: ', reportId)
+        this.router.navigate(['/view-report'], {
+          queryParams:{
+            id: reportId
+          }
+        })
+    //   }
+    // )
+  }
   ngOnDestroy(){
     if (this.aSub){
       this.aSub.unsubscribe() //отписка от стрима
@@ -986,13 +1059,18 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   CwrEquipmentsRedItemi = 0
+  EquipmentDisplay: boolean = false
   CwrEquipmentsRed(i){ //метод открытия окна редактирования CwrEquipments и получение id конкретного CwrEquipments и заполнение dropdown данными
     this.popOpenRed3 = !this.popOpenRed3
     this.CwrEquipmentsRedItemi = i
 
     this.CwrEquipmentslCtrl.setValue(this.reportEquip[this.CwrEquipmentsRedItemi].EquipmentId)
+    // this.CwrWorkEquipmentsCtrl.value.Display = true
     this.dropdownSelect.dropCH(this.EquipData, this.CwrEquipmentslCtrl.value, this.CwrEquipmentslCtrl)
 
+    this.EquipmentDisplay = this.equipDelCheck(this.reportEquip[this.CwrEquipmentsRedItemi].EquipmentId)
+
+    console.log(' this.CwrEquipmentslCtrl: ',  this.CwrEquipmentslCtrl)
     this.StatusEqCtrl.setValue(this.reportEquip[this.CwrEquipmentsRedItemi].StatusId)
     this.dropdownSelect.dropCH(this.StatusEqData, this.StatusEqCtrl.value, this.StatusEqCtrl)
 
@@ -1023,6 +1101,43 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.CwrPersonalCtrl.errors || this.StatusCtrl.errors || this.StatusWorkCtrl.errors){
       return true
     } else return false
+  }
+  equipValidation(){
+    if (this.CwrEquipmentslCtrl.errors || this.StatusEqCtrl.errors){
+      return true
+    } else return false
+  }
+  sortPers(){
+    this.reportsPers.sort((x, y) => {
+      if (x.PersonalStatusName < y.PersonalStatusName) {return -1;}
+      if (x.PersonalStatusName > y.PersonalStatusName) {return 1;}
+      return 0;
+    })
+  }
+  validEqualPers(){
+    if(this.CwrPersonalCtrl.errors != null){
+      if (this.CwrPersonalCtrl.errors[0] == ['equal']){
+        return true
+      } else return false
+    }else return false
+  }
+  validEqualEquip(){
+    if(this.CwrEquipmentslCtrl.errors != null){
+      if (this.CwrEquipmentslCtrl.errors[0] == ['equal']){
+        return true
+      } else return false
+    }else return false
+  }
+
+  equipDelCheck(EquipmentId){
+    for (let i = 0; i < this.reportsCards.length; i++) {
+      for (let j = 0; j < this.reportsCards[i].CwrWorkEquipments.length; j++) {
+        if (this.reportsCards[i].CwrWorkEquipments[j].EquipmentId == EquipmentId){
+          return false
+        }
+      }
+    }
+    return true
   }
 
   loading = false; //переменная для лоадера
@@ -1177,8 +1292,8 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   popupHiddenRed3(){
     this.popOpenRed3 = false
-    this.CwrPersonalCtrl.reset()
-    this.StatusCtrl.reset()
-    this.CommentCtrl2.reset()
+    this.CwrEquipmentslCtrl.reset()
+    this.StatusEqCtrl.reset()
+    this.CommentCtrl3.reset()
   }
 }

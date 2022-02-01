@@ -59,7 +59,6 @@ export class AutComponent implements OnInit, OnDestroy {
     })
   }
   openSnackBar(message: string, action: string) {
-
     this.snackBar.open(message, action, {
       duration: 3000
     });
@@ -138,9 +137,9 @@ export class AutComponent implements OnInit, OnDestroy {
 
 
         },
-       error => {
+       (error) => {
          this.loading = false;
-         this.openSnackBar("Неверный логин или пароль", "Ok")
+         this.openSnackBar(error.error, "Ok")
         //  console.warn(error)
        },
        () => {

@@ -1,4 +1,4 @@
-<form>
+<!-- <form>
     <p>
         <mat-form-field color="accent">
             <mat-select [formControl]="ItemsMultiCtrl" placeholder="{{placeholder}}" [multiple]="true" #multiSelect (selectionChange)="SelectionOnChange($event)">
@@ -7,18 +7,10 @@
                     </ngx-mat-select-search>
                 </mat-option>
                 <mat-option *ngFor="let item of filteredItemsMulti | async" [value]="item">
-                    <!-- {{ item.FullName + " " + item.Number}} -->
                     {{item.Name}}
                 </mat-option>
             </mat-select>
         </mat-form-field>
     </p>
-    <!-- <p>
-      Selected Pers:
-  </p>
-  <ul *ngFor="let card of ItemsMultiCtrl?.value">
-      <li>{{card.Id}}</li>
-  </ul> -->
-    <!-- <button style="margin-top: 20px;" type="submit">Отправить</button> -->
-</form>
-<!-- card.Name + " " + -->
+
+</form> -->
