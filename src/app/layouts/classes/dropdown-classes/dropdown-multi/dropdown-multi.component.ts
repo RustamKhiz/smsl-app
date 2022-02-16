@@ -153,8 +153,7 @@ export class DropdownMultiComponent implements OnInit, OnDestroy, AfterViewInit 
     let DataName: NewDropdown [] = []
     // console.log("DataName", DataName)
     ctrl.setValue('')
-    // console.log("test ctrl.setValue: ",ctrl.value )
-
+    // console.log("test ctrl.setValue: ",ctrl.value)
 
     for (let i = 0; i < Data.length; i++) {
       for (let j = 0; j < event.length; j++) {
@@ -169,8 +168,6 @@ export class DropdownMultiComponent implements OnInit, OnDestroy, AfterViewInit 
       DataName
     );
 
-
-    // console.log("ctrl: ", ctrl.value)
   }
 
 

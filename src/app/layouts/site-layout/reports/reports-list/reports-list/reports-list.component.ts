@@ -61,7 +61,7 @@ export class ReportsListComponent implements OnInit, OnDestroy {
     SubLocIds: null
   }
 
-  constructor(private repFilter: ReportFilter ,private repAll: ReportAll, private dropDown: DropdownMultiComponent, private router: Router, private repGet: ReportGet, private snackBar: MatSnackBar, private repDel: ReportDel, private changeDetectorRef: ChangeDetectorRef, private configPost: ConfigServ) {
+  constructor(private repFilter: ReportFilter ,private repAll: ReportAll, private router: Router, private repGet: ReportGet, private snackBar: MatSnackBar, private repDel: ReportDel, private changeDetectorRef: ChangeDetectorRef, private configPost: ConfigServ) {
     //задаем начальные значения даты для применения фильтра на старте страницы
     this.Filter.FromDate = this.yesterday
     this.Filter.ToDate = this.today
@@ -71,9 +71,9 @@ export class ReportsListComponent implements OnInit, OnDestroy {
   }
 
   pers = JSON.parse(localStorage.getItem('Personal')) //Получаем данные всех пользователей
-  PersData: NewDropdown [] = []; // Объект с итерфейсом NewDropdown, куда мы в дальнейшем присваиваем пользователей
+  PersData: NewDropdown [] = []; // Объект с интерфейсом NewDropdown, куда мы в дальнейшем присваиваем пользователей
   location = JSON.parse(localStorage.getItem('Locations')) //Получаем данные все локации
-  LocationData: NewDropdown [] = []; // Объект с итерфейсом NewDropdown, куда мы в дальнейшем присваиваем локации
+  LocationData: NewDropdown [] = []; // Объект с интерфейсом NewDropdown, куда мы в дальнейшем присваиваем локации
   GeneralLocations = JSON.parse(localStorage.getItem('GeneralLocations')) //Получаем данные GeneralLocations
 
   loading: boolean = false; // Переменная лоадера
@@ -107,9 +107,7 @@ export class ReportsListComponent implements OnInit, OnDestroy {
 
   ngOnInit(){
     // this.ConfigCookies()
-    if (localStorage.getItem('SaveFilter') != null){
-      this.LoadControls()
-    }
+
     //Заполняем объекты с интерфейсом NewDropdown
     let Id
     let Name
@@ -188,6 +186,7 @@ export class ReportsListComponent implements OnInit, OnDestroy {
             } else {
               this.openSnackBar(`Найдено отчётов: ${this.reportsAll.length}` , "Ok")
             }
+
             //Сортируем получаенные отчеты по дате
             this.reportsAll.sort((a, b) => {
               return moment(a.DataReport).toDate().getTime() > moment(b.DataReport).toDate().getTime() ? 1 : -1;
@@ -209,9 +208,13 @@ export class ReportsListComponent implements OnInit, OnDestroy {
           this.ConnectToPagginList()
           this.loading = false;
           this.openSnackBar(`Последний примененный фильтр. Найдено отчётов: ${this.reportsAll.length} ` , "Ok")
+          if (localStorage.getItem('SaveFilter') != null){
+            this.LoadControls()
+          }
         }
       )
     }
+
       //Приминение кофига
       let config = JSON.parse(localStorage.getItem('Config'))
       let configView: Config = config.find(x => x.GroupName == "Отображение отчёта")
@@ -259,7 +262,7 @@ export class ReportsListComponent implements OnInit, OnDestroy {
     }
     //Проверка дня "от" и "до", если ранвы, то "до" = от + 1 день
     if ((this.FromDateCtrl.value != null)&&(this.ToDateCtrl.value != null)){
-      if (this.FromDateCtrl.value._d.getTime() == this.ToDateCtrl.value._d.getTime()){
+      if (this.FromDateCtrl.value._d?.getTime() == this.ToDateCtrl.value._d?.getTime()){
         const newDate = new Date(this.FromDateCtrl.value);
         const result = new Date(newDate.setDate(newDate.getDate() + 1));
         // console.log(result);
@@ -267,9 +270,12 @@ export class ReportsListComponent implements OnInit, OnDestroy {
         // this.ToDateCtrl.setValue(null)
       }
     }
-
-    const newToDate = new Date(this.ToDateCtrl.value)
-    const newToDateData = new Date(newToDate.setDate(newToDate.getDate() + 1))
+    let newToDate = null
+    let newToDateData = null
+    if (this.FromDateCtrl.value != null){ //установка значения для ToDate +1 день
+     newToDate = new Date(this.ToDateCtrl.value)
+     newToDateData = new Date(newToDate.setDate(newToDate.getDate() + 1))
+    }
 
     //Заполняем фильтр перед отправкой на сервер
     this.Filter = {
@@ -332,12 +338,26 @@ export class ReportsListComponent implements OnInit, OnDestroy {
     localStorage.setItem('SaveFilter', JSON.stringify(SaveControls))
   }
 
+  @ViewChild(DropdownMultiComponent ) dropdownMulti: DropdownMultiComponent;
   LoadControls(){
     let LoadControls = JSON.parse(localStorage.getItem('SaveFilter'))
+    // console.log('LoadControls: ', LoadControls)
     this.FromDateCtrl.setValue(LoadControls.fromDate)
     this.ToDateCtrl.setValue(LoadControls.toDate)
     this.ReportIdCtrl.setValue(LoadControls.reportId)
-    // this.ChiefIdsCtrl.setValue([LoadControls.chiefId])
+
+    let countChief: number [] = []
+    for (let i = 0; i < LoadControls.chiefId?.length; i++) {
+      countChief.push(LoadControls.chiefId[i].Id)
+    }
+    this.dropdownMulti.dropCH(this.PersData, countChief, this.ChiefIdsCtrl)
+
+    let counterSubLoc: number [] = []
+    for (let i = 0; i < LoadControls.subLockId?.length; i++) {
+      counterSubLoc.push(LoadControls.subLockId[i].Id)
+    }
+    this.dropdownMulti.dropCH(this.LocationData, counterSubLoc, this.SubLocIdsCtrl)
+
     // this.SubLocIdsCtrl.setValue(LoadControls.subLockId)
     // console.log('ChiefIdsCtrl', this.ChiefIdsCtrl.value)
   }
@@ -718,6 +738,56 @@ export class ReportsListComponent implements OnInit, OnDestroy {
     })
     // document.cookie = `report-paginator-page=${pageCont}`
   }
+
+  hotFilterSortCtrl: FormControl = new FormControl(null)
+  hotFilterGroupCtrl: FormControl = new FormControl(null)
+  hotFilter(control){
+    console.log(this.reportsAll)
+    if (control == 'sortDate'){
+      this.reportsAll.sort((x, y) => {
+        if (x.DataReport < y.DataReport) {return -1;}
+        if (x.DataReport > y.DataReport) {return 1;}
+        return 0;
+      })
+      this.ConnectToPagginList()
+    }
+    if (control == 'sortNum'){
+      this.reportsAll.sort((x, y) => {
+        if (x.Id < y.Id) {return -1;}
+        if (x.Id > y.Id) {return 1;}
+        return 0;
+      })
+      this.ConnectToPagginList()
+    }
+    if (control == 'groupObj'){
+      this.reportsAll.sort((x, y) => {
+        if (x.GeneralLocation.Id < y.GeneralLocation.Id) {return -1;}
+        if (x.GeneralLocation.Id > y.GeneralLocation.Id) {return 1;}
+        return 0;
+      })
+      this.ConnectToPagginList()
+    }
+    if (control == 'groupDate'){
+      this.reportsAll.sort((x, y) => {
+        if (x.DataReport < y.DataReport) {return -1;}
+        if (x.DataReport > y.DataReport) {return 1;}
+        return 0;
+      })
+      this.ConnectToPagginList()
+    }
+  }
+  titleLockCheck(report: ReportsAll){
+
+    let lockName: string = this.getSubLockName(report)
+
+    return lockName
+    // for (let i = 0; i < this.reportsAll.length; i++) {
+    //   if (this.reportsAll[i].SubLocationId == ){
+
+    //   }
+
+    // }
+  }
   Config(){
     const configData = {
       Id: 0,
@@ -737,14 +807,6 @@ export class ReportsListComponent implements OnInit, OnDestroy {
     () => {
     }
     )
-    // if(document.cookie == "report-view-module=grid"){
-    //   this.viewList = false
-    //   this.viewGrid = true
-    // } else if (document.cookie == "report-view-module=list"){
-    //   this.viewList = true
-    //   this.viewGrid = false
-    // }
-
   }
   ngOnDestroy(){
     if(this.aSub){

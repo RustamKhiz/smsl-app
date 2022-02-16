@@ -40,16 +40,36 @@
         <div class="hot-filter">
             <div class="hot-filter-select">
                 <p><strong>Сортировка: </strong>
-                    <select style="border: unset;" disabled>
-                  <option value="1" selected>Сначала новые</option>
-                  <option value="2">Сначала популярные</option>
-                </select>
+                    <!-- <select style="border: unset;">
+                      <option value="1" selected>Сначала новые</option>
+                      <option value="2">Сначала популярные</option>
+                    </select> -->
+                    <mat-form-field appearance="legacy" color="accent">
+                        <!-- <mat-label>Favorite food</mat-label> -->
+                        <mat-select [formControl]="hotFilterSortCtrl">
+                            <mat-option value="sortDate" (click)="hotFilter(hotFilterSortCtrl.value)">
+                                По дате
+                            </mat-option>
+                            <mat-option value="sortNum" (click)="hotFilter(hotFilterSortCtrl.value)">
+                                По № отчета
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-icon class="hot-filter-icon" (click)="ConnectToPagginList()">compare_arrows</mat-icon>
                 </p>
                 <p><strong>Группировка: </strong>
-                    <select style="border: unset;" disabled>
-                <option value="1" selected>Отсутствует</option>
-                <option value="2">Присутствует</option>
-              </select>
+                    <mat-form-field appearance="legacy" color="accent">
+                        <!-- <mat-label>Favorite food</mat-label> -->
+                        <mat-select [formControl]="hotFilterGroupCtrl">
+                            <mat-option value="groupDate" (click)="hotFilter(hotFilterGroupCtrl.value)">
+                                По датам
+                            </mat-option>
+                            <mat-option value="groupObj" (click)="hotFilter(hotFilterGroupCtrl.value)">
+                                По объектам
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-icon class="hot-filter-icon" (click)="ConnectToPagginList()">compare_arrows</mat-icon>
                 </p>
             </div>
             <div class="hot-filter-view">
@@ -62,18 +82,15 @@
         </div>
 
         <div class="reports" *ngIf="!loading" [ngClass]="{ViewList:!viewList}">
-            <mat-card class="example-card" *ngFor="let report of obs | async, index as i" [ngClass]="{test: newReportView(i)}">
-                <div class="new-report-check">
+            <div class="new-report-check" *ngFor="let report of obs | async, index as i" [ngClass]="{test: newReportView(i)}">
+                <!-- <p class="card-loc-name">{{ titleLockCheck(report)}}</p> -->
+                <mat-card class="example-card">
                     <div class="reports-card-wrap">
                         <img class="reports-card-img" mat-card-lg-image [src]="getLogo(report.GeneralLocationId)">
                         <mat-card-title-group class="reports-card-title-group">
                             <mat-card-title style="line-height: 1.2; cursor: pointer;" (click)="ReportView(report.Id)">
                                 <mat-icon> location_on</mat-icon>{{ getSubLockName(report)}} №{{report.Id}}
                             </mat-card-title>
-                            <!-- <mat-card-title style="font-size: 18px;">
-
-                            </mat-card-title> -->
-
                             <mat-card-subtitle>{{getChiedName(report)}} от {{FormatDate(report.DataReport)}}</mat-card-subtitle>
                             <div>
                                 <div style="display: flex;">
@@ -92,17 +109,14 @@
                                             <button *ngIf="getLength(report.CwrFiles) > 0" class="file-icon" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                                             <mat-icon > attach_file</mat-icon>
                                           </button>
-
                                         </p>
                                         <mat-menu #menu="matMenu">
                                             <div class="file-load-menu" *ngFor="let files of report.CwrFiles">
                                                 <p>{{files.DisplayName}}</p>
                                                 <mat-icon class="file-load-menu-icon" (click)="SaveFile(files)">save_alt</mat-icon>
                                             </div>
-
                                         </mat-menu>
                                     </div>
-
                                 </div>
                                 <div style="display: flex;">
 
@@ -117,32 +131,32 @@
                                     </div>
                                 </div>
                             </div>
-
                         </mat-card-title-group>
                     </div>
-                </div>
-                <mat-card-content class="reports-card-button-wrap">
-                    <div>
-                        <button mat-icon-button class="reports-card-button" [matMenuTriggerFor]="beforeMenu" *ngIf="AccessLevelCheck(report)"><mat-icon >more_vert</mat-icon></button>
-                        <mat-menu #beforeMenu="matMenu" xPosition="before" class="report-context-menu">
-                            <button mat-menu-item (click)="NavigateToRepRed(report.Id)">
+                    <mat-card-content class="reports-card-button-wrap">
+                        <div>
+                            <button mat-icon-button class="reports-card-button" [matMenuTriggerFor]="beforeMenu" *ngIf="AccessLevelCheck(report)"><mat-icon >more_vert</mat-icon></button>
+                            <mat-menu #beforeMenu="matMenu" xPosition="before" class="report-context-menu">
+                                <button mat-menu-item (click)="NavigateToRepRed(report.Id)">
                         <mat-icon class="report-context-icon" >edit</mat-icon>
                         <span>Редактировать</span>
                       </button>
-                            <button mat-menu-item (click)="popupDelOpen(report.Id, report, i)">
+                                <button mat-menu-item (click)="popupDelOpen(report.Id, report, i)">
                         <mat-icon class="report-context-icon" >delete</mat-icon>
                         <span>Удалить</span>
                       </button>
-                        </mat-menu>
-                    </div>
-                    <div class="button-wrap">
-                        <button mat-raised-button color="accent" (click)="ReportView(report.Id)">Подробнее</button>
-                    </div>
-                    <!-- <div class="reports-delete">
+                            </mat-menu>
+                        </div>
+                        <div class="button-wrap">
+                            <button mat-raised-button color="accent" (click)="ReportView(report.Id)">Подробнее</button>
+                        </div>
+                        <!-- <div class="reports-delete">
                     <mat-icon *ngIf="AccessLevelCheck(report)" (click)="popupDelOpen(report.Id, report, i)">delete</mat-icon>
                 </div> -->
-                </mat-card-content>
-            </mat-card>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+
         </div>
         <!-- ___________ReportGridView____________ -->
         <div class="reports grid-view-reports" *ngIf="!loading" [ngClass]="{ViewList:!viewGrid}">

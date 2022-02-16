@@ -1,0 +1,17 @@
+<div class="container" [ngClass]="{open:repDeleteWind}">
+    <div class="area-wrap"></div>
+    <div class="body">
+        <div class="content">
+            <p class="title">
+                {{title}}
+            </p>
+            <p class="subtitle">
+                {{subtitle}}
+            </p>
+            <div class="btn-wrap">
+                <button mat-flat-button type="button" color="accent" (click)="onNext()">{{btnText}}</button>
+            </div>
+
+        </div>
+    </div>
+</div>

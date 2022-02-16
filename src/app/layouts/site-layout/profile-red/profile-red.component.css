@@ -10,7 +10,7 @@
     border: 1px #ffdc69 solid;
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .06), 0 2px 5px 0 rgba(0, 0, 0, .2);
     margin-left: 60px;
-    max-width: 100%;
+    width: 100%;
     border-radius: 5px;
     height: 500px;
 }
@@ -45,4 +45,9 @@
     padding: 5px;
     font-size: 20px;
     line-height: 1.3;
+}
+
+.developing {
+    text-align: center;
+    font-size: 30px;
 }

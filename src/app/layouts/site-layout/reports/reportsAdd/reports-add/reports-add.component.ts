@@ -905,10 +905,15 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
     this.CustomerCtrl.setValue(this.reportsCards[this.CwrWorksRedItemi].CustomerId)
     this.dropdownSelect.dropCH(this.CustomerData, this.CustomerCtrl.value, this.CustomerCtrl)
 
+
+
     let countPers: number []=[]
     for (let j = 0; j < this.reportsCards[this.CwrWorksRedItemi].CwrWorkPersonals.length; j++) {
       countPers.push(this.reportsCards[this.CwrWorksRedItemi].CwrWorkPersonals[j].PersonalId)
     }
+    console.log("PersData: ", this.PersData)
+    console.log("countPers: ", countPers)
+    console.log("CwrWorkPersonalsCtrl: ", this.CwrWorkPersonalsCtrl)
     this.dropdownMulti.dropCH(this.PersData, countPers, this.CwrWorkPersonalsCtrl)
     console.log("CwrWorkPersonalsCtrl: ", this.CwrWorkPersonalsCtrl)
 

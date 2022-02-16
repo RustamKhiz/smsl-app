@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-profile-red',
@@ -24,6 +25,18 @@ export class ProfileRedComponent implements OnInit {
   DefId: string = this.userData.MyPerson.Personal.DefId
 
   constructor() {}
+
+  persLogoLarge(pers){
+    let logoAdress;
+
+    if (pers.IsLogo == true){
+      logoAdress = `${environment.apiUrl}/api/personal/logo?id=${pers.Id}&size=middle&base64=false`
+      return logoAdress
+    } else {
+      logoAdress = "../../../../assets/profile.png"
+      return logoAdress
+    }
+  }
 
   ngOnInit(): void {
     console.log("userData: ", this.userData)

@@ -150,3 +150,15 @@ body {
 .mat-drawer {
     overflow-x: hidden;
 }
+
+.mat-select-value-text {
+    font-size: 14px !important;
+}
+
+.mat-form-field-infix {
+    padding: 5px 0 !important;
+}
+
+.mat-paginator-container {
+    background-color: #fafafa;
+}

@@ -29,7 +29,8 @@
                     <button mat-raised-button color="accent" class="send-button" (click)="sortPers()">Сортировка персонала</button>
                 </div>
                 <div class="reports-submit">
-                    <button mat-raised-button color="accent" class="send-button" (click)="reportSubmit()" [disabled]="LocationCtrl.hasError('required') || ChiefCtrl.hasError('required') || DataReportCtrl.hasError('required') || (reportsCards.length == 0) || (reportsPers.length == 0) || (reportEquip.length == 0)">Отправить</button>
+                    <button mat-raised-button color="accent" class="send-button" (click)="reportSubmit()" [disabled]="LocationCtrl.hasError('required') || ChiefCtrl.hasError('required') || DataReportCtrl.hasError('required') || (reportsPers.length == 0)">Отправить</button>
+                    <!-- LocationCtrl.hasError('required') || ChiefCtrl.hasError('required') || DataReportCtrl.hasError('required') || (reportsCards.length == 0) || (reportsPers.length == 0) || (reportEquip.length == 0) -->
                 </div>
             </div>
 

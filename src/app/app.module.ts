@@ -68,6 +68,7 @@ import { DialogInfoComponent } from './layouts/classes/dialog/dialog-info/dialog
 import {LoaderPopupComponent} from './layouts/classes/loader/loader-popup/loader-popup.component';
 import { NewAlertComponent } from './layouts/classes/new-alert/new-alert.component'
 import { MatSortModule } from '@angular/material/sort';
+import { AlertNotifComponent } from './layouts/classes/alert-notif/alert-notif.component';
 
 @NgModule({
   declarations: [
@@ -98,6 +99,7 @@ import { MatSortModule } from '@angular/material/sort';
     DialogInfoComponent,
     LoaderPopupComponent,
     NewAlertComponent,
+    AlertNotifComponent,
   ],
   imports: [
     BrowserModule,

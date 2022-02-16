@@ -70,7 +70,7 @@
         </mat-accordion>
 
         <p class="title"> Прикрепленные файлы </p>
-        <div class="example-container mat-elevation-z8" *ngIf="">
+        <div class="example-container mat-elevation-z8" *ngIf="FileEmptyCheck()">
             <table mat-table [dataSource]="reportView.CwrFiles">
 
                 <ng-container matColumnDef="№">
@@ -95,13 +95,13 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns4;"></tr>
             </table>
         </div>
-        <div class="file-empty" *ngIf="">
+        <div class="file-empty" *ngIf="!FileEmptyCheck()">
             <span>Файлы отсутствуют</span>
         </div>
     </mat-tab>
 
     <mat-tab label="Проконтролировано">
-        <div class="example-container mat-elevation-z8">
+        <div class="example-container mat-elevation-z8" *ngIf="worksEmptyCheck()">
             <table mat-table [dataSource]="reportView.CwrWorks" matSort>
 
                 <ng-container matColumnDef="№">
@@ -145,6 +145,9 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
         </div>
+        <div class="file-empty" *ngIf="!worksEmptyCheck()">
+            <span>Работы не проводились</span>
+        </div>
     </mat-tab>
     <mat-tab label="Персонал на объекте">
         <div class="example-container mat-elevation-z8">
@@ -181,7 +184,7 @@
 
 
     <mat-tab label="Оборудование на объекте">
-        <div class="example-container mat-elevation-z8">
+        <div class="example-container mat-elevation-z8" *ngIf="equipEmptyCheck()">
             <table mat-table [dataSource]="reportView.CwrEquipments">
 
                 <ng-container matColumnDef="№">
@@ -207,6 +210,9 @@
                 <tr mat-header-row *matHeaderRowDef="displayedColumns3; sticky: true"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns3;"></tr>
             </table>
+        </div>
+        <div class="file-empty" *ngIf="!equipEmptyCheck()">
+            <span>Оборудование отсутствует</span>
         </div>
     </mat-tab>
 </mat-tab-group>

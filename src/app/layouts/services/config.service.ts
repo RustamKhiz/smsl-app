@@ -13,7 +13,7 @@ export class ConfigServ {
   constructor(private http: HttpClient){
   }
   ConfigPost(configData){
-    console.log("configData: ", configData)
+    // console.log("configData: ", configData)
     return this.http.post<any>(`${environment.apiUrl}/api/baseapp/userprop`, configData)
   }
 }

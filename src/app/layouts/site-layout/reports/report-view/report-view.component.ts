@@ -413,7 +413,7 @@ export class ReportViewComponent implements OnInit, OnDestroy, AfterViewInit {
   nearbyPrevAction;
   nearbyNextAction;
   ngOnInit ()  {
-    let id: number = 0;
+    let id: number;
     this.sub = this.queryRoute.queryParams.subscribe((params) => {
       id = params['id']
     })
@@ -584,30 +584,17 @@ export class ReportViewComponent implements OnInit, OnDestroy, AfterViewInit {
   prevReport(){
     this.loader = true
     console.log('this.reportViewFull.Prev.Id', this.reportViewFull.Prev.Id)
-    // this.getRepSub = this.repGet.repGetNearby(this.reportViewFull.Prev.Id).subscribe(
-    //   (reportIdData)=>{
-    //     let newReportIdData = JSON.stringify(reportIdData)
-    //     localStorage.setItem('ReportViewData', newReportIdData)
-    //     console.log("reportViewData: ", reportIdData)
-    //     this.router.navigate(['/view-report'], {
-    //       queryParams:{
-    //         id: this.reportViewFull.Prev.Id
-    //       }
-    //     })
-    //     this.ngOnInit()
 
-    //   },
-    //   () => {
-    //   }
-    // )
     this.router.navigate(['/view-report'], {
             queryParams:{
               id: this.reportViewFull.Prev.Id
             }
           })
-          this.reportRedSub.unsubscribe()
-          this.sub.unsubscribe()
-          this.ngOnInit()
+    // this.reportRedSub.unsubscribe()
+    // this.sub.unsubscribe()
+    setTimeout(()=>{
+      this.ngOnInit()
+    },0)
 
   }
   nextReport(){
@@ -622,7 +609,9 @@ export class ReportViewComponent implements OnInit, OnDestroy, AfterViewInit {
             id: this.reportViewFull.Next.Id
           }
         })
-        this.ngOnInit()
+        setTimeout(()=>{
+          this.ngOnInit()
+        },0)
       },
       () => {
       }
@@ -700,6 +689,24 @@ export class ReportViewComponent implements OnInit, OnDestroy, AfterViewInit {
       return false
     }
   }
+  FileEmptyCheck(){
+    if (this.reportView.CwrFiles.length > 0){
+      return true
+    } else return false
+  }
+
+  worksEmptyCheck(){
+    if (this.reportView.CwrWorks.length > 0){
+      return true
+    } else return false
+  }
+
+  equipEmptyCheck(){
+    if (this.reportView.CwrEquipments.length > 0){
+      return true
+    } else return false
+  }
+
   ngOnDestroy(){
     if (this.getRepSub){
       this.getRepSub.unsubscribe()

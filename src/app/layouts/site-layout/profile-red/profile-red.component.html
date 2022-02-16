@@ -2,7 +2,7 @@
 
     <div class="title">Профиль</div>
     <div class="profle-wrap-flex">
-        <img class="profile-photo" src="assets/personal_prifile_icon.png">
+        <img class="profile-photo" [src]="persLogoLarge(this.userData.MyPerson.Personal)">
         <div class="input-wrap">
             <div style="display: flex; justify-content: flex-end; padding: 10px 10px 0 0;">
                 <button mat-button disabled style="min-width: 0; padding: 0; color: white;"> <mat-icon  style="color: white;" >edit</mat-icon></button>
@@ -19,10 +19,18 @@
                         <p><strong>Участок: </strong>{{Organization}}</p>
                     </div>
                 </mat-tab>
-                <mat-tab label="Задачи" disabled>Раздел в разработке</mat-tab>
-                <mat-tab label="Статистика" disabled>Раздел в разработке</mat-tab>
-                <mat-tab label="Таблица" disabled>Раздел в разработке</mat-tab>
-                <mat-tab label="Таблица" disabled>Раздел в разработке</mat-tab>
+                <mat-tab label="Задачи">
+                    <p class="developing">Раздел в разработке</p>
+                </mat-tab>
+                <mat-tab label="Статистика" disabled>
+                    <p class="developing">Раздел в разработке</p>
+                </mat-tab>
+                <mat-tab label="Таблица" disabled>
+                    <p class="developing">Раздел в разработке</p>
+                </mat-tab>
+                <mat-tab label="Таблица" disabled>
+                    <p class="developing">Раздел в разработке</p>
+                </mat-tab>
             </mat-tab-group>
 
 

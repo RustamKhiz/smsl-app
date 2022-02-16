@@ -5,7 +5,7 @@
     /* max-width: 1280px;
     min-width: 600px; */
     width: 968px;
-    height: 33px;
+    height: 44px;
     background: #FFFFFF;
     border: 1px solid #FCC300;
     box-sizing: border-box;
@@ -26,6 +26,11 @@
 
 .hot-filter-select {
     display: flex;
+}
+
+.hot-filter-icon {
+    transform: rotate(90deg);
+    cursor: pointer;
 }
 
 .filter-label-wrap {
