@@ -78,7 +78,8 @@
             </div>
         </div>
         <div class="loader" *ngIf="loading">
-            <mat-spinner color="accent"></mat-spinner>
+            <!-- <mat-spinner color="accent"></mat-spinner> -->
+            <app-loader-logo [show]="loading"></app-loader-logo>
         </div>
 
         <div class="reports" *ngIf="!loading" [ngClass]="{ViewList:!viewList}">
@@ -278,7 +279,7 @@
                     <div>
                         <button mat-icon-button class="reports-card-button" [matMenuTriggerFor]="beforeMenu" *ngIf="AccessLevelCheck(report)"><mat-icon >more_vert</mat-icon></button>
                         <mat-menu #beforeMenu="matMenu" xPosition="before" class="report-context-menu">
-                            <button mat-menu-item (click)="NavigateToRepRed(i)">
+                            <button mat-menu-item (click)="NavigateToRepRedMobile(report.Id)">
                               <mat-icon class="report-context-icon" >edit</mat-icon>
                               <span>Редактировать</span>
                             </button>
@@ -319,7 +320,8 @@
 </div>
 
 <div class="loader-flex" *ngIf="loading">
-    <mat-spinner color="accent"></mat-spinner>
+    <!-- <mat-spinner color="accent"></mat-spinner> -->
+    <app-loader-logo [show]="loading"></app-loader-logo>
 </div>
 <!-- FilterMobile -->
 <div class="reports-popup " [ngClass]="{open:filterMobileCheck}">
@@ -329,16 +331,16 @@
             <p class="reports-filter-title">Фильтры</p>
             <div class="filter-label-wrap">
                 <label>Выберите дату</label>
-                <app-date-input [startCtrl]="FromDateCtrl" [endCtrl]="ToDateCtrl" (SelectFromDate)="FromDateItem($event)" (SelectToDate)="ToDateItem($event)"></app-date-input>
+                <app-date-input class="date-wrap" [startCtrl]="FromDateCtrl" [endCtrl]="ToDateCtrl" (SelectFromDate)="FromDateItem($event)" (SelectToDate)="ToDateItem($event)"></app-date-input>
                 <label>Номер отчёта</label>
                 <mat-form-field class="example-full-width" appearance="fill" color="accent">
                     <mat-label>Введите номер отчета</mat-label>
                     <input matInput placeholder="Номер отчета" [formControl]="ReportIdCtrl">
                 </mat-form-field>
                 <label>Ответственный</label>
-                <app-dropdown-multi [ItemsData]="PersData" [ItemsMultiCtrl]="ChiefIdsCtrl" [allItemsSize]="PersData.length" [placeholder]="'Выберите сотрудников'" (itemSelect)="PersFilterIdAdd($event)" style="width: 95%;"></app-dropdown-multi>
+                <app-dropdown-multi [ItemsData]="PersData" [ItemsMultiCtrl]="ChiefIdsCtrl" [allItemsSize]="PersData.length" [placeholder]="'Выберите сотрудников'" (itemSelect)="PersFilterIdAdd($event)" style="width: 100%;"></app-dropdown-multi>
                 <label> Локация</label>
-                <app-dropdown-multi [ItemsData]="LocationData" [ItemsMultiCtrl]="SubLocIdsCtrl" [allItemsSize]="LocationData.length" [placeholder]="'Выберите локацию'" (itemSelect)="LocationFilterIdAdd($event)" style="width: 95%;"></app-dropdown-multi>
+                <app-dropdown-multi [ItemsData]="LocationData" [ItemsMultiCtrl]="SubLocIdsCtrl" [allItemsSize]="LocationData.length" [placeholder]="'Выберите локацию'" (itemSelect)="LocationFilterIdAdd($event)" style="width: 100%;"></app-dropdown-multi>
                 <div class="button-duo-wrap">
                     <button style="margin-top: 20px; width:115px ;" type="submit" mat-raised-button (click)="FilterSubmit()" (click)="filterMobileCheck = false" color="accent"> Применить </button>
                     <br>

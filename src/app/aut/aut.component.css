@@ -79,3 +79,5 @@ form {
     /* color: white !important;
     background: red !important; */
 }
+
+@media screen and (max-width: 600px) {}

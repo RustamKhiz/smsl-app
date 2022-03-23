@@ -2,12 +2,13 @@
     <div class="aut-bg">
         <div class="head">
             <div class="logo">
-                <img src="https://smsl-nk.ru/assets/img/logo_smsl_header_2.png" alt="logo_smsl">
+                <img *ngIf="!loading" src="https://smsl-nk.ru/assets/img/logo_smsl_header_2.png" alt="logo_smsl">
             </div>
             <div class="title">{{title}}</div>
         </div>
         <div class="loader" *ngIf="loading">
-            <mat-spinner color="accent"></mat-spinner>
+            <!-- <mat-spinner color="accent"></mat-spinner> -->
+            <app-loader-logo [show]="loading"></app-loader-logo>
         </div>
         <div class="form" *ngIf="!loading">
             <form (ngSubmit)="onSubmit()">

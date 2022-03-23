@@ -11,7 +11,7 @@
 
 html {
     font-family: 'Raleway', sans-serif;
-    background: #2B2A29;
+    /* background: #2B2A29; */
     /* background: rgb(252, 252, 252); */
 }
 
@@ -161,4 +161,16 @@ body {
 
 .mat-paginator-container {
     background-color: #fafafa;
+}
+
+@media screen and (max-width: 600px) {
+    .mat-form-field {
+        width: 100% !important;
+    }
+    .mat-expansion-panel-body {
+        padding: 0 !important;
+    }
+    .mat-select-panel-wrap {
+        flex-basis: 89% !important;
+    }
 }

@@ -11,6 +11,10 @@
     }
     .mobile {
         display: block;
+        width: 100%;
+    }
+    .date-wrap {
+        width: 100% !important;
     }
     .loader-flex {
         display: flex;

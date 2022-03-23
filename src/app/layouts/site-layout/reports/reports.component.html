@@ -3,10 +3,11 @@
 
 <div class="reports-title">Отчеты</div>
 
-<nav mat-tab-nav-bar color="accent">
+<nav mat-tab-nav-bar color="accent" class="mobile-hide">
     <a mat-tab-link (click)="navTest()" [active]="activeTab"> Все отчеты </a>
     <a class="stats" mat-tab-link (click)="navTest()" disabled> Статистика </a>
     <a mat-tab-link (click)="navTest2()" [active]="activeTab2"> Создать новый отчет +</a>
-
 </nav>
+<button class="new-rep-mobile" style=" margin-bottom: 30px; width:100% ;" type="submit" routerLink="/reports/add-report-m" mat-raised-button color="accent"> Создать новый отчет </button>
+
 <router-outlet></router-outlet>

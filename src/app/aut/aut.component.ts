@@ -52,11 +52,11 @@ export class AutComponent implements OnInit, OnDestroy {
         this.openSnackBar("Для начала авторизуйтесь в системе", "Ok")
       }
     })
-    this.route.queryParams.subscribe( (params: Params) => {
-      if (params['unkhowError']){
-        this.openSnackBar("Неизвестная ошибка сервера, попробуйте позже", "Ok")
-      }
-    })
+    // this.route.queryParams.subscribe( (params: Params) => {
+    //   if (params['unkhowError']){
+    //     this.openSnackBar("Неизвестная ошибка сервера, попробуйте позже", "Ok")
+    //   }
+    // })
   }
   openSnackBar(message: string, action: string) {
     this.snackBar.open(message, action, {
@@ -126,6 +126,7 @@ export class AutComponent implements OnInit, OnDestroy {
               (error) => {
                 // console.log("afterlog dont work")
                 // console.log("error:",error)
+                this.loading = false;
               },()=> {
                 // console.log("subscribe complite")
               }
@@ -140,12 +141,13 @@ export class AutComponent implements OnInit, OnDestroy {
        (error) => {
          this.loading = false;
          this.openSnackBar(error.error, "Ok")
-        //  console.warn(error)
+         console.log('error: ', error)
        },
        () => {
 
        }
     )
+
   }
   openDialog() {
     this.dialog.open(DialogElementsExampleDialog);

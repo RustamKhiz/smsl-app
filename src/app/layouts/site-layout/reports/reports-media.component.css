@@ -11,4 +11,10 @@
     .mat-tab-header {
         margin-bottom: 15px;
     }
+    .mobile-hide {
+        display: none;
+    }
+    .new-rep-mobile {
+        display: block;
+    }
 }

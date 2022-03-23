@@ -6,13 +6,23 @@
 
 @media screen and (max-width: 600px) {
     .container {
-        width: 320px;
+        /* width: 320px; */
+        width: 98%;
+        /* padding: 0 5px 0 0px; */
+        /* margin: 0 5px 0 5px; */
+    }
+    header {
+        height: 45px;
     }
     .sidenav {
         display: none;
     }
     .open-burger-wrap {
         background: transparent;
+    }
+    .openbtn {
+        left: 17px;
+        top: 9px;
     }
     nav .news,
     .task {
@@ -23,6 +33,10 @@
     }
     .nav-wrapper {
         justify-content: flex-end;
+        height: 45px;
+    }
+    .navleft-elem {
+        padding-left: 10px;
     }
     .navleft-elem mat-icon {
         font-size: 30px;
@@ -30,6 +44,10 @@
     .navleft-elem p {
         font-size: 20px;
         padding: 5px 6px 37px 0;
+    }
+    .nav-elem-wrap {
+        flex-direction: row;
+        align-items: flex-start
     }
     .example-sidenav {
         width: 216px;

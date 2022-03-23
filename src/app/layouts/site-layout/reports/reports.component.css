@@ -34,3 +34,7 @@
     background: linear-gradient(180deg, #FCC300 0%, #FFD33D 32.29%, #FFDE6C 65.69%);
     color: #262626;
 }
+
+.new-rep-mobile {
+    display: none;
+}

@@ -17,6 +17,7 @@ import { ReportViewComponent } from './layouts/site-layout/reports/report-view/r
 import { MessengerComponent } from './layouts/site-layout/messenger/messenger.component';
 import { CloudComponent } from './layouts/site-layout/cloud/cloud.component';
 import { SupportComponent } from './layouts/site-layout/support/support.component';
+import { ReportsAddMobileComponent } from './layouts/site-layout/reports/reports-add-mobile/reports-add-mobile/reports-add-mobile.component';
 
 
 const routes: Routes = [
@@ -28,6 +29,7 @@ const routes: Routes = [
 
   },
   {
+    //
     path: '', component: SiteLayoutComponent, canActivate:[AutGuard], children: [
       {
         path: 'site', component: MajorComponent
@@ -53,6 +55,9 @@ const routes: Routes = [
           path: 'red-report', component: ReportsRedComponent
         }
         ]
+      },
+      {
+        path: 'reports/add-report-m', component: ReportsAddMobileComponent
       },
       {
         path: 'view-report', component: ReportViewComponent

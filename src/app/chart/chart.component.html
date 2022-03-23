@@ -1,17 +1,35 @@
-<ngx-charts-line-chart
-  [view]="view"
-  [scheme]="colorScheme"
-  [legend]="legend"
-  [showXAxisLabel]="showXAxisLabel"
-  [showYAxisLabel]="showYAxisLabel"
-  [xAxis]="xAxis"
-  [yAxis]="yAxis"
-  [xAxisLabel]="xAxisLabel"
-  [yAxisLabel]="yAxisLabel"
-  [timeline]="timeline"
-  [results]="multi"
-  (select)="onSelect($event)"
-  (activate)="onActivate($event)"
-  (deactivate)="onDeactivate($event)"
->
-</ngx-charts-line-chart>
+<div class="chart-container">
+    <p class="chart-title">
+        Объемы выполненных работ
+    </p>
+    <div class="chart-select-wrap">
+        <div class="chart-select-item">
+            <p class="select-title">Локация</p>
+            <app-dropdown-multi [ItemsData]="LocationData" [ItemsMultiCtrl]="LocationCtrl" [allItemsSize]="LocationData.length" [placeholder]="'Выберите локацию'" (itemSelect)="LocationDropdownChange($event)" class="dropdown"></app-dropdown-multi>
+        </div>
+        <div class="chart-select-item">
+            <p class="select-title">Заказчик</p>
+            <app-dropdown-multi [ItemsData]="CustomerData" [ItemsMultiCtrl]="CustomerCtrl" [allItemsSize]="CustomerData.length" [placeholder]="'Выберите заказчика'" (itemSelect)="CustomerDropdownChange($event)" class="dropdown"></app-dropdown-multi>
+        </div>
+        <div class="chart-select-item">
+            <p class="select-title">Методы</p>
+            <app-dropdown-multi [ItemsData]="MethodData" [ItemsMultiCtrl]="MethodCtrl" [allItemsSize]="MethodData.length" [placeholder]="'Выберите метод'" (itemSelect)="MethodDropdownChange($event)" class="dropdown"></app-dropdown-multi>
+        </div>
+        <div class="chart-select-item">
+            <mat-icon style="cursor: pointer;" (click)="reset()">close</mat-icon>
+        </div>
+    </div>
+    <div class="chart-wrap">
+        <div class="chart-legend">
+            <p class="chart-legend-item">Брак (пересветы)</p>
+            <p class="chart-legend-item">Передано заключений заказчику по актам приёма</p>
+            <p class="chart-legend-item">Оформлено заключений через ПО</p>
+            <p class="chart-legend-item">Выполнено по отчётам</p>
+        </div>
+
+        <ngx-charts-bar-horizontal [view]="view" [scheme]="colorScheme" [results]="single" [gradient]="gradient" [xAxis]="showXAxis" [showDataLabel]="showDataLabel" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel"
+            [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [showGridLines]="showGridLines" (select)="onSelect($event)" (activate)="onActivate($event)" (deactivate)="onDeactivate($event)">
+        </ngx-charts-bar-horizontal>
+    </div>
+
+</div>

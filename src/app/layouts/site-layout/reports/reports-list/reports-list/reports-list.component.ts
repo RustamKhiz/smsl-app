@@ -211,6 +211,9 @@ export class ReportsListComponent implements OnInit, OnDestroy {
           if (localStorage.getItem('SaveFilter') != null){
             this.LoadControls()
           }
+        }, (err) => {
+          this.loading = false;
+          this.openSnackBar(`Ошибка загрузки отчётов` , "Ok")
         }
       )
     }
@@ -567,17 +570,17 @@ export class ReportsListComponent implements OnInit, OnDestroy {
     downloadLink.download = fileName;
     downloadLink.click();
   }
-  // Cookie(){
-  //   document.cookie = "report-view-module=list"
-  //   console.log("Cookie work!", document.cookie)
-  // }
+
   getLength(report){ //Получаем количество
     return  report.length
   }
   getLogo(generalLoc){ //Получаем лого
     let GeneralLogoLink
     GeneralLogoLink = this.GeneralLocations.find(x => x.Id == generalLoc)
-    return GeneralLogoLink.Logo
+    if (GeneralLogoLink.Logo !== null){
+      return GeneralLogoLink.Logo
+    }
+    return '../../../../../../assets/smsl_logo.png'
   }
 
   FormatDate(date){ //Получаем дату
@@ -602,10 +605,10 @@ export class ReportsListComponent implements OnInit, OnDestroy {
     let lastDayAccess = this.now.getTime() - dataCreate.getTime()
     let oneDay = 1000 * 60 * 60 * 24
 
-    if ((this.accessLvl >= 5)){
+    if ((this.accessLvl >= 4)){
       return true
-    } else if ( (this.HashRepRed == userRepRedLvlHash)){
-      return true
+    // } else if ( (this.HashRepRed == userRepRedLvlHash)){
+    //   return true
     } else if ((this.userId == report.UserId) && (lastDayAccess < oneDay)){
       return true
     }
@@ -617,7 +620,7 @@ export class ReportsListComponent implements OnInit, OnDestroy {
 
   reportRedSub: Subscription
   NavigateToRepRed(i){ //Открыть конкретный отчёт для редактирования
-
+    console.log('i', i)
     this.reportRedSub = this.repGet.repGet(i).subscribe( //Запрос на получение конкретного отчёта
       (reportIdData)=>{
         const newReportIdData = JSON.stringify(reportIdData)
@@ -626,6 +629,20 @@ export class ReportsListComponent implements OnInit, OnDestroy {
       }
     )
 
+  }
+  NavigateToRepRedMobile(i){
+      //  this.reportRedSub = this.repGet.repGet(i).subscribe( //Запрос на получение конкретного отчёта
+      //   (reportIdData)=>{
+      //     const newReportIdData = JSON.stringify(reportIdData)
+      //     localStorage.setItem('ReportIdData', newReportIdData)
+      //     this.router.navigate(['/reports/add-report-m'])
+      //   }
+      // )
+      this.router.navigate(['/reports/add-report-m'], {
+        queryParams: {
+          reportId: i
+        }
+      })
   }
    ReportView(id){ //Открыть конкретный отчёт для просмотра
     // this.reportRedSub = this.repGet.repGetNearby(i).subscribe(
@@ -736,7 +753,6 @@ export class ReportsListComponent implements OnInit, OnDestroy {
     }
     this.configPost.ConfigPost(configData).subscribe((data) => {
     })
-    // document.cookie = `report-paginator-page=${pageCont}`
   }
 
   hotFilterSortCtrl: FormControl = new FormControl(null)
@@ -776,18 +792,12 @@ export class ReportsListComponent implements OnInit, OnDestroy {
       this.ConnectToPagginList()
     }
   }
+
   titleLockCheck(report: ReportsAll){
-
     let lockName: string = this.getSubLockName(report)
-
     return lockName
-    // for (let i = 0; i < this.reportsAll.length; i++) {
-    //   if (this.reportsAll[i].SubLocationId == ){
-
-    //   }
-
-    // }
   }
+
   Config(){
     const configData = {
       Id: 0,

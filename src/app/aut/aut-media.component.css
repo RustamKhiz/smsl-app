@@ -11,4 +11,7 @@
         height: 550px;
         overflow: hidden;
     }
+    form {
+        padding: 0px 8px;
+    }
 }

@@ -10,6 +10,11 @@ export class MajorComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+
   }
 
+  onMap(){
+    let iframe = document.getElementById('map')
+    console.log('iframe: ', iframe)
+  }
 }

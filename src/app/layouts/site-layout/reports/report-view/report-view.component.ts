@@ -487,10 +487,9 @@ export class ReportViewComponent implements OnInit, OnDestroy, AfterViewInit {
 
   saveFileSub: Subscription
   SaveFile(i){
-    console.log("this.reportView[i].FullPath: ", this.reportView[0].Report.CwrFiles[i].FullPath)
-    const linkSource = `${environment.apiUrl}/api/cwr/getfile?id=${this.reportView[0].Report.CwrFiles[i].Id}`
+    const linkSource = `${environment.apiUrl}/api/cwr/getfile?id=${i.Id}`
     const downloadLink = document.createElement("a");
-    const fileName = this.reportView[0].Report.CwrFiles[i].DisplayName
+    const fileName = i.DisplayName
 
     downloadLink.href = linkSource;
     downloadLink.download = fileName;

@@ -69,6 +69,9 @@ import {LoaderPopupComponent} from './layouts/classes/loader/loader-popup/loader
 import { NewAlertComponent } from './layouts/classes/new-alert/new-alert.component'
 import { MatSortModule } from '@angular/material/sort';
 import { AlertNotifComponent } from './layouts/classes/alert-notif/alert-notif.component';
+import { ReportsAddMobileComponent } from './layouts/site-layout/reports/reports-add-mobile/reports-add-mobile/reports-add-mobile.component';
+import { LoaderLogoComponent } from './layouts/classes/loader/loader-logo/loader-logo.component';
+import { MapComponent } from './layouts/classes/map/map.component';
 
 @NgModule({
   declarations: [
@@ -100,6 +103,9 @@ import { AlertNotifComponent } from './layouts/classes/alert-notif/alert-notif.c
     LoaderPopupComponent,
     NewAlertComponent,
     AlertNotifComponent,
+    ReportsAddMobileComponent,
+    LoaderLogoComponent,
+    MapComponent,
   ],
   imports: [
     BrowserModule,

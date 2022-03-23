@@ -9,7 +9,7 @@ body {
 }
 
 .news-fix {
-    position: fixed;
+    position: absolute;
     left: 1088px;
     top: 127px;
 }

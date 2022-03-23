@@ -5,12 +5,13 @@ import { AutServices } from "../services/aut.services";
 import {SignalService} from "../services/signalR.services"
 import {catchError} from "rxjs/operators";
 import {Router} from "@angular/router";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Injectable()
 
 export class TokenInterseptor implements HttpInterceptor , OnInit{
   private SignalHash: string
-    constructor(private auth: AutServices, private router: Router, private hash: SignalService){
+    constructor(private auth: AutServices, private router: Router, private snackBar: MatSnackBar, private hash: SignalService){
 
     }
   ngOnInit() {
@@ -24,6 +25,13 @@ export class TokenInterseptor implements HttpInterceptor , OnInit{
 
     );
   }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 3000
+    });
+  }
+
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>{
       if (this.auth.isAuthenticated()){
         if (this.hash.onHash() != ""){
@@ -60,6 +68,7 @@ export class TokenInterseptor implements HttpInterceptor , OnInit{
             })
           } else if ((err.status === 500) || (err.status === 0) ){
             console.log("err.status" + err.status)
+            this.openSnackBar(`Ошибка сервера, перезагрузите страницу. code: ${err.status}`, "Ok")
             this.auth.logout();
             this.router.navigate(['/aut'],{
               queryParams:{

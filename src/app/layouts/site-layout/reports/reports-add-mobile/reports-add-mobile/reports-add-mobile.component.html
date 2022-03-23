@@ -3,7 +3,23 @@
     <form>
         <p class="reports-title">Создание отчёта</p>
         <div class="reports-wrap">
-            <div class="reports-wrap-wrap">
+            <!-- <div class="reports-name-wrap">
+                <div class="reports-name-noarrow">
+                    <app-dropdown-select [ItemsData]="LocationData" [ItemsCtrl]="LocationCtrl" [placeholder]="'Выберите локацию'" (itemSelect)="LocationIdAdd($event)"></app-dropdown-select>
+                </div>
+                <div class="reports-name-noarrow">
+                    <app-dropdown-select [ItemsData]="ChiefData" [ItemsCtrl]="ChiefCtrl" [placeholder]="'ФИО ответственного'" (itemSelect)="ChiefIdAdd($event)"></app-dropdown-select>
+                </div>
+                <div class="reports-name-noarrow">
+                    <mat-form-field appearance="standard" color="accent">
+                        <mat-label>Введите дату</mat-label>
+                        <input matInput (dateInput)="'dd-mm-yyyy'" [matDatepicker]="picker" [formControl]="DataReportCtrl" [max]="maxDate" autocomplete="off">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker disabled="false"></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div> -->
+            <!-- <div class="reports-wrap-wrap">
                 <div class="reports-tabs-wrap">
                     <div class="reports-tab" (click)="tabsClick()" [ngClass]="{reportActive:tabsBg}">
                         <p class="tab-text tab-border">Выполняемые работы</p>
@@ -14,45 +30,187 @@
                     <div class="reports-tab" (click)="tabsClick3()" [ngClass]="{reportActive:tabsBg3}" style="border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px;">
                         <p class="tab-text">Оборудование</p>
                     </div>
-
-
                 </div>
-                <div class="reports-tab-file-wrap">
-                    <p class="reports-tab-file-title">Файлы: </p>
-                    <div class="reports-tab-file">
-                        <p class="file-item" *ngFor="let file of reportFile, index as i">{{[i+1] + ". " + file.OriginalName}}<span><mat-icon (click)="reportFile.splice(i, 1)" style="cursor: pointer;">delete</mat-icon> </span> </p>
-                        <label class="file-add" for="file"><button type="button" mat-raised-button style="pointer-events: none;"> Добавить файл <mat-icon> attach_file</mat-icon></button></label>
-                        <input type="file" id="file" hidden (change)="fileChange($event)" multiple placeholder="Upload file" accept=".pdf,.doc,.docx,.png,.jpg,.xlsx,.xls">
+            </div> -->
+
+            <mat-accordion>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Основные данные
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="reports-name-wrap">
+                        <div class="reports-name-noarrow">
+                            <app-dropdown-select [ItemsData]="LocationData" [ItemsCtrl]="LocationCtrl" [placeholder]="'Выберите локацию'" (itemSelect)="LocationIdAdd($event)"></app-dropdown-select>
+                        </div>
+                        <div class="reports-name-noarrow">
+                            <app-dropdown-select [ItemsData]="ChiefData" [ItemsCtrl]="ChiefCtrl" [placeholder]="'ФИО ответственного'" (itemSelect)="ChiefIdAdd($event)"></app-dropdown-select>
+                        </div>
+                        <div class="reports-name-noarrow">
+                            <mat-form-field appearance="standard" color="accent">
+                                <mat-label>Введите дату</mat-label>
+                                <input matInput (dateInput)="'dd-mm-yyyy'" [matDatepicker]="picker" [formControl]="DataReportCtrl" [max]="maxDate" autocomplete="off">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker disabled="false"></mat-datepicker>
+                            </mat-form-field>
+                        </div>
                     </div>
-                </div>
-                <div class="reports-submit sort-sub">
-                    <button mat-raised-button color="accent" class="send-button" (click)="sortPers()">Сортировка персонала</button>
-                </div>
-                <div class="reports-submit">
-                    <button mat-raised-button color="accent" class="send-button" (click)="reportSubmit()" [disabled]="LocationCtrl.hasError('required') || ChiefCtrl.hasError('required') || DataReportCtrl.hasError('required') || (reportsPers.length == 0)">Отправить</button>
-                    <!-- LocationCtrl.hasError('required') || ChiefCtrl.hasError('required') || DataReportCtrl.hasError('required') || (reportsCards.length == 0) || (reportsPers.length == 0) || (reportEquip.length == 0) -->
-                </div>
-            </div>
+                </mat-expansion-panel>
+
+                <mat-expansion-panel>
+
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Выполняемые работы
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            <!-- This is a summary of the content -->
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+
+                    <div class="reports-content" [ngClass]="{cardActive:cardAct}">
+                        <div class="report-content-add" matRipple matRippleColor="rgba(13, 255, 0, 0.1)">
+                            <p class="report-content-add-title">Добавить работу</p>
+                            <mat-icon (click)="popupOpen()" class="img-add">add</mat-icon>
+                        </div>
+                        <div class="report-content" *ngFor="let card of reportsCards, index as i">
+                            <div class="report-content-text-number">
+                                <p>{{i+1}}</p>
+                            </div>
+                            <div class="report-content-text">
+                                <div style="width: 150px;">
+                                    <p>
+                                        <strong>Метод НК:</strong><br> {{card.MethodControl}}
+                                    </p>
+                                    <p>
+                                        <strong>Заказчик:</strong><br> {{card.Customer}}
+                                    </p>
+                                </div>
+                                <p class="report-content-pers" style="width: 175px;">
+                                    <strong>Сотрудники:</strong> <span *ngFor="let pers of reportsCards[i].CwrWorkPersonals, index as j">{{[j+1] + ". " + pers.Fio}}</span>
+                                </p>
+                                <p class="report-content-equip" style="width: 170px;">
+                                    <strong>Оборудование:</strong> <span *ngFor="let equip of reportsCards[i].CwrWorkEquipments, index as j">{{[j+1] + ". " + equip.Name }}</span>
+                                </p>
+                                <div>
+                                    <p>
+                                        <strong>Предъявлено:</strong> {{card.Shown}}
+                                    </p>
+                                    <p>
+                                        <strong>Сделано:</strong> {{card.Made}}
+                                    </p>
+
+                                </div>
+                            </div>
+
+                            <div class="icon-wrap">
+                                <mat-icon (click)="CwrWorksRed(i)" style="cursor: pointer;">edit</mat-icon>
+                                <mat-icon (click)="CwrWorksDelete(i)" (click)="reportsCards.splice(i, 1)" style="cursor: pointer;">delete</mat-icon>
+                            </div>
+                        </div>
+
+
+                        <div class="report-content report-content-footer" *ngIf="reportsCards.length !== 0">
+                            <p><strong>Всего предъявлено: {{ShownCount}}</strong> </p>
+                            <p><strong>Всего сделано: {{MadeCount}}</strong> </p>
+                        </div>
+                    </div>
+
+                </mat-expansion-panel>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Персонал
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            <!-- Currently I am -->
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+
+                    <div class="reports-content" [ngClass]="{cardActive:cardAct2}">
+                        <div class="report-content-add" matRipple matRippleColor="rgba(13, 255, 0, 0.1)">
+                            <p class="report-content-add-title">Добавить сотрудника</p>
+                            <mat-icon (click)="popupOpen2()" class="img-add">add</mat-icon>
+                        </div>
+                        <div class="report-content" *ngFor="let card of reportsPers, index as i">
+                            <div class="report-content-text-number">
+                                <p>{{i+1}}</p>
+                            </div>
+                            <div class="report-content-text normal-width">
+                                <p>
+                                    <strong> Сотрудники:</strong> <br> {{card.PersonalStatusName}}
+                                </p>
+                                <p>
+                                    <strong> Рабочий день:</strong> <br> {{card.ForTabPerStatusName}}
+                                </p>
+                                <p class="report-content-pers">
+                                    <strong> Функции:</strong> <span *ngFor="let status of reportsPers[i].CwrStatusFromPersonals, index as j">{{[j+1] + ". " + status?.DisplayName}}</span>
+                                </p>
+                                <p>
+                                    <strong> Комментарий:</strong> <br> {{card.Comment}}
+                                </p>
+                            </div>
+                            <div class="icon-wrap">
+                                <mat-icon (click)="CwrPersonalsRed(i)" style="cursor: pointer;">edit</mat-icon>
+                                <mat-icon (click)="reportsPers.splice(i, 1)" style="cursor: pointer;">delete</mat-icon>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </mat-expansion-panel>
+
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Оборудование
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            <!-- Currently I am -->
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+
+                    <div class="reports-content" [ngClass]="{cardActive:cardAct3}">
+                        <div class="report-content-add" matRipple matRippleColor="rgba(13, 255, 0, 0.1)">
+                            <p class="report-content-add-title">Добавить оборудование</p>
+                            <mat-icon (click)="popupOpen3()" class="img-add">add</mat-icon>
+                        </div>
+                        <div class="report-content" *ngFor="let card of reportEquip, index as i">
+                            <div class="report-content-text-number">
+                                <p>{{i+1}}</p>
+                            </div>
+                            <div class="report-content-text normal-width">
+                                <p>
+                                    <strong>Оборудование:</strong> <br> {{card.CwrEquipments}}
+                                </p>
+                                <p>
+                                    <strong>Статус:</strong> <br> {{card.Status}}
+                                </p>
+                                <p>
+                                    <strong> Комментарий:</strong> <br> {{card.Comment}}
+                                </p>
+                            </div>
+                            <div class="icon-wrap">
+                                <div class="edit-check">
+                                    <mat-icon (click)="CwrEquipmentsRed(i)" style="cursor: pointer;">edit</mat-icon>
+                                </div>
+
+                                <div class="edit-check" *ngIf="equipDelCheck(card.EquipmentId)">
+                                    <mat-icon (click)="reportEquip.splice(i, 1)" style="cursor: pointer;">delete</mat-icon>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </mat-expansion-panel>
+            </mat-accordion>
 
             <div class="reports-content-wrap">
-                <div class="reports-name-wrap">
-                    <div class="reports-name-noarrow">
-                        <app-dropdown-select [ItemsData]="LocationData" [ItemsCtrl]="LocationCtrl" [placeholder]="'Выберите локацию'" (itemSelect)="LocationIdAdd($event)"></app-dropdown-select>
 
-                    </div>
-                    <div class="reports-name-noarrow">
-                        <app-dropdown-select [ItemsData]="ChiefData" [ItemsCtrl]="ChiefCtrl" [placeholder]="'ФИО ответственного'" (itemSelect)="ChiefIdAdd($event)"></app-dropdown-select>
-                    </div>
-                    <div class="reports-name-noarrow">
-                        <mat-form-field appearance="standard" color="accent">
-                            <mat-label>Введите дату</mat-label>
-                            <input matInput (dateInput)="'dd-mm-yyyy'" [matDatepicker]="picker" [formControl]="DataReportCtrl" [max]="maxDate" autocomplete="off">
-                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                            <mat-datepicker #picker disabled="false"></mat-datepicker>
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div class="reports-content" [ngClass]="{cardActive:cardAct}">
+                <!-- <div class="reports-content" [ngClass]="{cardActive:cardAct}">
                     <div class="report-content-add" matRipple matRippleColor="rgba(13, 255, 0, 0.1)">
                         <p class="report-content-add-title">Добавить работу</p>
                         <mat-icon (click)="popupOpen()" class="img-add">add</mat-icon>
@@ -98,7 +256,7 @@
                         <p><strong>Всего предъявлено: {{ShownCount}}</strong> </p>
                         <p><strong>Всего сделано: {{MadeCount}}</strong> </p>
                     </div>
-                </div>
+                </div> -->
                 <div class="reports-popup" [ngClass]="{open:popOpenRed}">
                     <div class="popup-area" (click)="popupHiddenRed()"></div>
                     <div class="popup-body">
@@ -154,8 +312,8 @@
                                     </div>
                                     <div class="button-wrap">
                                         <button mat-raised-button color="accent" (click)="RedOnPopup()" [disabled]="MethodControlCtrl.hasError('required') || CustomerCtrl.hasError('required') || CwrWorkPersonalsCtrl.hasError('required') || CwrWorkEquipmentsCtrl.hasError('required') || ShownCtrl.hasError('required') || MadeCtrl.hasError('required')">
-                                          Редактировать
-                                        </button>
+                                        Редактировать
+                                      </button>
                                         <mat-error *ngIf="MethodControlCtrl.hasError('required') || CustomerCtrl.hasError('required') || CwrWorkPersonalsCtrl.hasError('required') || CwrWorkEquipmentsCtrl.hasError('required') || ShownCtrl.hasError('required') || MadeCtrl.hasError('required')">
                                             Не все <strong>обязательные поля</strong> заполнены!
                                         </mat-error>
@@ -166,7 +324,7 @@
                     </div>
                 </div>
 
-                <div class="reports-content" [ngClass]="{cardActive:cardAct2}">
+                <!-- <div class="reports-content" [ngClass]="{cardActive:cardAct2}">
                     <div class="report-content-add" matRipple matRippleColor="rgba(13, 255, 0, 0.1)">
                         <p class="report-content-add-title">Добавить сотрудника</p>
                         <mat-icon (click)="popupOpen2()" class="img-add">add</mat-icon>
@@ -195,7 +353,7 @@
                         </div>
                     </div>
 
-                </div>
+                </div> -->
                 <div class="reports-popup" [ngClass]="{open:popOpenRed2}">
                     <div class="popup-area" (click)="popupHiddenRed2()"></div>
                     <div class="popup-body">
@@ -211,9 +369,7 @@
                                             <p class="select-title">Сотрудник ФИО </p>
                                             <app-dropdown-select [ItemsData]="PersData" [ItemsCtrl]="CwrPersonalCtrl" [placeholder]="'Выберите сотрудника'" (itemSelect)="PersonalAdd($event)"></app-dropdown-select>
                                         </div>
-                                        <div class="select-wrap">
 
-                                        </div>
                                         <div class="select-wrap">
                                             <p class="select-title">Рабочий день</p>
                                             <app-dropdown-select [ItemsData]="StatusDataWork" [ItemsCtrl]="StatusWorkCtrl" [placeholder]="'Выберите статус'" (itemSelect)="StatusAdd($event)"></app-dropdown-select>
@@ -243,7 +399,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="reports-content" [ngClass]="{cardActive:cardAct3}">
+                <!-- <div class="reports-content" [ngClass]="{cardActive:cardAct3}">
                     <div class="report-content-add" matRipple matRippleColor="rgba(13, 255, 0, 0.1)">
                         <p class="report-content-add-title">Добавить оборудование</p>
                         <mat-icon (click)="popupOpen3()" class="img-add">add</mat-icon>
@@ -275,7 +431,7 @@
                     </div>
 
 
-                </div>
+                </div> -->
                 <div class="reports-popup" [ngClass]="{open:popOpenRed3}">
                     <div class="popup-area" (click)="popupHiddenRed3()"></div>
                     <div class="popup-body">
@@ -328,6 +484,9 @@
                         <label class="file-add" for="file"><button type="button" mat-raised-button style="pointer-events: none;"> Добавить файл <mat-icon> attach_file</mat-icon></button></label>
                         <input type="file" id="file" hidden (change)="fileChange($event)" multiple placeholder="Upload file" accept=".pdf,.doc,.docx,.png,.jpg,.xlsx,.xls">
                     </div>
+                </div>
+                <div class="reports-submit">
+                    <button mat-raised-button color="accent" class="send-button" (click)="reportSubmit()" [disabled]="LocationCtrl.hasError('required') || ChiefCtrl.hasError('required') || DataReportCtrl.hasError('required') || (reportsPers.length == 0)">Отправить</button>
                 </div>
 
             </div>
@@ -417,8 +576,8 @@
                                 </div>
                                 <div class="select-wrap">
                                     <p class="select-title">Рабочий день <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                                      <mat-icon>help_outline</mat-icon>
-                                    </button>
+                                    <mat-icon>help_outline</mat-icon>
+                                  </button>
                                         <mat-menu #menu="matMenu">
                                             <p style="padding: 4px 18px;"> Статус рабочего дня для табеля. </p>
                                         </mat-menu>
@@ -427,8 +586,8 @@
                                 </div>
                                 <div class="select-wrap">
                                     <p class="select-title">Функции <button mat-icon-button [matMenuTriggerFor]="menu2" aria-label="Example icon-button with a menu">
-                                      <mat-icon>help_outline</mat-icon>
-                                    </button>
+                                    <mat-icon>help_outline</mat-icon>
+                                  </button>
                                         <mat-menu #menu2="matMenu">
                                             <p style="padding: 4px 18px;"> Функции, выполняемые сотрудником, во время рабочего дня. </p>
                                         </mat-menu>
@@ -478,7 +637,7 @@
                                 </div>
                                 <!-- <div class="select-wrap select-error">
 
-                                </div> -->
+                              </div> -->
                                 <div class="select-wrap">
                                     <p class="select-title">Статус</p>
                                     <app-dropdown-select [ItemsData]="StatusEqData" [ItemsCtrl]="StatusEqCtrl" [placeholder]="'Выберите статус'" (itemSelect)="StatusEqAdd($event)"></app-dropdown-select>
@@ -506,9 +665,7 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="reports-submit">
-            <button mat-raised-button color="accent" class="send-button" (click)="reportSubmit()" [disabled]="LocationCtrl.hasError('required') || ChiefCtrl.hasError('required') || DataReportCtrl.hasError('required') || (reportsCards.length == 0) || (reportsPers.length == 0) || (reportEquip.length == 0)">Отправить</button>
-        </div> -->
+
     </form>
 
     <div style="padding-bottom:150px;">
@@ -521,8 +678,7 @@
     <div class="popup-area"></div>
     <div class="popup-body">
         <div class="loader">
-            <!-- <mat-spinner color="accent"></mat-spinner> -->
-            <app-loader-logo [show]="loading"></app-loader-logo>
+            <mat-spinner color="accent"></mat-spinner>
         </div>
     </div>
 </div>

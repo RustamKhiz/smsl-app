@@ -1,0 +1,47 @@
+.chart-container {
+    /* background-color: black; */
+}
+
+.chart-title {
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 47px;
+    padding-bottom: 27px;
+}
+
+.select-title {
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 14px;
+}
+
+.chart-select-wrap {
+    display: flex;
+}
+
+.chart-select-item {
+    width: 240px;
+}
+
+.chart-wrap {
+    display: flex;
+}
+
+.chart-legend {
+    width: 200px;
+}
+
+.chart-legend-item {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 16px;
+    /* padding: 8px 0 0 0; */
+    padding: 5px 0;
+    height: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center
+}

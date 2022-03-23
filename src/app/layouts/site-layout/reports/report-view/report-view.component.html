@@ -1,13 +1,13 @@
 <div class="title-wrap">
 
     <p class="reports-title" style="display: inline; padding-left: 5px;">
-        <mat-icon (click)="arrowBack()" style="cursor: pointer;">arrow_back</mat-icon>Отчет № {{reportView.Id + ", " + SubLockName }}
+        <mat-icon (click)="arrowBack()" style="cursor: pointer; margin-right: 10px;">arrow_back</mat-icon>Отчет № {{reportView.Id + ", " + SubLockName }}
         <span class="chief-name"> {{ChiefName + ", от " + FormatDate(reportView.DataReport)}} </span>
     </p>
-    <div class="div" *ngIf="AccessLevelCheck(reportView)"><button style="" type="submit" mat-raised-button (click)="ReportRed()" color="accent" *ngIf="AccessLevelCheck(reportView)"> Редактировать <mat-icon style="margin-left: 10px;">edit</mat-icon> </button></div>
+    <div class="div mobile" *ngIf="AccessLevelCheck(reportView)"><button style="" type="submit" mat-raised-button (click)="ReportRed()" color="accent" *ngIf="AccessLevelCheck(reportView)"> Редактировать <mat-icon style="margin-left: 10px;">edit</mat-icon> </button></div>
 
 
-    <div class="reports-button-navigate">
+    <div class="reports-button-navigate mobile">
         <button style="margin-right: 22px;" [disabled]="!nearbyReport.IsPrev" [matTooltip]="nearbyPrevAction" (click)="prevReport()" mat-mini-fab color="accent" aria-label="Example icon button with a plus one icon">
         <mat-icon>navigate_before</mat-icon>
       </button>
@@ -86,7 +86,7 @@
                 <ng-container matColumnDef="Save">
                     <th mat-header-cell *matHeaderCellDef> Скачать </th>
                     <td mat-cell disabled *matCellDef="let element, index as i">
-                        <button mat-button [disabled]="element.FullPath == ''" (click)="SaveFile(i)" style="min-width: 0; padding: 0 5px;"><mat-icon>save_alt</mat-icon></button>
+                        <button mat-button [disabled]="element.FullPath == ''" (click)="SaveFile(element)" style="min-width: 0; padding: 0 5px;"><mat-icon>save_alt</mat-icon></button>
 
                     </td>
                 </ng-container>

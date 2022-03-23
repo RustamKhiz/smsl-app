@@ -4,7 +4,7 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ReportAdd } from 'src/app/layouts/services/reports-add.services';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DropdownSelectComponent } from 'src/app/layouts/classes/dropdown-select/dropdown-select.component';
 import { DropdownMultiComponent } from 'src/app/layouts/classes/dropdown-classes/dropdown-multi/dropdown-multi.component';
 import { DropdownMultiCloneComponent } from 'src/app/layouts/classes/dropdown-classes/dropdown-multi-clone/dropdown-multi-clone.component';
@@ -80,11 +80,11 @@ export class CwrFiles {
   ) {}
 }
 @Component({
-  selector: 'app-reports-add',
-  templateUrl: './reports-add.component.html',
-  styleUrls: ['./reports-add.component.css', 'reports-add-media.component.css']
+  selector: 'app-reports-add-mobile',
+  templateUrl: './reports-add-mobile.component.html',
+  styleUrls: ['./reports-add-mobile.component.css']
 })
-export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ReportsAddMobileComponent implements OnInit, AfterViewInit, OnDestroy {
   now = new Date();
   hours = this.now.getHours() * 60 * 60 * 1000
   minutes = this.now.getMinutes() * 60 * 1000
@@ -136,7 +136,9 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
   //конец получения данных для отчетов
 
   statusRed: boolean = false //переменная для определения статуса редактирования (добавление или редактирование отчета)
-  getRedId: number; //переменная для номера сформированного отчета
+  getRedId: number = 0; //переменная для номера сформированного отчета
+
+  sub: Subscription
   ngOnInit() {
     // начало заполнения интерфейса NewDropdown для всех необходимых данных
       let Id
@@ -235,131 +237,151 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
     // Конец заполнения интерфейса NewDropdown для всех необходимых данных
 
     // Заполнение отчета, если зашли в режим редактирования сформированного отчета
-    if (localStorage.getItem('ReportIdData') !== null){
-      setTimeout(() => { //setTimeout 0 для корректного добавления данных  в режим редактирования сформированного отчета, костыль
-      console.log("ReportIdData is not null!")
+    // if (localStorage.getItem('ReportIdData') !== null){
+      // setTimeout(() => { //setTimeout 0 для корректного добавления данных  в режим редактирования сформированного отчета, костыль
 
-      this.statusRed = true //меняем статус редактирования на true
+       //меняем статус редактирования на true
 
-      let CwrWorksLoc = JSON.parse(localStorage.getItem('ReportIdData')) //получаем данные сформированного отчета
-      this.getRedId = CwrWorksLoc.Id //получаем номер сформированного отчета
+      // let CwrWorksLoc = JSON.parse(localStorage.getItem('ReportIdData')) //получаем данные сформированного отчета
+      // this.getRedId = CwrWorksLoc.Id //получаем номер сформированного отчета
 
-      console.log("CwrWorksLoc:", CwrWorksLoc)
+      let id: number = 0;
+      this.sub = this.queryRoute.queryParams.subscribe((params) => {
+        id = params['reportId']
+      })
+      console.log('id', id)
+      if (id){
+        this.getRedId = id
+        this.repGet.repGet(id).subscribe( //Запрос на получение конкретного отчёта
+          (CwrWorksLoc: any)=>{
+            this.statusRed = true
+            console.log("CwrWorksLoc:", CwrWorksLoc)
 
-      //начало присвоения данных для режима редактирования
-      for (let i = 0; i < CwrWorksLoc.CwrWorks.length; i++) {
-        this.Id = CwrWorksLoc.Id
-        this.MethodControl = CwrWorksLoc.CwrWorks[i].MethodControl
-        for (let j = 0; j < this.Method.length; j++) {
-          if (this.Method[j].Name == CwrWorksLoc.CwrWorks[i].MethodControl){
-            this.MethodControlId = this.Method[j].Id
+            //начало присвоения данных для режима редактирования
+            for (let i = 0; i < CwrWorksLoc.CwrWorks.length; i++) {
+              this.Id = CwrWorksLoc.Id
+              console.log('this.Id', this.Id)
+
+              this.MethodControl = CwrWorksLoc.CwrWorks[i].MethodControl
+              for (let j = 0; j < this.Method.length; j++) {
+                if (this.Method[j].Name == CwrWorksLoc.CwrWorks[i].MethodControl){
+                  this.MethodControlId = this.Method[j].Id
+                }
+              }
+              this.CustomerId = CwrWorksLoc.CwrWorks[i].CustomerId
+
+              let shownReplace = CwrWorksLoc.CwrWorks[i].Shown.replace(/[^0-9,.]/g, ' ');
+              let madeReplace = CwrWorksLoc.CwrWorks[i].Made.replace(/[^0-9,.]/g, ' ');
+              this.Shown = CwrWorksLoc.CwrWorks[i].Shown
+              this.Made = CwrWorksLoc.CwrWorks[i].Made
+              this.CwrId = this.getRedId
+              // this.CwrWorkPersonals = {Id: 0, PersonalId: 0, Fio: "", CwrWorkId: 0}
+
+              this.ShownCount += parseFloat(shownReplace.replace(',','.').replace(' ',''))
+              this.MadeCount += parseFloat(madeReplace.replace(',','.').replace(' ',''))
+
+              for (let j = 0; j < CwrWorksLoc.CwrWorks[i].CwrWorkPersonals.length; j++) {
+                this.CwrWorkPersonals[j] = {Id: 0, PersonalId: CwrWorksLoc.CwrWorks[i].CwrWorkPersonals[j].Personal.Id, Fio: CwrWorksLoc.CwrWorks[i].CwrWorkPersonals[j].Personal.SmalFio, CwrWorkId: 0}
+              }
+
+              for (let j = 0; j < CwrWorksLoc.CwrWorks[i].CwrWorkEquipments.length; j++) {
+                this.CwrWorkEquipments[j] = {Id: 0, EquipmentId: CwrWorksLoc.CwrWorks[i].CwrWorkEquipments[j].Equipment.Id, Name: CwrWorksLoc.CwrWorks[i].CwrWorkEquipments[j].Equipment.FullName + " " + CwrWorksLoc.CwrWorks[i].CwrWorkEquipments[j].Equipment.Number, CwrWorkId: 0}
+              }
+
+              this.Customer = CwrWorksLoc.CwrWorks[i].Customer.SmallName
+              this.PersonalName = ""
+              this.EquipmentName = ""
+              this.Comment = CwrWorksLoc.CwrWorks[i].Comment
+              this.reportsCards.push(new CwrWorks(this.Id, this.MethodControl,this.MethodControlId,this.CustomerId, this.Shown, this.Made, this.CwrId, this.CwrWorkPersonals, this.CwrWorkEquipments, this.Customer, this.PersonalName, this.EquipmentName, this.Comment))
+
+              this.CwrWorkPersonals = [] //ОЧЕНЬ ВАЖНОЕ ОБНУЛЕНИЕ
+              this.CwrWorkEquipments = [] //ОЧЕНЬ ВАЖНОЕ ОБНУЛЕНИЕ
+            }
+            console.log("this.reportsCards", this.reportsCards)
+
+
+            for (let i = 0; i < CwrWorksLoc.CwrPersonals.length; i++) {
+              this.Id = CwrWorksLoc.CwrPersonals[i].Id
+
+              this.CwrId = this.getRedId
+              this.PersonalId = CwrWorksLoc.CwrPersonals[i].Personal.Id
+              this.PersonalStatusName = CwrWorksLoc.CwrPersonals[i].Personal.Fio
+              for (let j = 0; j < CwrWorksLoc.CwrPersonals[i].CwrStatusFromPersonals.length; j++) {
+                this.CwrStatusFromPersonals[j] = { Id: 0, CwrStatusId: CwrWorksLoc.CwrPersonals[i].CwrStatusFromPersonals[j].CwrPesonalStatus.Id, CwrPersonalId: 0, DisplayName: CwrWorksLoc.CwrPersonals[i].CwrStatusFromPersonals[j].CwrPesonalStatus.DisplayName}
+              }
+              if (CwrWorksLoc.CwrPersonals[i].ForTabPerStatusId == null){
+                this.ForTabPerStatusId == 18
+              } else this.ForTabPerStatusId = CwrWorksLoc.CwrPersonals[i].ForTabPerStatusId;
+              // this.ForTabPerStatusId = CwrWorksLoc.CwrPersonals[i].ForTabPerStatusId;
+              let ForTabPerStatusNameFind = this.statusWork.find(x => x.Id == this.ForTabPerStatusId)
+              // console.log("ForTabPerStatusNameFind: ", ForTabPerStatusNameFind)
+              if (ForTabPerStatusNameFind == undefined){
+                this.ForTabPerStatusName = 'Работа'
+              } else this.ForTabPerStatusName = ForTabPerStatusNameFind.DisplayName
+              // this.ForTabPerStatusName = ForTabPerStatusNameFind.DisplayName
+              // console.log("ForTabPerStatusName: ", this.ForTabPerStatusName)
+              this.Comment2 = CwrWorksLoc.CwrPersonals[i].Comment
+              this.reportsPers.push(new CwrPersonals(this.Id, this.PersonalId, this.CwrId, this.Personal, this.CwrStatusFromPersonals, this.PersonalStatus, this.ForTabPerStatusId, this.ForTabPerStatusName, this.PersonalStatusName, this.Comment2))
+              this.CwrStatusFromPersonals = []
+              this.sortPers()
+            }
+            for (let i = 0; i < CwrWorksLoc.CwrEquipments.length; i++) {
+              this.Id = CwrWorksLoc.CwrEquipments[i].Id
+              this.CwrEquipments = CwrWorksLoc.CwrEquipments[i].Equipment.FullName + " " + CwrWorksLoc.CwrEquipments[i].Equipment.Number
+              this.EquipmentId = CwrWorksLoc.CwrEquipments[i].Equipment.Id
+              this.Status = CwrWorksLoc.CwrEquipments[i].Status
+              this.StatusId = 0
+              this.Comment3 = CwrWorksLoc.CwrEquipments[i].Comment
+              this.CwrId = this.getRedId
+              for (let j = 0; j < this.StatusEq.length; j++) {
+                if (this.StatusEq[j].Name == CwrWorksLoc.CwrEquipments[i].status){
+                  this.StatusId = this.StatusEq[j].Id
+                }
+              }
+
+              this.reportEquip.push(new CwrEquipments(this.Id, this.EquipmentId, this.Status, this.StatusId, this.CwrId, this.CwrEquipments, this.Comment3))
+
+            }
+            console.log("this.reportEquip", this.reportEquip)
+
+            for (let i = 0; i < CwrWorksLoc.CwrFiles.length; i++) {
+              this.Id = CwrWorksLoc.CwrFiles[i].Id
+              this.OriginalName = CwrWorksLoc.CwrFiles[i].OriginalName
+              this.DisplayName = CwrWorksLoc.CwrFiles[i].OriginalName
+              this.CwrId = CwrWorksLoc.CwrFiles[i].CwrId
+              this.reportFile.push(new CwrFiles(this.Id, this.OriginalName, this.FullPath, this.DisplayName, this.Length, this.FileType, this.Ext, this.IsPreveiw, this.CwrId, this.Bytes, this.Hash) )
+            }
+
+            this.ChiefCtrl.setValue(CwrWorksLoc.СhiefUserId)
+            console.log("ChiefCtrl: ", this.ChiefCtrl.value)
+
+            this.LocationCtrl.setValue(CwrWorksLoc.SubLocationId)
+            console.log("LocationCtrl: ", this.LocationCtrl.value)
+
+            this.DataReportCtrl.setValue(CwrWorksLoc.DataReport)
+            console.log("DataReportCtrl: ", this.DataReportCtrl.value)
+
+            //конец присвоения данных для режима редактирования
+
+            console.log("reportsPers: ", this.reportsPers)
+
+            this.dropdownSelect.dropCH(this.ChiefData, this.ChiefCtrl.value, this.ChiefCtrl) //заполнение dropdown элементов ответственного за отчет
+            this.dropdownSelect.dropCH(this.LocationData, this.LocationCtrl.value, this.LocationCtrl) //заполнение dropdown элементов локации
+
+          },
+          (err) => {
+            console.log('запрос на получение отчёта не удался', err)
           }
-        }
-        this.CustomerId = CwrWorksLoc.CwrWorks[i].CustomerId
-
-        let shownReplace = CwrWorksLoc.CwrWorks[i].Shown.replace(/[^0-9,.]/g, ' ');
-        let madeReplace = CwrWorksLoc.CwrWorks[i].Made.replace(/[^0-9,.]/g, ' ');
-        this.Shown = CwrWorksLoc.CwrWorks[i].Shown
-        this.Made = CwrWorksLoc.CwrWorks[i].Made
-        this.CwrId = this.getRedId
-        // this.CwrWorkPersonals = {Id: 0, PersonalId: 0, Fio: "", CwrWorkId: 0}
-
-        this.ShownCount += parseFloat(shownReplace.replace(',','.').replace(' ',''))
-        this.MadeCount += parseFloat(madeReplace.replace(',','.').replace(' ',''))
-
-        for (let j = 0; j < CwrWorksLoc.CwrWorks[i].CwrWorkPersonals.length; j++) {
-          this.CwrWorkPersonals[j] = {Id: 0, PersonalId: CwrWorksLoc.CwrWorks[i].CwrWorkPersonals[j].Personal.Id, Fio: CwrWorksLoc.CwrWorks[i].CwrWorkPersonals[j].Personal.SmalFio, CwrWorkId: 0}
-        }
-
-        for (let j = 0; j < CwrWorksLoc.CwrWorks[i].CwrWorkEquipments.length; j++) {
-          this.CwrWorkEquipments[j] = {Id: 0, EquipmentId: CwrWorksLoc.CwrWorks[i].CwrWorkEquipments[j].Equipment.Id, Name: CwrWorksLoc.CwrWorks[i].CwrWorkEquipments[j].Equipment.FullName + " " + CwrWorksLoc.CwrWorks[i].CwrWorkEquipments[j].Equipment.Number, CwrWorkId: 0}
-        }
-
-        this.Customer = CwrWorksLoc.CwrWorks[i].Customer.SmallName
-        this.PersonalName = ""
-        this.EquipmentName = ""
-        this.Comment = CwrWorksLoc.CwrWorks[i].Comment
-        this.reportsCards.push(new CwrWorks(this.Id, this.MethodControl,this.MethodControlId,this.CustomerId, this.Shown, this.Made, this.CwrId, this.CwrWorkPersonals, this.CwrWorkEquipments, this.Customer, this.PersonalName, this.EquipmentName, this.Comment))
-
-        this.CwrWorkPersonals = [] //ОЧЕНЬ ВАЖНОЕ ОБНУЛЕНИЕ
-        this.CwrWorkEquipments = [] //ОЧЕНЬ ВАЖНОЕ ОБНУЛЕНИЕ
-      }
-      console.log("this.reportsCards", this.reportsCards)
-
-
-      for (let i = 0; i < CwrWorksLoc.CwrPersonals.length; i++) {
-        this.Id = CwrWorksLoc.CwrPersonals[i].Id
-        this.CwrId = this.getRedId
-        this.PersonalId = CwrWorksLoc.CwrPersonals[i].Personal.Id
-        this.PersonalStatusName = CwrWorksLoc.CwrPersonals[i].Personal.Fio
-        for (let j = 0; j < CwrWorksLoc.CwrPersonals[i].CwrStatusFromPersonals.length; j++) {
-          this.CwrStatusFromPersonals[j] = { Id: 0, CwrStatusId: CwrWorksLoc.CwrPersonals[i].CwrStatusFromPersonals[j].CwrPesonalStatus.Id, CwrPersonalId: 0, DisplayName: CwrWorksLoc.CwrPersonals[i].CwrStatusFromPersonals[j].CwrPesonalStatus.DisplayName}
-        }
-        if (CwrWorksLoc.CwrPersonals[i].ForTabPerStatusId == null){
-          this.ForTabPerStatusId == 18
-        } else this.ForTabPerStatusId = CwrWorksLoc.CwrPersonals[i].ForTabPerStatusId;
-        // this.ForTabPerStatusId = CwrWorksLoc.CwrPersonals[i].ForTabPerStatusId;
-        let ForTabPerStatusNameFind = this.statusWork.find(x => x.Id == this.ForTabPerStatusId)
-        // console.log("ForTabPerStatusNameFind: ", ForTabPerStatusNameFind)
-        if (ForTabPerStatusNameFind == undefined){
-          this.ForTabPerStatusName = 'Работа'
-        } else this.ForTabPerStatusName = ForTabPerStatusNameFind.DisplayName
-        // this.ForTabPerStatusName = ForTabPerStatusNameFind.DisplayName
-        // console.log("ForTabPerStatusName: ", this.ForTabPerStatusName)
-        this.Comment2 = CwrWorksLoc.CwrPersonals[i].Comment
-        this.reportsPers.push(new CwrPersonals(this.Id, this.PersonalId, this.CwrId, this.Personal, this.CwrStatusFromPersonals, this.PersonalStatus, this.ForTabPerStatusId, this.ForTabPerStatusName, this.PersonalStatusName, this.Comment2))
-        this.CwrStatusFromPersonals = []
-        this.sortPers()
-      }
-      for (let i = 0; i < CwrWorksLoc.CwrEquipments.length; i++) {
-        this.Id = CwrWorksLoc.CwrEquipments[i].Id
-        this.CwrEquipments = CwrWorksLoc.CwrEquipments[i].Equipment.FullName + " " + CwrWorksLoc.CwrEquipments[i].Equipment.Number
-        this.EquipmentId = CwrWorksLoc.CwrEquipments[i].Equipment.Id
-        this.Status = CwrWorksLoc.CwrEquipments[i].Status
-        this.StatusId = 0
-        this.Comment3 = CwrWorksLoc.CwrEquipments[i].Comment
-        this.CwrId = this.getRedId
-        for (let j = 0; j < this.StatusEq.length; j++) {
-          if (this.StatusEq[j].Name == CwrWorksLoc.CwrEquipments[i].status){
-            this.StatusId = this.StatusEq[j].Id
-          }
-        }
-
-        this.reportEquip.push(new CwrEquipments(this.Id, this.EquipmentId, this.Status, this.StatusId, this.CwrId, this.CwrEquipments, this.Comment3))
-
-      }
-      console.log("this.reportEquip", this.reportEquip)
-
-      for (let i = 0; i < CwrWorksLoc.CwrFiles.length; i++) {
-        this.Id = CwrWorksLoc.CwrFiles[i].Id
-        this.OriginalName = CwrWorksLoc.CwrFiles[i].OriginalName
-        this.DisplayName = CwrWorksLoc.CwrFiles[i].OriginalName
-        this.CwrId = CwrWorksLoc.CwrFiles[i].CwrId
-        this.reportFile.push(new CwrFiles(this.Id, this.OriginalName, this.FullPath, this.DisplayName, this.Length, this.FileType, this.Ext, this.IsPreveiw, this.CwrId, this.Bytes, this.Hash) )
+        )
       }
 
-      this.ChiefCtrl.setValue(CwrWorksLoc.СhiefUserId)
-      console.log("ChiefCtrl: ", this.ChiefCtrl.value)
-
-      this.LocationCtrl.setValue(CwrWorksLoc.SubLocationId)
-      console.log("LocationCtrl: ", this.LocationCtrl.value)
-
-      this.DataReportCtrl.setValue(CwrWorksLoc.DataReport)
-      console.log("DataReportCtrl: ", this.DataReportCtrl.value)
-
-      //конец присвоения данных для режима редактирования
-
-      console.log("reportsPers: ", this.reportsPers)
-
-      this.dropdownSelect.dropCH(this.ChiefData, this.ChiefCtrl.value, this.ChiefCtrl) //заполнение dropdown элементов ответственного за отчет
-      this.dropdownSelect.dropCH(this.LocationData, this.LocationCtrl.value, this.LocationCtrl) //заполнение dropdown элементов локации
-    }, 0)
-    } else console.log("ReportIdData is null")
+    // }, 0)
+    // } else console.log("ReportIdData is null")
   }
   ngAfterViewInit(){
   }
 
-  constructor(private rep: ReportAdd,  private router: Router, private repRed: ReportRed, private snackBar: MatSnackBar, private repGet: ReportGet) { }
+  constructor(private rep: ReportAdd,  private router: Router, private queryRoute: ActivatedRoute, private repRed: ReportRed, private snackBar: MatSnackBar, private repGet: ReportGet) { }
 
   //начало объявления переменных для CwrWorks
   MethodControl: string = ""
@@ -639,7 +661,6 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
   EquipmentsItem: number = 0
   EquipmentsItemFullNameNumber: string = ""
   EquipmentAdd($event){ //метод получения данных из dropdown
-    console.log('event: ', $event)
     for (let i = 0; i < this.reportEquip.length; i++) {
       if ($event.valueId == this.reportEquip[i].EquipmentId){
         this.CwrEquipmentslCtrl.setErrors(['equal'])
@@ -809,7 +830,7 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
     //получение GeneralLoc
     let generalLoc = this.location.find( x => x.Id == this.locationId).GeneralLocationId
     const newrep = { // инициализация объекта перед отправкой на сервер
-      Id: CwrWorksLoc.Id,
+      Id: this.getRedId,
       DataCreate: this.now,
       DataCreateString: ToDayString,
       DataReportString: DataReportString,
@@ -1165,8 +1186,8 @@ export class ReportsAddComponent implements OnInit, AfterViewInit, OnDestroy {
   tabsText = true;
 
   cardAct = true;
-  cardAct2 = false;
-  cardAct3 = false;
+  cardAct2 = true;
+  cardAct3 = true;
 
   tabsClick(){
     this.tabsBg = true;
