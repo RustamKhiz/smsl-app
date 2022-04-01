@@ -1,3 +1,12 @@
 <div class="map-container">
-    <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A62c5eff3713da44879b743d3283dc99d14cbb51992628a1a719f985217b928fa&amp;source=constructor" width="1280" height="555" frameborder="0"></iframe>
+    <!-- <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A62c5eff3713da44879b743d3283dc99d14cbb51992628a1a719f985217b928fa&amp;source=constructor" width="1280" height="555" frameborder="0"></iframe> -->
+    <ya-map [center]="[56.837993, 60.597393]" [zoom]="3">
+        <ya-placemark (yaclick)="test()" [geometry]="[56.837993, 60.597393]" [properties]="placemarkProperties1" [options]="placemarkOptions"></ya-placemark>
+        <ya-placemark (yaclick)="test()" [geometry]="[44.095245, 39.073382]" [properties]="placemarkProperties2" [options]="placemarkOptions"></ya-placemark>
+        <ya-placemark (yaclick)="test()" [geometry]="[51.375889, 128.134156]" [properties]="placemarkProperties3" [options]="placemarkOptions"></ya-placemark>
+        <ya-placemark (yaclick)="test()" [geometry]="[59.748564, 30.595657]" [properties]="placemarkProperties4" [options]="placemarkOptions"></ya-placemark>
+        <ya-placemark (yaclick)="test()" [geometry]="[58.875793, 40.248432]" [properties]="placemarkProperties5" [options]="placemarkOptions"></ya-placemark>
+        <ya-placemark (yaclick)="test()" [geometry]="[55.395393, 106.927744]" [properties]="placemarkProperties6" [options]="placemarkOptions"></ya-placemark>
+    </ya-map>
+
 </div>

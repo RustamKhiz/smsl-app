@@ -107,9 +107,10 @@ ul {
 
 /* Когда вы наводите курсор мыши на навигационные ссылки, изменяется их цвет */
 
-.sidenav a:hover {
+
+/* .sidenav a:hover {
     color: #FCC300;
-}
+} */
 
 
 /*стилизация полосы прокрутки*/
@@ -236,6 +237,16 @@ ul {
     transition: 0.3s;
 }
 
+.nav-elem-wrap.active mat-icon {
+    color: #FCC300;
+    transition: 0.3s;
+}
+
+.nav-elem-wrap.active a {
+    color: #FCC300;
+    transition: 0.3s;
+}
+
 .content-wrap {
     height: 100vh;
     /* background: rgb(252, 252, 252); */
@@ -258,15 +269,17 @@ ul {
     text-align: center;
 }
 
-.nav-elem-wrap:hover .nav-elem-icon {
-    color: #FCC300;
+.nav-elem-wrap:hover .nav-elem-icon,
+.nav-elem-wrap:hover a {
+    color: #ffe9a2;
     transition: 0.3s;
 }
 
-.nav-elem-wrap:hover p {
+
+/* .nav-elem-wrap:hover p {
     color: #FCC300;
     transition: 0.3s;
-}
+} */
 
 
 /* .nav-elem-icon:hover {
@@ -296,10 +309,11 @@ ul {
     transition: 0.3s;
 }
 
-.close-icon:hover {
+
+/* .close-icon:hover {
     color: #FCC300;
     transition: 0.3s;
-}
+} */
 
 .example-sidenav::-webkit-scrollbar {
     width: 5px;

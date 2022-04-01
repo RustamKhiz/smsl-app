@@ -118,10 +118,11 @@ export class ReportsListComponent implements OnInit, OnDestroy {
         Id = this.pers[i].Id
         Name = this.pers[i].Name + " " + this.pers[i].LastName
         Display = true
-        IsSelect = false
+        IsSelect = true
         this.PersData.push(new NewDropdown(Id, Name, Display, IsSelect))
       }
     }
+    console.log('this.PersData: ', this.PersData)
     for (let i = 0; i < this.location.length; i++) { //Не добавляем неактуальные
       if (this.location[i].Actual == 1){
         Id = this.location[i].Id
@@ -423,6 +424,7 @@ export class ReportsListComponent implements OnInit, OnDestroy {
 
   FiterChiefsForDisable = JSON.parse(localStorage.getItem('FiterChiefsForDisable'))
   PersFilterIdAdd($event){ //Получаем список сотрудников
+
     this.FiterChiefsForDisable = JSON.parse(localStorage.getItem('FiterChiefsForDisable'))
     let FilterChiefItem: any [] = [];
     for (let i = 0; i < $event.valueId.length; i++) {
@@ -457,21 +459,28 @@ export class ReportsListComponent implements OnInit, OnDestroy {
     for (let i = 0; i < $event.valueId.length; i++) {
       FilterLockItem.push(this.FiterLocationsForDisable.find(x => x.Id == $event.valueId[i]))
     }
-    if (FilterLockItem != undefined){
+    console.log('FilterLockItem: ', FilterLockItem)
+
+    for (let i = 0; i < this.PersData.length; i++) {
+      this.PersData[i].IsSelect = false
+    }
+
+    if (FilterLockItem){
       for (let i = 0; i < this.PersData.length; i++) {
-        for (let k = 0; k < FilterLockItem.length; k++) {
-          for (let j = 0; j < FilterLockItem[k]?.ChiefIds.length; j++) {
-            if (this.PersData[i].Id == FilterLockItem[k].ChiefIds[j]){
-              this.PersData[i].Display = true
-            }
+        for (let j = 0; j < FilterLockItem.length; j++) {
+          let FilterLockItemFind = FilterLockItem[j]?.ChiefIds.find(x => x == this.PersData[i].Id)
+          if (FilterLockItemFind){
+            this.PersData[i].IsSelect = true
           }
         }
+
       }
     }
 
+
     if ($event.valueId.length == 0){
       for (let i = 0; i < this.PersData.length; i++) {
-        this.PersData[i].Display = true
+        this.PersData[i].IsSelect = true
       }
     }
   }
@@ -479,6 +488,12 @@ export class ReportsListComponent implements OnInit, OnDestroy {
   LocationDisplayTrue(){
     for (let i = 0; i < this.LocationData.length; i++) {
       this.LocationData[i].Display = true
+    }
+  }
+
+  PersDisplayTrue(){
+    for (let i = 0; i < this.PersData.length; i++) {
+      this.PersData[i].IsSelect = true
     }
   }
 

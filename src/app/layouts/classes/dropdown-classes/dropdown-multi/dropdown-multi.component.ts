@@ -25,8 +25,9 @@ export class DropdownMultiComponent implements OnInit, OnDestroy, AfterViewInit 
   @Input() public ItemsData: NewDropdown[];
   @Input() public allItemsSize ;
   @Input() public ItemsMultiCtrl: FormControl = new FormControl('', Validators.required);
+  @Input() public disabled: boolean = false
   public ItemsMultiFilterCtrl: FormControl = new FormControl();
-  public filteredItemsMulti: ReplaySubject<NewDropdown[]> = new ReplaySubject<NewDropdown[]>(1);
+  @Input() public filteredItemsMulti: ReplaySubject<NewDropdown[]> = new ReplaySubject<NewDropdown[]>(1);
   public filteredItemsCache: NewDropdown[] = [];
 
   //placeholder
@@ -50,7 +51,7 @@ export class DropdownMultiComponent implements OnInit, OnDestroy, AfterViewInit 
     // ]);
 
      // load the initial bank list
-     this.filteredItemsMulti.next(this.ItemsData.slice());
+     this.filteredItemsMulti.next(this.ItemsData?.slice());
 
      // listen for search field value changes
      this.ItemsMultiFilterCtrl.valueChanges
@@ -65,7 +66,6 @@ export class DropdownMultiComponent implements OnInit, OnDestroy, AfterViewInit 
      .pipe(takeUntil(this._onDestroy)).subscribe(() => {
        this.setToggleAllCheckboxState();
      });
-     this.Submit()
 
   }
   //multiDropdowmSettings
@@ -134,7 +134,6 @@ export class DropdownMultiComponent implements OnInit, OnDestroy, AfterViewInit 
   NameRu: string [] = []
   Name: string [] = []
   SelectionOnChange(event){
-    // console.log("event test", event.value)
     this.NumberId = []
     this.Name = []
     for (let i = 0; i < event.value.length; i++) {
@@ -167,23 +166,6 @@ export class DropdownMultiComponent implements OnInit, OnDestroy, AfterViewInit 
       // Data[i].Name
       DataName
     );
-
-  }
-
-
-
-  @Input() SetValue(){
-
-  }
-  Submit(){
-    // console.log("ItemsMultiCtrl: ",this.ItemsMultiCtrl.value.length )
-    // if(this.ItemsMultiCtrl.value.length > 0){
-    //   for (let i = 0; i < this.ItemsMultiCtrl.value.length; i++) {
-    //     console.log("Submit! Id: ", this.ItemsMultiCtrl.value[i].Id)
-    //     this.NumberId.push(this.ItemsMultiCtrl.value[i].Id)
-    //   }
-    //   console.log("NumberId: ", this.NumberId)
-    // }
 
   }
 

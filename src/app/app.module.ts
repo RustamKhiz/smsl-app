@@ -72,6 +72,7 @@ import { AlertNotifComponent } from './layouts/classes/alert-notif/alert-notif.c
 import { ReportsAddMobileComponent } from './layouts/site-layout/reports/reports-add-mobile/reports-add-mobile/reports-add-mobile.component';
 import { LoaderLogoComponent } from './layouts/classes/loader/loader-logo/loader-logo.component';
 import { MapComponent } from './layouts/classes/map/map.component';
+import { AngularYandexMapsModule } from 'angular8-yandex-maps';
 
 @NgModule({
   declarations: [
@@ -145,7 +146,8 @@ import { MapComponent } from './layouts/classes/map/map.component';
     MatSidenavModule,
     MatExpansionModule,
     MatTooltipModule,
-    MatSortModule
+    MatSortModule,
+    AngularYandexMapsModule
   ],
   providers: [
     {

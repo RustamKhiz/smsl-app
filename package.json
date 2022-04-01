@@ -25,6 +25,7 @@
     "@swimlane/ngx-charts": "^18.0.1",
     "angular-activity-monitor": "^1.1.1",
     "angular-file-uploader": "^7.1.0",
+    "angular8-yandex-maps": "^13.2.0",
     "jquery": "^3.6.0",
     "materialize-css": "^1.0.0-rc.2",
     "moment": "^2.29.1",

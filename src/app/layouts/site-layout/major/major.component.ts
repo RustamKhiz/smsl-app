@@ -13,8 +13,4 @@ export class MajorComponent implements OnInit {
 
   }
 
-  onMap(){
-    let iframe = document.getElementById('map')
-    console.log('iframe: ', iframe)
-  }
 }

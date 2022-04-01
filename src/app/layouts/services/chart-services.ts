@@ -13,8 +13,12 @@ export class ChartSevices {
   constructor(private http: HttpClient){
   }
 
-  majorChart(majorChartData){
+  majorChartfilter(majorChartData){
     // console.log("configData: ", configData)
-    return this.http.post<any>(`${environment.apiUrl}/api/baseapp/userprop`, majorChartData)
+    return this.http.post<any>(`${environment.apiUrl}/api/informer/1/filter`, majorChartData)
+  }
+  majorChartload(){
+    // console.log("configData: ", configData)
+    return this.http.get(`${environment.apiUrl}/api/informer/1/load`)
   }
 }

@@ -102,18 +102,18 @@ export class DropdownSelectComponent implements OnInit {
     // this.FullNameNumber = event.value.FullName + " " + event.value.Number
     // console.log("ItemName: ", this.ItemName)
     // console.log("ItemId: ", this.ItemId)
-    // console.log("itemFio: ", this.itemFio)
+    console.log("itemFio: ", this.itemFio)
     this.itemSelect.emit({valueName: this.ItemName, valueId: this.ItemId})
   }
 
-    dropCH(Data, event, ctrl){
+  dropCH(Data, event, ctrl){
 
-      for (let i = 0; i < Data.length; i++) {
-        if (Data[i].Id == event){
-          ctrl.setValue(Data[i]);
-        }
-
+    for (let i = 0; i < Data.length; i++) {
+      if (Data[i].Id == event){
+        ctrl.setValue(Data[i]);
       }
 
     }
+
+  }
 }

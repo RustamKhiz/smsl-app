@@ -1,14 +1,14 @@
 <form>
     <p>
         <mat-form-field color="accent">
-            <mat-select [formControl]="ItemsMultiCtrl" placeholder="{{placeholder}}" [multiple]="true" #multiSelect (selectionChange)="SelectionOnChange($event)">
+            <mat-select [formControl]="ItemsMultiCtrl" placeholder="{{placeholder}}" [multiple]="true" #multiSelect (selectionChange)="SelectionOnChange($event)" [disabled]="disabled">
                 <mat-option>
                     <ngx-mat-select-search placeholder="Поиск" [showToggleAllCheckbox]="false" [toggleAllCheckboxIndeterminate]="isIndeterminate" (selectionChange)="SelectionOnChange($event)" [toggleAllCheckboxChecked]="isChecked" (toggleAll)="toggleSelectAll($event)" [formControl]="ItemsMultiFilterCtrl">
                     </ngx-mat-select-search>
                 </mat-option>
                 <div class="test" *ngFor="let item of filteredItemsMulti | async">
-                    <mat-option [value]="item" [disabled]="!item.Display">
-                        {{item.Name}}
+                    <mat-option *ngIf="item.IsSelect == true" [value]="item" [disabled]="!item?.Display">
+                        {{item?.Name}}
                     </mat-option>
                 </div>
 
